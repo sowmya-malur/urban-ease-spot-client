@@ -128,9 +128,6 @@ Default JSON data returned by API endpoints will be utitilized for the project f
 #### Home/Search Page (Zoom-in)
 ![Mobile-Search-Zoom-In](./src/assets/1.0-Mobile-Search-Zoom-In.png)
 
-#### Login Page
-![Mobile-Sign-In](./src/assets/1.0-Mobile-Sign-In.png)
-
 #### Filter Page
 ![Mobile-Filter](./src/assets/1.0-Mobile-Filter.png)
 
@@ -151,6 +148,9 @@ Default JSON data returned by API endpoints will be utitilized for the project f
 
 #### Notification Extend Fail Page
 ![Mobile-Notification-Extend-Fail](./src/assets/1.0-Mobile-Notification-Extend-Fail.png)
+
+#### Login Page
+![Mobile-Sign-In](./src/assets/1.0-Mobile-Sign-In.png)
 
 #### Create Account Page
 ![Mobile-Create-Account](./src/assets/1.0-Mobile-Create-Account.png)
