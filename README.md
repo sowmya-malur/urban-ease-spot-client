@@ -123,40 +123,40 @@ Default JSON data returned by API endpoints will be utitilized for the project f
 ### Mockups
 
 #### Home/Search Page (Zoom-out)
-![](1.0-Mobile-Search-Zoom-Out-Cluster.png)
+![Mobile-Search-Zoom-Out-Cluster](./src/assets/1.0-Mobile-Search-Zoom-Out-Cluster.png)
 
 #### Home/Search Page (Zoom-in)
-![](1.0-Mobile-Search-Zoom-In.png)
+![Mobile-Search-Zoom-In](./src/assets/1.0-Mobile-Search-Zoom-In.png)
 
 #### Login Page
-![](1.0-Mobile-Sign-In.png)
+![Mobile-Sign-In](./src/assets/1.0-Mobile-Sign-In.png)
 
 #### Filter Page
-![](1.0-Mobile-Filter.png)
+![Mobile-Filter](./src/assets/1.0-Mobile-Filter.png)
 
 #### Filter Results Page
-![](1.0-Mobile-Filter-Results.png)
+![Mobile-Filter-Results](./src/assets/1.0-Mobile-Filter-Results.png)
 
 #### Parking Duration Page
-![](1.0-Mobile-Parking.png)
+![Mobile-Parking](./src/assets/1.0-Mobile-Parking.png)
 
 #### Confirm Parking Page
-![](1.0-Mobile-Confirm-Parking.png)
+![Mobile-Confirm-Parking](./src/assets/1.0-Mobile-Confirm-Parking.png)
 
 #### Notification Extend Page
-![](1.0-Mobile-Notification-Extend.png)
+![Mobile-Notification-Extend](./src/assets/1.0-Mobile-Notification-Extend.png)
 
 #### Notification Extend Success Page
-![](1.0-Mobile-Notification-Extend-Success.png)
+![Mobile-Notification-Extend-Success](./src/assets/1.0-Mobile-Notification-Extend-Success.png)
 
 #### Notification Extend Fail Page
-![](1.0-Mobile-Notification-Extend-Fail.png)
+![Mobile-Notification-Extend-Fail](./src/assets/1.0-Mobile-Notification-Extend-Fail.png)
 
 #### Create Account Page
-![](1.0-Mobile-Create-Account.png)
+![Mobile-Create-Account](./src/assets/1.0-Mobile-Create-Account.png)
 ### Data 
 
-![](sql-diagram.png)
+![SQL Diagram](./src/assets/sql-diagram.png)
 ### Endpoints
 
 #### Get all the parking spots
