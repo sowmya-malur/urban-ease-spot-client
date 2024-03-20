@@ -1,70 +1,237 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Title
 
-## Available Scripts
+UrbanEaseSpot - Find Your Perfect Parking Spot
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+UrbanEaseSpot is a mobile web application designed to assist users in quickly and conveniently finding parking spots in urban areas. With real-time availability information and customizable search filters, UrbanEaseSpot aims to alleviate the stress and uncertainty associated with parking in busy city centers.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Problem
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Many urban residents and visitors face the challenge of finding convenient and affordable parking spots, leading to wasted time, frustration, and sometimes parking violations. The UrbanEaseSpot app addresses this pain point by providing users with accurate information about available parking spots nearby, allowing them to make informed decisions and streamline the parking process.
 
-### `npm test`
+### User Persona
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+UrbanEaseSpot Users:
 
-### `npm run build`
+- Need a convenient solution for finding parking spots quickly and efficiently when commuting to work or attending meetings in busy urban areas. 
+- Need real-time availability information and customizable search filters to easily locate parking spots near a specific destination. 
+- Value notifications about parking session statuses and expiry.
+- Value the ability to extend their parking sessions when needed.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- As a user, I want to be able to find parking spots near my destination.
+- As a user, I want to be able to filter parking spots based on availability, type of payment accepted, accessible parking, and motorbike parking.
+- As a user, I want to be able to create an account to manage my parking information.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- As a logged in user, I want to be able to select the duration of the booking.
+- As a logged in user, I want to be able to book a parking spot.
+- As a logged in user, I want to receive notification about my parking session's status and expiry.
+- As a logged in user, I want to be able to extend my parking sessions
 
-### `npm run eject`
+## Implementation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- React
+- MySQL
+- Express
+- Client libraries: 
+    - react
+    - react-router
+    - axios
+    - sass
+    - leaflet
+    - react-leaflet
+    - react-leaflet-cluster
+- Server libraries:
+    - knex
+    - express
+    - dotenv
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### API Reference
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### External APIs
 
-## Learn More
+##### 1. Parking meters in Vancouver
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Link to  API: 
+https://opendata.vancouver.ca//api/explore/v2.1/catalog/datasets/parking-meters/records
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Limit 20 records
+/api/explore/v2.1/catalog/datasets/parking-meters/records?limit=20
 
-### Code Splitting
+- All parking meters excluding disability and motorbike parking slots
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+/api/explore/v2.1/catalog/datasets/parking-meters/records?limit=20&exclude=meterhead%3A%22Single%20Motorbike%22%2C%22Single%20Disability%22
 
-### Analyzing the Bundle Size
+- Accept credit card for payment
+/api/explore/v2.1/catalog/datasets/parking-meters/records?limit=20&refine=creditcard%3AYes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Accessible parking
+/api/explore/v2.1/catalog/datasets/parking-meters/records?refine=meterhead%3A%22Single%20%2F%20Disability%22
 
-### Making a Progressive Web App
+- Single Motorbike
+/api/explore/v2.1/catalog/datasets/parking-meters/records?limit=20&refine=meterhead%3A%22Single%20Motorbike%22
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+##### 2. Geocoding API
 
-### Advanced Configuration
+- Forward Geocode: (convert address to coordinates):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+https://geocode.maps.co/search?q=address&api_key=api_key
 
-### Deployment
+Example: Pass the address string using the q parameter to the /search endpoint
+https://geocode.maps.co/search?q=Statue+of+Liberty+NY+US&api_key=api_key
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Or
 
-### `npm run build` fails to minify
+Search by name, e.g. for the Statue of Liberty:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+https://geocode.maps.co/search?q=Statue+of+Liberty+NY+US&api_key=api_key
+
+- Reverse Geocode: 
+https://geocode.maps.co/reverse?lat=latitude&lon=longitude&api_key=api_key
+
+provide both the lat and lon parameters to the /reverse endpoint, e.g:
+
+https://geocode.maps.co/reverse?lat=40.7558017&lon=-73.9787414&api_key=api_key
+
+Default JSON data returned by API endpoints will be utitilized for the project for search functionality
+
+### Sitemap
+
+#### For sprint - 1
+-----
+- Home/Search Page (Map View of parking spots)
+- Filter page
+- Parking Duration Page
+- Confirm Parking Page
+- Notifications Page (without extend functioanality)
+- Login Page (Dummy user data will be used for sprint-1)
+
+#### For next sprint
+-----
+- Create Account Page
+- List View of available parking spots
+- User Profile
+    - Add Vehicle
+    - Add Payment 
+- Notifications Page with extend functioanality
+
+### Mockups
+
+#### Home/Search Page (Zoom-out)
+![](1.0-Mobile-Search-Zoom-Out-Cluster.png)
+
+#### Home/Search Page (Zoom-in)
+![](1.0-Mobile-Search-Zoom-In.png)
+
+#### Login Page
+![](1.0-Mobile-Sign-In.png)
+
+#### Filter Page
+![](1.0-Mobile-Filter.png)
+
+#### Filter Results Page
+![](1.0-Mobile-Filter-Results.png)
+
+#### Parking Duration Page
+![](1.0-Mobile-Parking.png)
+
+#### Confirm Parking Page
+![](1.0-Mobile-Confirm-Parking.png)
+
+#### Notification Extend Page
+![](1.0-Mobile-Notification-Extend.png)
+
+#### Notification Extend Success Page
+![](1.0-Mobile-Notification-Extend-Success.png)
+
+#### Notification Extend Fail Page
+![](1.0-Mobile-Notification-Extend-Fail.png)
+
+#### Create Account Page
+![](1.0-Mobile-Create-Account.png)
+### Data 
+
+![](sql-diagram.png)
+### Endpoints
+
+#### Get all the parking spots
+
+#### Get user information for given user id
+
+#### Get status of the parking spots for a given meter id
+
+### Update status of the parking spot for a given meter id
+
+#### Post booking of the parking spot for a given user id, meter id
+
+## Roadmap
+
+- Front-End Setup: Initial Folder Structure & Git Repo
+
+- Back-End Setup: Initial Folder Structure & Git Repo
+
+- Front-End: Setup styling and assets (sass, mixins, global variables, typography, icons)
+
+- Back-End: Setup routes
+
+- Back-End: Database connection with Knex
+
+- Back-End: Create migration files and seed files
+
+- Front-End: Header Component
+
+- Front-End: Footer Component
+
+- Front-End: Home Page / Map View
+
+- Front-End: Filter 
+
+- Front-End: Parking Duration  
+
+- Front-End: Confirm Parking  
+
+- Front-End: Notification (without extension)
+
+- Front-End Login Page (Dummy user data will be used for sprint-1)
+
+- Back-End: API to get all the parking spots
+
+- Back-End: API to get user information for given userid (including payment method and vehicle details)
+
+- Back-End: API to get status of the parking spots for a given meterid
+
+- Back-End: API to update status of the parking spot for a given meterid
+
+- Back-End: API to post booking of the parking spot for a given userid, meterid.
+
+- Bug fixes
+
+- DEMO DAY
+
+## Nice-to-haves
+
+Features: 
+
+- Responsive design
+- Notification extend functionality
+- Search
+    - By location or address (Geocoding API)
+    - Auto complete address
+    - Distance radius functionality
+- List View of the parking spots
+- Login
+    - Implement JWT tokens for authorization of login
+    - Forgot password functionality 
+- Create user profile
+    - Add vehicle
+    - Add payment details
+    - Delete payment information
+
+Tech-Stack:
+- Typescript
+- Tailwind.css
