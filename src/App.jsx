@@ -1,5 +1,6 @@
 import React from "react";
 import Header from './components/Header/Header';
+import Footer from "./components/Footer/Footer";
 import HomePage from "./pages/HomePage/HomePage";
 import './App.scss';
 
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
         </Routes>
+        <Footer/>
       </BrowserRouter>
        
     </div>
