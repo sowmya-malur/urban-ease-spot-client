@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import "./App.scss";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+// import ParkingDuration from "./components/PageDuration/ParkingDuration";
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
+          {/* <Route path="/parking" element={<ParkingDurationPage />}></Route> */}
+
         </Routes>
         <Footer />
       </BrowserRouter>
