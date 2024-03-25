@@ -1,4 +1,5 @@
-import menu from "../../assets/icons/Iconburger-menu.png";
+// import menu from "../../assets/icons/Iconburger-menu.png";
+import menu from "../../assets/icons/round_menu_black_24dp.png";
 
 function Header() {
     return(
