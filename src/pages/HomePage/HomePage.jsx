@@ -4,8 +4,16 @@ import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Icon, divIcon, point } from "leaflet";
 
+import filter from "../../assets/icons/round_tune_black_24dp.png";
+
 function HomePage() {
     return(<main>
+    <section>
+        <input 
+        type="search">
+        </input>
+        <img src={filter} alt="filter-icon" width={24} height={24} />
+    </section>
     <MapContainer
       className="full-height-map"
       center={[49.26328581657055, -123.13380465835546]}
