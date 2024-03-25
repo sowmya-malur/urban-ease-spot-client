@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import filter from "../../assets/icons/round_tune_black_24dp.png";
 import ParkingDuration from "../../components/PageDuration/ParkingDuration";
+import Filter from "../../components/Filter/Filter";
 
 // create custom icon
 const customIcon = new Icon({
@@ -27,11 +28,17 @@ const createClusterCustomIcon = function (cluster) {
 
 function HomePage() {
   const [showComponent, setShowComponent] = useState(false);
+  const [filterOptions, setFilterOptions] = useState({});
 
   const navigate = useNavigate();
   const handleClick = () => {
     // navigate("/parking");
     setShowComponent("parking-duration");
+  };
+
+  const handleFilterOptions = (data) => {
+    setFilterOptions(data)
+    setShowComponent(false);
   };
 
   return (
@@ -40,7 +47,13 @@ function HomePage() {
         <>
           <section>
             <input type="search"></input>
-            <img src={filter} alt="filter-icon" width={24} height={24} />
+            <img 
+            src={filter} 
+            alt="filter-icon" 
+            width={24} 
+            height={24} 
+            onClick={()=>{setShowComponent("filter")}}
+            />
           </section>
           <MapContainer
             className="full-height-map"
@@ -96,8 +109,20 @@ function HomePage() {
           </MapContainer>
         </>
       )}
+
+      {/* Add conditional rendering here */}
       {showComponent === "parking-duration" && (
         <ParkingDuration handleClick={() => setShowComponent(false)} />
+      )}
+        {showComponent === "filter" && (
+        <Filter handleClick={() => setShowComponent(false)} handleFilterOptions={handleFilterOptions}/>
+      )}
+
+      {filterOptions && (
+        <div>
+          <p>Filter Options:</p>
+          <pre>{JSON.stringify(filterOptions, null, 2)}</pre>
+        </div>
       )}
     </main>
   );
