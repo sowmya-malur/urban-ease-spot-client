@@ -49,6 +49,7 @@ function Filter({ handleClick, handleFilterOptions }) {
   };
 
   const sendDataToHomePage = () => {
+    
     const filterOptions = {
       acceptCreditCard: isPaymentChecked,
       disability: isDisabilityChecked,

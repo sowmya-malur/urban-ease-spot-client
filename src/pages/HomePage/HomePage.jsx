@@ -7,12 +7,11 @@ import { Icon, divIcon, point } from "leaflet";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import filter from "../../assets/icons/round_tune_black_24dp.png";
-import ParkingDuration from "../../components/PageDuration/ParkingDuration";
+import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 import Filter from "../../components/Filter/Filter";
 
 // create custom icon
 const customIcon = new Icon({
-  // iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
   iconUrl: require("../../assets/icons/parking_available.png"),
   iconSize: [26, 36], // size of the icon
 });
@@ -81,8 +80,8 @@ function HomePage() {
               >
                 <Popup>
                   <div>
-                    {" "}
-                    This is popup 1{" "}
+                 
+                    This is popup 1
                     <button onClick={handleClick}>More Details</button>
                   </div>
                 </Popup>
@@ -99,8 +98,8 @@ function HomePage() {
               >
                 <Popup>
                   <div>
-                    {" "}
-                    This is popup 3{" "}
+                    
+                    This is popup 3
                     <button onClick={handleClick}>More Details</button>
                   </div>
                 </Popup>
@@ -118,7 +117,9 @@ function HomePage() {
 
       {/* Add conditional rendering here */}
       {showComponent === "parking-duration" && (
-        <ParkingDuration handleClick={() => setShowComponent(false)} />
+        // <ParkingDuration handleClick={() => setShowComponent(false)} />
+        <ParkingDuration handleClick={handleClick} />
+
       )}
         {showComponent === "filter" && (
         <Filter handleClick={() => setShowComponent(false)} handleFilterOptions={handleFilterOptions}/>
