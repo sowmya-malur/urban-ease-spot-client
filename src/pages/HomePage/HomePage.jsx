@@ -107,6 +107,12 @@ function HomePage() {
               </Marker>
             </MarkerClusterGroup>
           </MapContainer>
+          {filterOptions && (
+        <div>
+          <p>Filter Options:</p>
+          <pre>{JSON.stringify(filterOptions, null, 2)}</pre>
+        </div>
+      )}
         </>
       )}
 
@@ -118,12 +124,6 @@ function HomePage() {
         <Filter handleClick={() => setShowComponent(false)} handleFilterOptions={handleFilterOptions}/>
       )}
 
-      {filterOptions && (
-        <div>
-          <p>Filter Options:</p>
-          <pre>{JSON.stringify(filterOptions, null, 2)}</pre>
-        </div>
-      )}
     </main>
   );
 }
