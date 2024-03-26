@@ -39,6 +39,13 @@ function Filter({ handleClick, handleFilterOptions }) {
     setIsAvailableChecked(!isAvailableChecked);
   };
 
+  const handleClear = () => {
+    setIsPaymentChecked(false);
+    setIsDisabilityChecked(false);
+    setIsMotorbikeChecked(false);
+    setIsAvailableChecked(false);
+  };
+
   const sendDataToHomePage = () => {
     const filterOptions = {
       acceptCreditCard: isPaymentChecked,
@@ -157,7 +164,7 @@ function Filter({ handleClick, handleFilterOptions }) {
           />
         </label>
       </div>
-
+      <button onClick={handleClear}>Clear</button>
       <button onClick={sendDataToHomePage}>Apply</button>
     </main>
   );
