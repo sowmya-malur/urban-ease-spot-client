@@ -12,10 +12,12 @@ import availableIcon from "../../assets/icons/round_where_to_vote_black_24dp.png
 
 /**
  *
- * @param {*} param0
- * @returns
+ * @param {Function} handleClick callback function to set show component.
+ * @param {Function} handleFilterOptions callback function to send selected filter options.
+ * @returns {JSX} Filter options to apply on the JSON parking information.
  */
 function Filter({ handleClick, handleFilterOptions }) {
+  //   TODO: retain the state of the filter options for the user
   const navigate = useNavigate();
 
   const [isPaymentChecked, setIsPaymentChecked] = useState(false);
