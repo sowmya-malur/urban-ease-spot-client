@@ -8,6 +8,7 @@ import motorbikeIcon from "../../assets/icons/round_two_wheeler_black_24dp.png";
 import disabilityIcon from "../../assets/icons/round_accessible_forward_black_24dp.png";
 import checkBoxSelectedIcon from "../../assets/icons/round_check_box_black_24dp.png";
 import checkBoxEmptyIcon from "../../assets/icons/round_check_box_outline_blank_black_24dp.png";
+import availableIcon from "../../assets/icons/round_where_to_vote_black_24dp.png";
 
 /**
  *
@@ -65,7 +66,7 @@ function Filter({ handleClick, handleFilterOptions }) {
         />
         <p>Filter</p>
       </div>
-    {/* Accept Credit Card Payment */}
+      {/* Accept Credit Card Payment */}
       <div>
         <input
           type="checkbox"
@@ -88,7 +89,7 @@ function Filter({ handleClick, handleFilterOptions }) {
         </label>
       </div>
 
-    {/* Show Disability Parking Spots */}
+      {/* Show Disability Parking Spots */}
       <div>
         <input
           type="checkbox"
@@ -103,7 +104,7 @@ function Filter({ handleClick, handleFilterOptions }) {
           <img
             src={isDisabilityChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
             alt={
-                isDisabilityChecked
+              isDisabilityChecked
                 ? "check-box-selected-icon"
                 : "check-box-unselected-icon"
             }
@@ -126,7 +127,7 @@ function Filter({ handleClick, handleFilterOptions }) {
           <img
             src={isMotorbikeChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
             alt={
-                isMotorbikeChecked
+              isMotorbikeChecked
                 ? "check-box-selected-icon"
                 : "check-box-unselected-icon"
             }
@@ -134,6 +135,28 @@ function Filter({ handleClick, handleFilterOptions }) {
         </label>
       </div>
 
+      {/* Show Available Parking Spots */}
+      <div>
+        <input
+          type="checkbox"
+          id="availableParking"
+          style={{ display: "none" }} // hide the default checkbox. TODO: in scss
+        />
+        <label htmlFor="availableParking" onClick={handleAvailableChange}>
+          <div>
+            <img src={availableIcon} alt="available-icon" />
+            Show Available Parking
+          </div>
+          <img
+            src={isAvailableChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
+            alt={
+              isAvailableChecked
+                ? "check-box-selected-icon"
+                : "check-box-unselected-icon"
+            }
+          />
+        </label>
+      </div>
 
       <button onClick={sendDataToHomePage}>Apply</button>
     </main>
