@@ -36,6 +36,7 @@ function HomePage() {
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
   const [parkingMeters, setParkingMeters] = useState([]);
+  const [filteredParkingMeters, setFilteredParkingMeters] = useState([]);
 
   const navigate = useNavigate();
 
@@ -45,14 +46,37 @@ function HomePage() {
       // TODO: test why env varaible is not working
       // const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
       const response = await axios.get("http://localhost:8080/api/parking");
-      console.log("response", response);
       if (response.data && response.status === 200) {
         setParkingMeters(response.data);
+        // setFilteredParkingMeters(response.data);
       }
+      console.log("response.data", response.data);
     };
 
     getAllParkingMeters();
   }, []);
+
+  useEffect(()=>{
+    let filterParkingMeters = [...parkingMeters]
+
+     if(filterOptions.available) {
+       filterParkingMeters = filterParkingMeters.filter( parking => parking.status === "vacant");
+      }
+     if(filterOptions.acceptCreditCard) {
+      filterParkingMeters = filterParkingMeters.filter( parking => parking.creditcard.toLowerCase() === "yes");
+     }
+     if(filterOptions.disability) {
+      filterParkingMeters = filterParkingMeters.filter( parking => parking.meterhead.toLowerCase().includes("disability"));
+     }
+     if(filterOptions.motorbike) {
+      filterParkingMeters = filterParkingMeters.filter( parking => parking.meterhead.toLowerCase().includes("motorbike"));
+     }
+
+    console.log("filterOptions", filterOptions);
+    console.log("filterParkingMeters", filterParkingMeters);
+    setFilteredParkingMeters(filterParkingMeters);
+  }, [filterOptions, parkingMeters])
+
 
   const displayParkingRate = (parking, currentTimeStamp ) => {
   
@@ -133,9 +157,9 @@ function HomePage() {
               chunkedLoading
               iconCreateFunction={createClusterCustomIcon}
             >
-              {!parkingMeters
+              {!filteredParkingMeters
                 ? ""
-                : parkingMeters.map((parking) => {
+                : filteredParkingMeters.map((parking) => {
                     return (
                       <Marker key={parking.meter_id}
                         position={[
@@ -156,37 +180,7 @@ function HomePage() {
                     );
                   })}
 
-              {/* Hardcoded working code */}
-              {/* <Marker
-                position={[49.26328581657055, -123.13380465835546]}
-                icon={customIcon}
-              >
-                <Popup>
-                  <div>
-                 
-                    This is popup 1
-                    <button onClick={handleClick}>More Details</button>
-                  </div>
-                </Popup>
-              </Marker>
-              <Marker
-                position={[49.25397960972006, -123.10099865961524]}
-                icon={customIcon}
-              >
-                <Popup>This is popup 2</Popup>
-              </Marker>
-              <Marker
-                position={[49.28108309143481, -123.06084555133712]}
-                icon={customIcon}
-              >
-                <Popup>
-                  <div>
-                    
-                    This is popup 3
-                    <button onClick={handleClick}>More Details</button>
-                  </div>
-                </Popup>
-              </Marker> */}
+        
             </MarkerClusterGroup>
           </MapContainer> 
           {filterOptions && (
