@@ -50,7 +50,6 @@ function HomePage() {
         setParkingMeters(response.data);
         // setFilteredParkingMeters(response.data);
       }
-      console.log("response.data", response.data);
     };
 
     getAllParkingMeters();
@@ -72,8 +71,8 @@ function HomePage() {
       filterParkingMeters = filterParkingMeters.filter( parking => parking.meterhead.toLowerCase().includes("motorbike"));
      }
 
-    console.log("filterOptions", filterOptions);
-    console.log("filterParkingMeters", filterParkingMeters);
+    // console.log("filterOptions", filterOptions); TODO: del
+    // console.log("filterParkingMeters", filterParkingMeters);  TODO: del
     setFilteredParkingMeters(filterParkingMeters);
   }, [filterOptions, parkingMeters])
 
