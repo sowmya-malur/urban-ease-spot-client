@@ -9,7 +9,7 @@ import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 
 function ParkingDuration({ handleClick }) {
     const [showComponent, setShowComponent] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true); // TODO: Get this from param or localStorage?
 
     const navigate = useNavigate();
 
