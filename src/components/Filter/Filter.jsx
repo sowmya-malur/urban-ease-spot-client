@@ -25,13 +25,6 @@ function Filter({ handleClick, handleFilterOptions }) {
   const [isMotorbikeChecked, setIsMotorbikeChecked] = useState(localStorage.getItem("isMotorbikeChecked") === "true" || false);
   const [isAvailableChecked, setIsAvailableChecked] = useState(localStorage.getItem("isAvailableChecked") === "true" || false);
 
-  useEffect(() => {
-    localStorage.setItem("isPaymentChecked", isPaymentChecked);
-    localStorage.setItem("isDisabilityChecked", isDisabilityChecked);
-    localStorage.setItem("isMotorbikeChecked", isMotorbikeChecked);
-    localStorage.setItem("isAvailableChecked", isAvailableChecked);
-    console.log("in useeffect");
-  }, [isPaymentChecked, isDisabilityChecked, isMotorbikeChecked, isAvailableChecked]);
 
   const handlePaymentChange = () => {
     setIsPaymentChecked(!isPaymentChecked);
@@ -54,12 +47,6 @@ function Filter({ handleClick, handleFilterOptions }) {
     setIsDisabilityChecked(false);
     setIsMotorbikeChecked(false);
     setIsAvailableChecked(false);
-
-    // TODO: fix the bug when user clicks on clear and back button.
-    localStorage.setItem("isPaymentChecked", false);
-    localStorage.setItem("isDisabilityChecked", false);
-    localStorage.setItem("isMotorbikeChecked", false);
-    localStorage.setItem("isAvailableChecked", false);
   };
 
   const sendDataToHomePage = () => {
@@ -70,6 +57,12 @@ function Filter({ handleClick, handleFilterOptions }) {
       motorbike: isMotorbikeChecked,
       available: isAvailableChecked,
     };
+
+    // set the localStorage only when "apply" is clicked
+    localStorage.setItem("isPaymentChecked", isPaymentChecked);
+    localStorage.setItem("isDisabilityChecked", isDisabilityChecked);
+    localStorage.setItem("isMotorbikeChecked", isMotorbikeChecked);
+    localStorage.setItem("isAvailableChecked", isAvailableChecked);
 
     // Call the callback function with the filter data
     handleFilterOptions(filterOptions);
@@ -181,7 +174,7 @@ function Filter({ handleClick, handleFilterOptions }) {
           />
         </label>
       </div>
-      <button onClick={handleClear}>Clear</button>
+      <button onClick={handleClear}>Clear All</button>
       <button onClick={sendDataToHomePage}>Apply</button>
     </main>
   );
