@@ -40,7 +40,7 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  // Call axios to get parking meter data
+  // Call axios to get parking meter data on mount
   useEffect(() => {
     const getAllParkingMeters = async () => {
       // TODO: test why env varaible is not working
@@ -48,65 +48,68 @@ function HomePage() {
       const response = await axios.get("http://localhost:8080/api/parking");
       if (response.data && response.status === 200) {
         setParkingMeters(response.data);
-        // setFilteredParkingMeters(response.data);
       }
     };
 
     getAllParkingMeters();
   }, []);
 
-  useEffect(()=>{
-    let filterParkingMeters = [...parkingMeters]
+  useEffect(() => {
+    let filterParkingMeters = [...parkingMeters];
 
-     if(filterOptions.available) {
-       filterParkingMeters = filterParkingMeters.filter( parking => parking.status === "vacant");
-      }
-     if(filterOptions.acceptCreditCard) {
-      filterParkingMeters = filterParkingMeters.filter( parking => parking.creditcard.toLowerCase() === "yes");
-     }
-     if(filterOptions.disability) {
-      filterParkingMeters = filterParkingMeters.filter( parking => parking.meterhead.toLowerCase().includes("disability"));
-     }
-     if(filterOptions.motorbike) {
-      filterParkingMeters = filterParkingMeters.filter( parking => parking.meterhead.toLowerCase().includes("motorbike"));
-     }
+    if (filterOptions.available) {
+      filterParkingMeters = filterParkingMeters.filter(
+        (parking) => parking.status === "vacant"
+      );
+    }
+    if (filterOptions.acceptCreditCard) {
+      filterParkingMeters = filterParkingMeters.filter(
+        (parking) => parking.creditcard.toLowerCase() === "yes"
+      );
+    }
+    if (filterOptions.disability) {
+      filterParkingMeters = filterParkingMeters.filter((parking) =>
+        parking.meterhead.toLowerCase().includes("disability")
+      );
+    }
+    if (filterOptions.motorbike) {
+      filterParkingMeters = filterParkingMeters.filter((parking) =>
+        parking.meterhead.toLowerCase().includes("motorbike")
+      );
+    }
 
-    // console.log("filterOptions", filterOptions); TODO: del
-    // console.log("filterParkingMeters", filterParkingMeters);  TODO: del
     setFilteredParkingMeters(filterParkingMeters);
-  }, [filterOptions, parkingMeters])
+  }, [filterOptions, parkingMeters]);
 
-
-  const displayParkingRate = (parking, currentTimeStamp ) => {
-  
+  const displayParkingRate = (parking, currentTimeStamp) => {
     const currentDate = new Date(currentTimeStamp);
     const currentHours = currentDate.getHours();
     const currentDay = currentDate.getDay();
     // console.log(currentDate);
-    
-    if(currentDay >=1 && currentDay <=5) {
-      if(currentHours>=9 && currentHours<18) {
+
+    if (currentDay >= 1 && currentDay <= 5) {
+      if (currentHours >= 9 && currentHours < 18) {
         return parking.r_mf_9a_6;
-      } else if(currentHours>=18 && currentHours<22){
+      } else if (currentHours >= 18 && currentHours < 22) {
         return parking.r_mf_6p_10;
       } else {
-        return 0.00;
+        return 0.0;
       }
-    } else if(currentDay === 6){
-      if(currentHours>=9 && currentHours<18) {
+    } else if (currentDay === 6) {
+      if (currentHours >= 9 && currentHours < 18) {
         return parking.r_sa_9a_6;
-      } else if(currentHours>=18 && currentHours<22){
+      } else if (currentHours >= 18 && currentHours < 22) {
         return parking.r_sa_6p_10;
       } else {
-        return 0.00;
+        return 0.0;
       }
     } else {
-      if(currentHours>=9 && currentHours<18) {
+      if (currentHours >= 9 && currentHours < 18) {
         return parking.r_su_9a_6;
-      } else if(currentHours>=18 && currentHours<22){
+      } else if (currentHours >= 18 && currentHours < 22) {
         return parking.r_su_6p_10;
       } else {
-        return 0.00;
+        return 0.0;
       }
     }
   };
@@ -126,6 +129,7 @@ function HomePage() {
         <>
           <section>
             <input type="search"></input>
+            {/* TODO: Add an indication that filter is on */}
             <img
               src={filter}
               alt="filter-icon"
@@ -160,17 +164,25 @@ function HomePage() {
                 ? ""
                 : filteredParkingMeters.map((parking) => {
                     return (
-                      <Marker key={parking.meter_id}
+                      <Marker
+                        key={parking.meter_id}
                         position={[
                           parking.geo_point_2d.lat,
                           parking.geo_point_2d.lon,
                         ]}
-                        icon={parking.status === "vacant"? customAvailableIcon : customUnavailableIcon}
+                        icon={
+                          parking.status === "vacant"
+                            ? customAvailableIcon
+                            : customUnavailableIcon
+                        }
                       >
                         <Popup>
                           <div>
                             <p>Meter Head Type: {parking.meterhead}</p>
-                            <p>Current Rate Per Hour: {displayParkingRate(parking, Date.now())}</p>
+                            <p>
+                              Current Rate Per Hour:{" "}
+                              {displayParkingRate(parking, Date.now())}
+                            </p>
                             <p>Location: {parking.geo_local_area}</p>
                             <button onClick={handleClick}>Select</button>
                           </div>
@@ -178,10 +190,8 @@ function HomePage() {
                       </Marker>
                     );
                   })}
-
-        
             </MarkerClusterGroup>
-          </MapContainer> 
+          </MapContainer>
           {filterOptions && (
             <div>
               <p>Filter Options:</p>

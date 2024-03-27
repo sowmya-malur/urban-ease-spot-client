@@ -17,7 +17,7 @@ import availableIcon from "../../assets/icons/round_where_to_vote_black_24dp.png
  * @returns {JSX} Filter options to apply on the JSON parking information.
  */
 function Filter({ handleClick, handleFilterOptions }) {
-  //   TODO: retain the state of the filter options for the user
+
   const navigate = useNavigate();
 
   const [isPaymentChecked, setIsPaymentChecked] = useState(localStorage.getItem("isPaymentChecked") === "true" || false);
@@ -25,7 +25,7 @@ function Filter({ handleClick, handleFilterOptions }) {
   const [isMotorbikeChecked, setIsMotorbikeChecked] = useState(localStorage.getItem("isMotorbikeChecked") === "true" || false);
   const [isAvailableChecked, setIsAvailableChecked] = useState(localStorage.getItem("isAvailableChecked") === "true" || false);
 
-
+  
   const handlePaymentChange = () => {
     setIsPaymentChecked(!isPaymentChecked);
   };
@@ -49,6 +49,7 @@ function Filter({ handleClick, handleFilterOptions }) {
     setIsAvailableChecked(false);
   };
 
+  // TODO: improve usability of filter feature by displaying the # of results dynamically when a filter option is checked.
   const sendDataToHomePage = () => {
     
     const filterOptions = {
@@ -174,8 +175,8 @@ function Filter({ handleClick, handleFilterOptions }) {
           />
         </label>
       </div>
-      <button onClick={handleClear}>Clear All</button>
-      <button onClick={sendDataToHomePage}>Apply</button>
+      <button onClick={handleClear}>Clear Filters</button>
+      <button onClick={sendDataToHomePage}>Apply</button> 
     </main>
   );
 }
