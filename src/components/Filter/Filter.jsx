@@ -30,6 +30,7 @@ function Filter({ handleClick, handleFilterOptions }) {
     localStorage.setItem("isDisabilityChecked", isDisabilityChecked);
     localStorage.setItem("isMotorbikeChecked", isMotorbikeChecked);
     localStorage.setItem("isAvailableChecked", isAvailableChecked);
+    console.log("in useeffect");
   }, [isPaymentChecked, isDisabilityChecked, isMotorbikeChecked, isAvailableChecked]);
 
   const handlePaymentChange = () => {
@@ -53,6 +54,12 @@ function Filter({ handleClick, handleFilterOptions }) {
     setIsDisabilityChecked(false);
     setIsMotorbikeChecked(false);
     setIsAvailableChecked(false);
+
+    // TODO: fix the bug when user clicks on clear and back button.
+    localStorage.setItem("isPaymentChecked", false);
+    localStorage.setItem("isDisabilityChecked", false);
+    localStorage.setItem("isMotorbikeChecked", false);
+    localStorage.setItem("isAvailableChecked", false);
   };
 
   const sendDataToHomePage = () => {
