@@ -14,17 +14,20 @@ import filter from "../../assets/icons/round_tune_black_24dp.png";
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 import Filter from "../../components/Filter/Filter";
 
-// create custom icon
-const customIcon = new Icon({
-  iconUrl: require("../../assets/icons/parking_available.png"),
+// create custom icons
+const customAvailableIcon = new Icon({
+  iconUrl: require("../../assets/icons/parking_available.png"), // TODO: update the icon
   iconSize: [26, 36], // size of the icon
 });
 
-// custom cluster icon
+const customUnavailableIcon = new Icon({
+  iconUrl: require("../../assets/icons/round_clear_black_24dp.png"), // TODO: update the icon
+  iconSize: [26, 36], // size of the icon
+});
+
 const createClusterCustomIcon = function (cluster) {
   return new divIcon({
     html: `<span class="cluster-icon">${cluster.getChildCount()}</span>`,
-    className: "custom-marker-cluster",
     iconSize: point(33, 33, true),
   });
 };
@@ -50,6 +53,40 @@ function HomePage() {
 
     getAllParkingMeters();
   }, []);
+
+  const displayParkingRate = (parking, currentTimeStamp ) => {
+  
+    const currentDate = new Date(currentTimeStamp);
+    const currentHours = currentDate.getHours();
+    const currentDay = currentDate.getDay();
+    // console.log(currentDate);
+    
+    if(currentDay >=1 && currentDay <=5) {
+      if(currentHours>=9 && currentHours<18) {
+        return parking.r_mf_9a_6;
+      } else if(currentHours>=18 && currentHours<22){
+        return parking.r_mf_6p_10;
+      } else {
+        return 0.00;
+      }
+    } else if(currentDay === 6){
+      if(currentHours>=9 && currentHours<18) {
+        return parking.r_sa_9a_6;
+      } else if(currentHours>=18 && currentHours<22){
+        return parking.r_sa_6p_10;
+      } else {
+        return 0.00;
+      }
+    } else {
+      if(currentHours>=9 && currentHours<18) {
+        return parking.r_su_9a_6;
+      } else if(currentHours>=18 && currentHours<22){
+        return parking.r_su_6p_10;
+      } else {
+        return 0.00;
+      }
+    }
+  };
 
   const handleClick = () => {
     setShowComponent("parking-duration");
@@ -99,19 +136,20 @@ function HomePage() {
               {!parkingMeters
                 ? ""
                 : parkingMeters.map((parking) => {
-                    // console.log(parking.geo_point_2d.lat);
                     return (
-                      <Marker
+                      <Marker key={parking.meter_id}
                         position={[
                           parking.geo_point_2d.lat,
                           parking.geo_point_2d.lon,
                         ]}
-                        icon={customIcon}
+                        icon={parking.status === "vacant"? customAvailableIcon : customUnavailableIcon}
                       >
                         <Popup>
                           <div>
-                            <p>{parking.meterhead}</p>
-                            <button onClick={handleClick}>More Details</button>
+                            <p>Meter Head Type: {parking.meterhead}</p>
+                            <p>Current Rate Per Hour: {displayParkingRate(parking, Date.now())}</p>
+                            <p>Location: {parking.geo_local_area}</p>
+                            <button onClick={handleClick}>Select</button>
                           </div>
                         </Popup>
                       </Marker>
@@ -150,7 +188,7 @@ function HomePage() {
                 </Popup>
               </Marker> */}
             </MarkerClusterGroup>
-          </MapContainer>
+          </MapContainer> 
           {filterOptions && (
             <div>
               <p>Filter Options:</p>

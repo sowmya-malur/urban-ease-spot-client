@@ -16,3 +16,16 @@
     // width: 90%;
 
   }
+
+  .cluster-icon {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    background-color: #137EB3; //TODO: change color
+    transform: translate(-25%, -25%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700; //TODO: use global variable
+    font-size: 1rem; //TODO: use global variable
+  }
