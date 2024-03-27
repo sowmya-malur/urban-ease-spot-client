@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 
 // Import icons
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
@@ -20,10 +20,17 @@ function Filter({ handleClick, handleFilterOptions }) {
   //   TODO: retain the state of the filter options for the user
   const navigate = useNavigate();
 
-  const [isPaymentChecked, setIsPaymentChecked] = useState(false);
-  const [isDisabilityChecked, setIsDisabilityChecked] = useState(false);
-  const [isMotorbikeChecked, setIsMotorbikeChecked] = useState(false);
-  const [isAvailableChecked, setIsAvailableChecked] = useState(false);
+  const [isPaymentChecked, setIsPaymentChecked] = useState(localStorage.getItem("isPaymentChecked") === "true" || false);
+  const [isDisabilityChecked, setIsDisabilityChecked] = useState(localStorage.getItem("isDisabilityChecked") === "true" || false);
+  const [isMotorbikeChecked, setIsMotorbikeChecked] = useState(localStorage.getItem("isMotorbikeChecked") === "true" || false);
+  const [isAvailableChecked, setIsAvailableChecked] = useState(localStorage.getItem("isAvailableChecked") === "true" || false);
+
+  useEffect(() => {
+    localStorage.setItem("isPaymentChecked", isPaymentChecked);
+    localStorage.setItem("isDisabilityChecked", isDisabilityChecked);
+    localStorage.setItem("isMotorbikeChecked", isMotorbikeChecked);
+    localStorage.setItem("isAvailableChecked", isAvailableChecked);
+  }, [isPaymentChecked, isDisabilityChecked, isMotorbikeChecked, isAvailableChecked]);
 
   const handlePaymentChange = () => {
     setIsPaymentChecked(!isPaymentChecked);
