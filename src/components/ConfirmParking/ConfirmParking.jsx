@@ -9,6 +9,7 @@ import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 import locationIcon from "../../assets/icons/round_where_to_vote_black_24dp.png";
 import paymentIcon from "../../assets/icons/round_payment_black_24dp.png";
 import checkBoxEmptyIcon from "../../assets/icons/round_check_box_outline_blank_black_24dp.png";
+import checkBoxSelectedIcon from "../../assets/icons/round_check_box_black_24dp.png";
 import priceIcon from "../../assets/icons/round_attach_money_black_24dp.png";
 import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.png";
 
@@ -73,7 +74,7 @@ function ConfirmParking({ handlePay, handleCancel }) {
         <div>
         <div>
           <img 
-          src={timeIcon} alt="price-icon" />
+          src={priceIcon} alt="price-icon" />
           <h3>Price</h3>
           </div>
           <div>
