@@ -207,10 +207,10 @@ function HomePage() {
       )}
 
       {/* Add conditional rendering here */}
-      {showComponent === "parking-duration" && (
+      {/* {showComponent === "parking-duration" && (
         // <ParkingDuration handleClick={() => setShowComponent(false)} />
         <ParkingDuration handleClick={handleClick} />
-      )}
+      )} */}
       {showComponent === "filter" && (
         <Filter
           handleClick={() => setShowComponent(false)}
