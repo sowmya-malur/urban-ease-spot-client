@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 import HomePage from "../../pages/HomePage/HomePage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
@@ -14,14 +15,140 @@ import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
 function ParkingDuration() {
+  //Initialize hooks
+  const navigate = useNavigate();
+  let userId = 1; // get this from params
+
   // console.log(localStorage.getItem("selectedMeterId"));
 
+  // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
+  const [selectedParkingMeter, setSelectedParkingMeter] = useState({});
+  const [vehicleDetails, setVehicleDetails] = useState({});
+  const [selectedHours, setSelectedHours] = useState(0);
+  const [selectedMins, setSelectedMins] = useState(30);
+  const [availableHours, setAvailableHours] = useState([]);
+  const availableMins = [0, 30];
+  const [maxStay, setMaxStay] = useState(0);
+
+  const currentTimeStamp = Date.now();
   // const [isLoggedIn, setIsLoggedIn] = useState(false); // TODO: Get this from param or localStorage?
 
-  const navigate = useNavigate();
+  const getMaxStay = () => {
+    const currentDate = new Date(currentTimeStamp);
+    const currentHours = currentDate.getHours();
+    const currentDay = currentDate.getDay();
 
-  // call useEffect to remove the item from the localStorage for meterid
+    let maximumStay;
+    // If the day is Mon/Tue/Wed/Thurs/Fri
+    if (currentDay >= 1 && currentDay <= 5) {
+      if (currentHours >= 9 && currentHours < 18) {
+        // If the time is between 9 am and 6 pm
+        maximumStay = selectedParkingMeter.t_mf_9a_6p;
+      } else if (currentHours >= 18 && currentHours < 22) {
+        // If the time is between 6 pm and 10 pm
+        maximumStay = selectedParkingMeter.t_mf_6p_10p;
+      } else {
+        // If the time is between 10 pm and 9 am
+        maximumStay = "11 hr";
+      }
+    } else if (currentDay === 6) {
+      // If the day is Sat
+
+      if (currentHours >= 9 && currentHours < 18) {
+        // If the time is between 9 am and 6 pm
+
+        maximumStay = selectedParkingMeter.t_sa_9a_6p;
+      } else if (currentHours >= 18 && currentHours < 22) {
+        // If the time is between 6 pm and 10 pm
+        maximumStay = selectedParkingMeter.r_sa_6p_10;
+      } else {
+        // If the time is between 10 pm and 9 am
+        maximumStay = "11 hr";
+      }
+    } else {
+      // If the day is Sun
+      if (currentHours >= 9 && currentHours < 18) {
+        // If the time is between 9 am and 6 pm
+        maximumStay = selectedParkingMeter.r_su_9a_6;
+      } else if (currentHours >= 18 && currentHours < 22) {
+        // If the time is between 6 pm and 10 pm
+        maximumStay = selectedParkingMeter.r_su_6p_10;
+      } else {
+        // If the time is between 10 pm and 9 am
+        maximumStay = "11 hrs";
+      }
+    }
+    return maximumStay;
+  };
+
+  useEffect(() => {
+    try {
+      const getParkingDetails = async () => {
+        const meterId = localStorage.getItem("selectedMeterId") || 680504;
+        const parkingResponse = await axios.get(
+          `http://localhost:8080/api/parking/${meterId}`
+        ); // TODO: use env variable
+
+        if (parkingResponse.data) {
+          setSelectedParkingMeter(parkingResponse.data);
+          // Calculate available hours from maximum stay
+          const maximumStayAllowed = getMaxStay();
+          if(maximumStayAllowed) {
+            const maximumStay = parseInt(maximumStayAllowed.match(/\d+/)[0]); // extract the number from string.
+            setMaxStay(maximumStay);
+            const availableHrs = Array.from(
+              { length: maximumStay },
+              (_, i) => i + 1
+            );
+            setAvailableHours(availableHrs);
+          }
+          // } else {
+          //   setMaxStay(0);
+          //   setAvailableHours([]);
+          // }
+        }
+      };
+
+      // const getVehicleDetails = async () => {
+      //   // call get to vehicle table for the user id
+      //   const vehicleResponse = await axios.get(
+      //     `http://localhost:8080/api/user/${userId}/vehicle`
+      //   );
+      //   // console.log("vehicleResponse", vehicleResponse.data); //TODO: del
+      //   if (vehicleResponse.data) {
+      //     setVehicleDetails(vehicleResponse.data);
+      //   }
+      // };
+      // call async func
+      getParkingDetails();
+    } catch (error) {
+      console.error(`Error fetching parking data for}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const getVehicleDetails = async () => {
+        // call get to vehicle table for the user id
+        const vehicleResponse = await axios.get(
+          `http://localhost:8080/api/user/${userId}/vehicle`
+        );
+        if (vehicleResponse.data) {
+          setVehicleDetails(vehicleResponse.data);
+        }
+      };
+      // call async func
+      getVehicleDetails();
+    } catch (error) {
+      console.error(
+        `Error fetching vehicles data for ${userId}
+          )}`
+      );
+    }
+  }, []);
+
+  // Remove the item from the localStorage for meterid and navigate to home page
   const handleCancel = () => {
     localStorage.removeItem("selectedMeterId");
     navigate("/");
@@ -33,6 +160,23 @@ function ParkingDuration() {
     // localStorage.removeItem("selectedMeterId"); // TODO: should this be removed here?
     setShowComponent("confirm-parking");
   };
+
+  const handleHourChange = (event) => {
+    setSelectedHours(event.target.value);
+
+    // Set minutes to "0" (zero) if hours is selected
+    setSelectedMins(0);
+  };
+
+  const handleMinsChange = (event) => {
+    setSelectedMins(event.target.value);
+
+    // Set hours to "0" (zero) if minimum time 30 mins is selected
+    if (event.target.value === "30") {
+      setSelectedHours(0);
+    }
+  };
+
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
@@ -53,12 +197,12 @@ function ParkingDuration() {
               <h1>Select Parking Duration</h1>
               <p>Meter #</p>
               {/* parking.meterid */}
-              <h2>872503</h2>
+              <h2>{selectedParkingMeter.meterid}</h2>
               {/* parking.location */}
-              <p>Fairview</p>
+              <p>{selectedParkingMeter.geo_local_area}</p>
               <div>
                 <img src={infoIcon} alt="info-icon" />
-                <p>Maximum Stay: {"4 hours"}</p>
+                <p>Maximum Stay: {getMaxStay()}</p>
               </div>
               <div>
                 <img src={timeIcon} alt="time-icon" />
@@ -66,9 +210,34 @@ function ParkingDuration() {
                 <div>
                   <p>Hours:</p>
                   {/* TODO: which is better input field or select and setting the available values */}
-                  <select name="hours"></select>
+                  <select
+                    name="hours"
+                    id="hours"
+                    value={selectedHours}
+                    onChange={handleHourChange}
+                  >
+                    <option value="">Select hours</option>
+                    {availableHours.map((hour) => (
+                      <option key={hour} value={hour}>
+                        {hour === maxStay ? maxStay + " (maximum)" : hour}
+                      </option>
+                    ))}
+                  </select>
+
                   <p>Minutes:</p>
-                  <select name="minutes"></select>
+                  <select
+                    name="minutes"
+                    id="minutes"
+                    value={selectedMins}
+                    onChange={handleMinsChange}
+                  >
+                    <option value="">Select Minutes</option>
+                    {availableMins.map((mins) => (
+                      <option key={mins} value={mins}>
+                        {mins === 30 ? "30 (minimum)" : mins}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <p>$2.00</p>
@@ -79,7 +248,7 @@ function ParkingDuration() {
                     type="radio"
                     id="vehicle"
                     name="vehicle"
-                    value="FKL-00A"
+                    value={vehicleDetails?.license_plate}
                     style={{ display: "none" }}
                     defaultChecked
                   />
@@ -88,7 +257,10 @@ function ParkingDuration() {
                       <img src={carIcon} alt="car-icon" />
                       <h3>Your Vehicle</h3>
                     </div>
-                    <img src={radioCheckedIcon} alt={"radio-checked-icon"} />
+                    <div>
+                      <img src={radioCheckedIcon} alt={"radio-checked-icon"} />
+                      <p>{vehicleDetails?.license_plate}</p>
+                    </div>
                   </label>
                 </div>
               </div>
@@ -96,7 +268,7 @@ function ParkingDuration() {
               <button onClick={handlePark}>Proceed to Park</button>
             </>
           )}
-          
+
           {showComponent === "confirm-parking" && (
             <ConfirmParking
               // handleCancel={() => setShowComponent("home-page")}
