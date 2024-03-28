@@ -55,12 +55,14 @@ function ParkingDuration() {
         )}
          {showComponent === "confirm-parking" && (
             <ConfirmParking 
-            handleCancel={() => setShowComponent("home-page")}
-            handlePay={() => setShowComponent("notification-page")}/>
+            // handleCancel={() => setShowComponent("home-page")}
+            handleCancel={()=> { localStorage.removeItem("selectedMeterId"); navigate(-1);}}
+            handlePay={() => { localStorage.removeItem("selectedMeterId"); setShowComponent("notification-page")}}/>
           )}
 
-        {/* {showComponent === "home-page" && <HomePage handleClick={handleClick}/>} */}
-        {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>}
+        {/* {showComponent === "home-page" && <HomePage />} */}
+        {/* {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>} */}
+        {showComponent === "notification-page" && <Notification handleEndSession={()=> navigate("/")}/>}
 
         </>
       )}
