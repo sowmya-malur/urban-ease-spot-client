@@ -96,6 +96,7 @@ function ParkingDuration() {
               <button onClick={handlePark}>Proceed to Park</button>
             </>
           )}
+          
           {showComponent === "confirm-parking" && (
             <ConfirmParking
               // handleCancel={() => setShowComponent("home-page")}
