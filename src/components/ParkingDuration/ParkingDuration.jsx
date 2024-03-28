@@ -8,11 +8,15 @@ import Notification from "../Notification/Notification";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 
 function ParkingDuration({ handleClick }) {
+
+    console.log(localStorage.getItem("selectedMeterId"));
+
     const [showComponent, setShowComponent] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true); // TODO: Get this from param or localStorage?
+    // const [isLoggedIn, setIsLoggedIn] = useState(false); // TODO: Get this from param or localStorage?
 
     const navigate = useNavigate();
 
+    // call useEffect to remove the item from the localStorage for meterid
     const handleCancel = () => {
         handleClick(false);
         setShowComponent("home-page");
@@ -23,9 +27,12 @@ function ParkingDuration({ handleClick }) {
     }
     return(
         <main>
-            {!isLoggedIn ? (
+            {/* {!isLoggedIn ? (
         <LoginPage setIsLoggedIn={setIsLoggedIn} />
-      ): (
+      ): ( */}
+        {!localStorage.getItem("isLoggedIn") ? (
+            <LoginPage />
+          ): (
         <>
          {!showComponent && (
             <>
@@ -38,8 +45,6 @@ function ParkingDuration({ handleClick }) {
             <p>Parking Duration</p>
             <button onClick={handleCancel}>Cancel</button>
             <button onClick={handlePark}>Proceed to Park</button>
-    
-            
             </>
         )}
          {showComponent === "confirm-parking" && (

@@ -37,6 +37,7 @@ function HomePage() {
   const [filterOptions, setFilterOptions] = useState({});
   const [parkingMeters, setParkingMeters] = useState([]);
   const [filteredParkingMeters, setFilteredParkingMeters] = useState([]);
+  const [selectedParkingMeter, setSelectedParkingMeter] = useState("");
 
   const navigate = useNavigate();
 
@@ -114,8 +115,12 @@ function HomePage() {
     }
   };
 
-  const handleClick = () => {
-    setShowComponent("parking-duration");
+  const handleClick = (meter_id) => {
+    console.log("meterid", meter_id);
+    // console.log("selectedParkingmeter", selectedParkingMeter);
+    localStorage.setItem("selectedMeterId", meter_id);
+    navigate("/booking");
+    // setShowComponent("parking-duration");
   };
 
   const handleFilterOptions = (data) => {
@@ -184,7 +189,7 @@ function HomePage() {
                               {displayParkingRate(parking, Date.now())}
                             </p>
                             <p>Location: {parking.geo_local_area}</p>
-                            <button onClick={handleClick}>Select</button>
+                            <button onClick={() => handleClick(parking.meter_id)}>Select</button>
                           </div>
                         </Popup>
                       </Marker>

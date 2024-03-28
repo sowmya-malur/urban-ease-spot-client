@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import "./App.scss";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import BookingPage from "./pages/BookingPage/BookingPage";
 // import ParkingDuration from "./components/PageDuration/ParkingDuration";
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/booking" element={<BookingPage />}></Route>
           {/* <Route path="/parking" element={<ParkingDurationPage />}></Route> */}
 
         </Routes>
