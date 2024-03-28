@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import HomePage from "../../pages/HomePage/HomePage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
@@ -7,7 +7,7 @@ import ConfirmParking from "../ConfirmParking/ConfirmParking"
 import Notification from "../Notification/Notification";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 
-function ParkingDuration({ handleClick }) {
+function ParkingDuration() {
 
     console.log(localStorage.getItem("selectedMeterId"));
 
@@ -18,11 +18,14 @@ function ParkingDuration({ handleClick }) {
 
     // call useEffect to remove the item from the localStorage for meterid
     const handleCancel = () => {
-        handleClick(false);
-        setShowComponent("home-page");
+        localStorage.removeItem("selectedMeterId");
+        navigate("/");
+        // handleClick(false);
+        // setShowComponent("home-page");
     };
 
     const handlePark = () => {
+        // localStorage.removeItem("selectedMeterId"); // TODO: should this be removed here?
         setShowComponent("confirm-parking")
     }
     return(
@@ -39,8 +42,11 @@ function ParkingDuration({ handleClick }) {
             <img 
             src={backIcon}
             onClick={() => { 
-                handleClick(false); 
-                setShowComponent("home-page");}}
+                // handleClick(false); 
+                // setShowComponent("home-page");
+                navigate("/");
+            }
+            }
             alt="back-icon"/>
             <p>Parking Duration</p>
             <button onClick={handleCancel}>Cancel</button>
@@ -53,7 +59,7 @@ function ParkingDuration({ handleClick }) {
             handlePay={() => setShowComponent("notification-page")}/>
           )}
 
-        {showComponent === "home-page" && <HomePage handleClick={handleClick}/>}
+        {/* {showComponent === "home-page" && <HomePage handleClick={handleClick}/>} */}
         {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>}
 
         </>
