@@ -16,6 +16,18 @@ import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.pn
 function ConfirmParking({ handlePay, handleCancel }) {
   const navigate = useNavigate();
 
+  const [isNotifyChecked, setIsNotifyChecked] = useState(localStorage.getItem("isNotifyChecked") === "true" || false);
+
+  useEffect(() => {
+    const storedIsNotifyChecked = localStorage.getItem("isNotifyChecked") === "true";
+    setIsNotifyChecked(storedIsNotifyChecked);
+  }, []);
+  
+  const handleNotifyChange = () => {
+    setIsNotifyChecked(!isNotifyChecked);
+    localStorage.setItem("isNotifyChecked", !isNotifyChecked);
+  };
+
   return (
     <main>
       <>
@@ -82,14 +94,30 @@ function ConfirmParking({ handlePay, handleCancel }) {
           <p>$2.00</p>
           </div>
         </div>
+
         <div>
+        <input
+          type="checkbox"
+          id="notifyExpire"
+          style={{ display: "none" }} // hide the default checkbox. TODO: in scss
+        />
+         <label htmlFor="notifyExpire" onClick={handleNotifyChange}>
+            <div>
             <img 
             src={alertIcon}
             alt="alert-icon"/>
             <p>Notify me 15 minutes before my parking session expires</p>
+            </div>
+                       
             <img 
-            src={checkBoxEmptyIcon}
-            alt="checkbox-unselected"/>
+            src={isNotifyChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
+            alt={
+                isNotifyChecked
+                  ? "check-box-selected-icon"
+                  : "check-box-unselected-icon"
+              }
+           />
+            </label>
         </div>
         <button onClick={handleCancel}>Cancel</button>
         <button onClick={handlePay}>Pay</button>
