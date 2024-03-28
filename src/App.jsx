@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import BookingPage from "./pages/BookingPage/BookingPage";
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
