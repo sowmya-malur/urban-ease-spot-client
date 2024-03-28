@@ -8,13 +8,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
+// Import icons
 import filter from "../../assets/icons/round_tune_black_24dp.png";
 
 // Import components
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 import Filter from "../../components/Filter/Filter";
 
-// create custom icons
+// Create custom icons
 const customAvailableIcon = new Icon({
   iconUrl: require("../../assets/icons/parking_available.png"), // TODO: update the icon
   iconSize: [26, 36], // size of the icon
@@ -32,6 +33,10 @@ const createClusterCustomIcon = function (cluster) {
   });
 };
 
+/**
+ *
+ * @returns
+ */
 function HomePage() {
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
@@ -41,20 +46,23 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  // Call axios to get parking meter data on mount
+  // Get all parking meter data on mount
   useEffect(() => {
     const getAllParkingMeters = async () => {
       // TODO: test why env varaible is not working
       // const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
       const response = await axios.get("http://localhost:8080/api/parking");
+
       if (response.data && response.status === 200) {
         setParkingMeters(response.data);
       }
     };
 
+    // Call async func
     getAllParkingMeters();
   }, []);
 
+  // Set parking meter data for the selected filter options
   useEffect(() => {
     let filterParkingMeters = [...parkingMeters];
 
@@ -86,33 +94,72 @@ function HomePage() {
     const currentDate = new Date(currentTimeStamp);
     const currentHours = currentDate.getHours();
     const currentDay = currentDate.getDay();
-    // console.log(currentDate);
 
+    // TODO: del after testing
+    // let currentDay = 1;
+    // let currentHours = 10;
+
+    let parkingInfo = {
+      day: "",
+      time: "",
+      rate: "",
+    };
+
+    // If the day is Mon/Tue/Wed/Thurs/Fri
     if (currentDay >= 1 && currentDay <= 5) {
+      parkingInfo.day = "Mon-Fri: ";
+
       if (currentHours >= 9 && currentHours < 18) {
-        return parking.r_mf_9a_6;
+        // If the time is between 9 am and 6 pm
+        parkingInfo.time = "9 am - 6 pm";
+        parkingInfo.rate = "$" + parking.r_mf_9a_6;
       } else if (currentHours >= 18 && currentHours < 22) {
-        return parking.r_mf_6p_10;
-      } else {
-        return 0.0;
+        // If the time is between 6 pm and 10 pm
+        parkingInfo.time = "6 pm - 10 pm";
+        parkingInfo.rate = "$" + parking.r_mf_6p_10;
+      } 
+      else {
+        // If the time is between 10 pm and 9 am
+        parkingInfo.time = "10pm - 9 am";
+        parkingInfo.rate = "$0.00";
       }
     } else if (currentDay === 6) {
+      // If the day is Sat
+      parkingInfo.day = "Sat: ";
+
       if (currentHours >= 9 && currentHours < 18) {
-        return parking.r_sa_9a_6;
+        // If the time is between 9 am and 6 pm
+        parkingInfo.time = "9 am - 6 pm";
+        parkingInfo.rate = "$" + parking.r_sa_9a_6;
       } else if (currentHours >= 18 && currentHours < 22) {
-        return parking.r_sa_6p_10;
-      } else {
-        return 0.0;
+        // If the time is between 6 pm and 10 pm
+        parkingInfo.time = "6 pm - 10 pm";
+        parkingInfo.rate = "$" + parking.r_sa_6p_10;
+      } 
+      else {
+        // If the time is between 10 pm and 9 am
+        parkingInfo.time = "10pm - 9 am";
+        parkingInfo.rate = "$0.00";
       }
     } else {
+      // If the day is Sun
       if (currentHours >= 9 && currentHours < 18) {
-        return parking.r_su_9a_6;
+        // If the time is between 9 am and 6 pm
+        parkingInfo.time = "9 am - 6 pm";
+        parkingInfo.rate = "$" + parking.r_su_9a_6;
       } else if (currentHours >= 18 && currentHours < 22) {
-        return parking.r_su_6p_10;
-      } else {
-        return 0.0;
+        // If the time is between 6 pm and 10 pm
+        parkingInfo.time = "6 pm - 10 pm";
+        parkingInfo.rate = "$" + parking.r_su_6p_10;
+      } 
+      else {
+        // If the time is between 10 pm and 9 am
+        parkingInfo.time = "10pm - 9 am";
+        parkingInfo.rate = "$0.00";
       }
     }
+
+    return parkingInfo;
   };
 
   const handleClick = (meter_id) => {
@@ -183,13 +230,26 @@ function HomePage() {
                       >
                         <Popup>
                           <div>
-                            <p>Meter Head Type: {parking.meterhead}</p>
+                            <p>Meter Head: </p>
+                            <p>{parking.meterhead}</p>
+                            <p>Meter Id:</p>
+                            <p>{parking.meter_id}</p>
+                            <p>Current Rate:</p>
                             <p>
-                              Current Rate Per Hour:{" "}
-                              {displayParkingRate(parking, Date.now())}
+                              {displayParkingRate(parking, Date.now()).day}{" "}
+                              {displayParkingRate(parking, Date.now()).time}
                             </p>
-                            <p>Location: {parking.geo_local_area}</p>
-                            <button onClick={() => handleClick(parking.meter_id)}>Select</button>
+                            <p>
+                              {displayParkingRate(parking, Date.now()).rate} per
+                              hour
+                            </p>
+                            <p>Location:</p>
+                            <p>{parking.geo_local_area}</p>
+                            <button
+                              onClick={() => handleClick(parking.meter_id)}
+                            >
+                              Select
+                            </button>
                           </div>
                         </Popup>
                       </Marker>
