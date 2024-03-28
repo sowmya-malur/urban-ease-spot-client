@@ -1,4 +1,5 @@
 function ConfirmParking({ handlePay, handleCancel }) {
+    
 return (
     <main>
         <p>Confirm Parking</p>
