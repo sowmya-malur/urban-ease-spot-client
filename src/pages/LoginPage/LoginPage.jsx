@@ -68,8 +68,16 @@ function LoginPage() {
 
     // If there are no errors, verify the user
     if (Object.keys(formErrors).length === 0) {
+        console.log("login successful");
       // API call to validate the user in the backend
-      console.log("login successful");
+      localStorage.setItem("isLoggedIn", true);
+      // check if the localStorage has meterid -> redirec to parking duration; remove item to localStorage
+      // else home page 
+      if(localStorage.getItem("selectedMeterId")) {
+        navigate("/booking");
+      } else {
+        navigate("/");
+      }
     }
   };
 
