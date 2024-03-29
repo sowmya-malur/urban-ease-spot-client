@@ -35,7 +35,7 @@ function ConfirmParking({ handlePay, handleCancel }) {
           src={backIcon}
           onClick={() => {
             // handleClick(false);
-            // setShowComponent("home-page");
+            // setShowComponent("parking-duration");
             navigate("/booking"); // TODO: test
           }}
           alt="back-icon"
@@ -120,7 +120,7 @@ function ConfirmParking({ handlePay, handleCancel }) {
             </label>
         </div>
         <button onClick={handleCancel}>Cancel</button>
-        <button onClick={handlePay}>Pay</button>
+        <button onClick={handlePay}>Pay & Park</button>
       </>
     </main>
   );

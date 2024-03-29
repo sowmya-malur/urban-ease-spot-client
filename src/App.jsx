@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 
 import "./App.scss";
 
@@ -10,15 +11,27 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import BookingPage from "./pages/BookingPage/BookingPage";
 
 function App() {
-
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true" || false
+  );
+  
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/booking" element={<BookingPage />}></Route>
+          <Route
+            path="/"
+            element={<HomePage setIsLoggedIn={setIsLoggedIn} />}
+          ></Route>
+          <Route
+            path="/login"
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          ></Route>
+          <Route
+            path="/booking"
+            element={<BookingPage setIsLoggedIn={setIsLoggedIn} />}
+          ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
