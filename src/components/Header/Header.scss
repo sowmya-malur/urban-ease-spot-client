@@ -1,0 +1,63 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.header {
+  // margin: 0 $mobile-margin;
+  padding: $mobile-margin;
+  color: $color-primary-text;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $color-background-light;
+
+  &__logo-link {
+    text-decoration: none;
+  }
+
+  &__logo {
+    font-size: $mobile-font-size-section-header;
+  }
+
+  &__sign-in {
+    font-size: $mobile-font-size-sub-header;
+    padding: 0.5rem 0;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-cta-hover;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    &--active {
+      color: $color-cta-hover;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+  }
+
+  &__sign-out {
+    font-size: $mobile-font-size-sub-header;
+    padding: 0.5rem 0;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-cta-hover;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  }
+
+  &__icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &__right-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
