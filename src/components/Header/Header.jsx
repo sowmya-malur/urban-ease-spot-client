@@ -1,47 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import menu from "../../assets/icons/round_menu_black_24dp.png";
 import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.png";
 
-function Header( {isLoggedIn, setIsLoggedIn}) {
+import "../Header/Header.scss";
 
+function Header({ isLoggedIn, setIsLoggedIn }) {
   const handleSignOut = () => {
     // reset the isLoggedIn state variable to false and clear localStorage.
     setIsLoggedIn(false);
     // localStorage.setItem("isLoggedIn", false);
     localStorage.clear();
-
   };
 
   return (
-    <header>
-      <Link to="/">
-        <h2>UrbanEaseSpot</h2>
+    <header className="header">
+      <Link to="/" className="header__logo-link">
+        <h2 className="header__logo">UrbanEaseSpot</h2>
       </Link>
-      {!isLoggedIn ? (
-        <Link to="/login">
-          <p>Sign In</p>
-        </Link>
-      ) : (
-        <Link to="/">
-          <p onClick={handleSignOut}>Sign Out</p>
-        </Link>
-      )}
+      <div className="header__right-container">
+        {!isLoggedIn ? (
+          <NavLink to="/login" className="header__sign-in">
+            <p>Sign In</p>
+          </NavLink>
+        ) : (
+          <NavLink to="/" className="header__sign-out">
+            <p onClick={handleSignOut}>Sign Out</p>
+          </NavLink>
+        )}
 
-      {/* {!localStorage.getItem("isNotifyChecked") ? "" : (
+        {/* {!localStorage.getItem("isNotifyChecked") ? "" : (
               <Link to="/notification">
                 <img 
                 src={alertIcon}
                 alt="alert-icon"
               /></Link> 
             )} */}
-      {/* {!isNotifyChecked && (
+        {/* {!isNotifyChecked && (
         <Link to="/notification">
           <img src={alertIcon} alt="alert-icon" />
         </Link>
       )} */}
-      <img src={menu} alt="burger-menu-icon" />
+        <img src={menu} alt="burger-menu-icon" className="header__icon" />
+      </div>
     </header>
   );
 }

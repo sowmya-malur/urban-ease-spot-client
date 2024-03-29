@@ -1,0 +1,42 @@
+// text styles
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+
+$font-family: "NotoSans", sans-serif;
+
+// mobile font sizes
+$mobile-font-size-header: 1.5rem; // 24px
+$mobile-font-size-section-header: 1.25rem; // 24px
+$mobile-font-size-sub-header: 1rem; // 14px
+$mobile-font-size-body: 0.8125rem; // 13px
+$mobile-font-size-label-button: 0.625rem; // 10px
+
+$mobile-body-line-height: 1.125rem; // 18px
+$mobile-title-line-height: 2rem; // 32px
+
+// padding and margins
+$mobile-margin: 1rem; 
+$mobile-padding-top: 1.5rem; 
+$mobile-padding-bottom: 1rem; 
+
+// colors
+$color-primary-text: #011C26; // Blue
+$color-primary-cta: #63B6BF; // Light Blue
+$color-global: #ffffff; //White
+
+$color-background-dark: #232940; // Graphite
+$color-background-light: #F8F8F8; // Light Grey
+$color-cta-hover: #89A621; // Light Green
+
+$color-secondary-text: #5c667e; //Slate
+$color-borders: #bdc5d5; //Cloud
+
+$color-error: #D62E2F;
+
+// button size
+$button-max-width: 9.375rem; // 150px
+$button-max-height: 2.5rem; // 40px
+$button-padding: 2rem; // 32px
+$button-radius: 0.25rem; // 4px
