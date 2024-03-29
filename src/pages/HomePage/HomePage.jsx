@@ -37,7 +37,7 @@ const createClusterCustomIcon = function (cluster) {
  *
  * @returns
  */
-function HomePage() {
+function HomePage({setIsLoggedIn}) {
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
   const [parkingMeters, setParkingMeters] = useState([]);
@@ -45,6 +45,12 @@ function HomePage() {
   const [selectedParkingMeter, setSelectedParkingMeter] = useState("");
 
   const navigate = useNavigate();
+
+  // Set isLoggedIn from the localStorage
+  useEffect(()=>{
+    console.log("inuseeffect homepage"); // TODO: del
+    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+},[])
 
   // Get all parking meter data on mount
   useEffect(() => {

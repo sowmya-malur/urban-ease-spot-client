@@ -1,16 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
 
-function LoginPage() {
-  const navigate = useNavigate();
+function LoginPage({ setIsLoggedIn }) {
 
+  const navigate = useNavigate();
+  console.log("setIsLoggedIn in login", setIsLoggedIn);
+  // const setIsLoggedIn = useParams();
   const errorMessage = "This field is required";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // this or user info
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); // this or user info
   const [userInfo, setUserInfo] = useState({});
 
   // Get reference to the form fields to focus on error entry
@@ -59,7 +61,6 @@ function LoginPage() {
       password.current.focus();
       formErrors.password = errorMessage;
     }
-    // Add validation for password length?
 
     // Update state with form errors
     if (Object.keys(formErrors).length !== 0) {
@@ -68,12 +69,19 @@ function LoginPage() {
 
     // If there are no errors, verify the user
     if (Object.keys(formErrors).length === 0) {
-        console.log("login successful");
+      console.log("login successful");
       // API call to validate the user in the backend
+
+      // If login successful...
+       // Set isLoggedIn state variable to true
+      // Set the value in the localStorage to true to track if the user is logged in or not
       localStorage.setItem("isLoggedIn", true);
-      // check if the localStorage has meterid -> redirec to parking duration; remove item to localStorage
-      // else home page 
-      if(localStorage.getItem("selectedMeterId")) {
+      // setIsLoggedIn(true);
+
+      // If the localStorage has meterid, then user was redirected from parking duration page.
+      // Redirect the user back to parking duration page after login successful.
+      // Otherwise, redirect user back to home page.
+      if (localStorage.getItem("selectedMeterId")) {
         navigate("/booking");
       } else {
         navigate("/");

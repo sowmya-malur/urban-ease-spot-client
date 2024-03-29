@@ -129,10 +129,10 @@ function ParkingDuration() {
     if (selectedHours >= 1) {
       totalCost = (currentRate * selectedHours).toFixed(2);
     }
-    console.log("selectedMins", selectedMins);
+    // console.log("selectedMins", selectedMins);
 
     if (Number(selectedMins) === 30) {
-      console.log("currentRate", currentRate);
+      // console.log("currentRate", currentRate);
       totalCost = (currentRate / 2).toFixed(2);
     }
 
@@ -336,8 +336,10 @@ function ParkingDuration() {
             <ConfirmParking
               // handleCancel={() => setShowComponent("home-page")}
               handleCancel={() => {
+            
                 localStorage.removeItem("selectedMeterId");
-                navigate(-1);
+                // navigate("/booking");
+                setShowComponent("home-page");
               }}
               handlePay={() => {
                 localStorage.removeItem("selectedMeterId");
