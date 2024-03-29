@@ -1,0 +1,10 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.footer {
+    padding: $mobile-margin * 2 0;
+    background-color: $color-background-light;
+    font-size: $mobile-font-size-label-button;
+    text-align: center;
+}
