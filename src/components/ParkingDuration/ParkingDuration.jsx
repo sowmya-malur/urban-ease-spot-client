@@ -351,7 +351,10 @@ function ParkingDuration() {
           {/* {showComponent === "home-page" && <HomePage />} */}
           {/* {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>} */}
           {showComponent === "notification-page" && (
-            <Notification handleEndSession={() => navigate("/")} />
+            <Notification handleEndSession={() => {
+              console.log("Update the tables to end session and release parking spot");
+              navigate("/");
+            }} />
           )}
         </>
       )}

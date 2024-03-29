@@ -93,7 +93,7 @@ function Filter({ handleClick, handleFilterOptions }) {
             }}
             alt="back-icon"
           />
-          <p className="filter__title">Filter</p>
+          <h1 className="filter__title">Filter</h1>
         </div>
 
         <div className="filter__outer-cont">
