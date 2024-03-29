@@ -2,8 +2,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
 
-function LoginPage({ setIsLoggedIn }) {
+import "../LoginPage/LoginPage.scss";
 
+function LoginPage({ setIsLoggedIn }) {
   const navigate = useNavigate();
   console.log("setIsLoggedIn in login", setIsLoggedIn);
   // const setIsLoggedIn = useParams();
@@ -73,7 +74,7 @@ function LoginPage({ setIsLoggedIn }) {
       // API call to validate the user in the backend
 
       // If login successful...
-       // Set isLoggedIn state variable to true
+      // Set isLoggedIn state variable to true
       // Set the value in the localStorage to true to track if the user is logged in or not
       localStorage.setItem("isLoggedIn", true);
       // setIsLoggedIn(true);
@@ -90,37 +91,54 @@ function LoginPage({ setIsLoggedIn }) {
   };
 
   return (
-    <>
-      <h1>Welcome Back!</h1>
-      <p>
-        Login below or <Link to="/">create an account</Link>
-      </p>
-      <form id="login" ref={formRef}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="johnsmith@example.com"
-          value={email}
-          ref={emailRef}
-          onChange={handleChange}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          ref={passwordRef}
-          onChange={handleChange}
-        />
-        {/* TODO: add eye icon inside the password field */}
-        <Link to="/">Forgot Password</Link>
-      </form>
-      <button onClick={handleSubmit}>Sign In</button>
-      <Link to="/">Create Account</Link>
-    </>
+    <main>
+      <section className="login">
+        <h1 className="login__title">Welcome back!</h1>
+        <p>
+          Login below or{" "}
+          <Link to="/" className="login__create-account">
+            create an account
+          </Link>
+        </p>
+        <form id="login" ref={formRef} className="login__form">
+          <label htmlFor="email" className="login__label">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="johnsmith@example.com"
+            className="login__input"
+            value={email}
+            ref={emailRef}
+            onChange={handleChange}
+          />
+          <label htmlFor="password" className="login__label">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="login__input"
+            value={password}
+            ref={passwordRef}
+            onChange={handleChange}
+          />
+          {/* TODO: add eye icon inside the password field */}
+          <Link to="/" className="login__forgot-link">
+            Forgot Password
+          </Link>
+          <button onClick={handleSubmit} className="login__cta">
+            Sign In
+          </button>
+          <Link to="/" className="login__secondary">
+            Create Account
+          </Link>
+        </form>
+      </section>
+    </main>
   );
 }
 

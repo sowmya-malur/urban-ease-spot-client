@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import "./App.scss";
 
+// Import components and pages
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import HomePage from "./pages/HomePage/HomePage";
@@ -14,7 +15,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true" || false
   );
-  
+
   return (
     <div className="App">
       <BrowserRouter>
