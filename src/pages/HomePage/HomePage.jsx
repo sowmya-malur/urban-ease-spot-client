@@ -1,9 +1,13 @@
-import "../HomePage/HomePage.scss";
-import "leaflet/dist/leaflet.css";
+// Import Leaflet Map components
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Icon, divIcon, point } from "leaflet";
 
+// Import styles
+import "leaflet/dist/leaflet.css";
+import "../HomePage/HomePage.scss"; // add to override any default styles from leaflet.css
+
+// Import libraries
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -17,12 +21,12 @@ import Filter from "../../components/Filter/Filter";
 
 // Create custom icons
 const customAvailableIcon = new Icon({
-  iconUrl: require("../../assets/icons/parking_available.png"), // TODO: update the icon
+  iconUrl: require("../../assets/icons/parking_available.png"),
   iconSize: [26, 36], // size of the icon
 });
 
 const customUnavailableIcon = new Icon({
-  iconUrl: require("../../assets/icons/round_clear_black_24dp.png"), // TODO: update the icon
+  iconUrl: require("../../assets/icons/parking_unavailable.png"),
   iconSize: [26, 36], // size of the icon
 });
 
@@ -37,20 +41,22 @@ const createClusterCustomIcon = function (cluster) {
  *
  * @returns
  */
-function HomePage({setIsLoggedIn}) {
+function HomePage({ setIsLoggedIn }) {
+  // Initialize hooks
+  const navigate = useNavigate();
+
+  // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
   const [parkingMeters, setParkingMeters] = useState([]);
   const [filteredParkingMeters, setFilteredParkingMeters] = useState([]);
   const [selectedParkingMeter, setSelectedParkingMeter] = useState("");
 
-  const navigate = useNavigate();
-
-  // Set isLoggedIn from the localStorage
-  useEffect(()=>{
-    console.log("inuseeffect homepage"); // TODO: del
+  // Set isLoggedIn from the localStorage on mount
+  useEffect(() => {
+    console.log("in useeffect homepage"); // TODO: del
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-},[])
+  }, []);
 
   // Get all parking meter data on mount
   useEffect(() => {
@@ -123,8 +129,7 @@ function HomePage({setIsLoggedIn}) {
         // If the time is between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
         parkingInfo.rate = "$" + parking.r_mf_6p_10;
-      } 
-      else {
+      } else {
         // If the time is between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
         parkingInfo.rate = "$0.00";
@@ -141,8 +146,7 @@ function HomePage({setIsLoggedIn}) {
         // If the time is between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
         parkingInfo.rate = "$" + parking.r_sa_6p_10;
-      } 
-      else {
+      } else {
         // If the time is between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
         parkingInfo.rate = "$0.00";
@@ -157,8 +161,7 @@ function HomePage({setIsLoggedIn}) {
         // If the time is between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
         parkingInfo.rate = "$" + parking.r_su_6p_10;
-      } 
-      else {
+      } else {
         // If the time is between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
         parkingInfo.rate = "$0.00";
@@ -168,12 +171,11 @@ function HomePage({setIsLoggedIn}) {
     return parkingInfo;
   };
 
-  const handleClick = (meter_id) => {
-    console.log("meterid", meter_id);
-    // console.log("selectedParkingmeter", selectedParkingMeter);
+  const handleSelect = (meter_id) => {
     localStorage.setItem("selectedMeterId", meter_id);
+
+    // TODO: redirect to login page if the user is not logged in
     navigate("/booking");
-    // setShowComponent("parking-duration");
   };
 
   const handleFilterOptions = (data) => {
@@ -185,18 +187,24 @@ function HomePage({setIsLoggedIn}) {
     <main>
       {!showComponent && (
         <>
-          <section>
-            <input type="search"></input>
+          <section className="search">
+            <input
+              type="search"
+              className="search__input"
+              placeholder="Search by location or address"
+            ></input>
             {/* TODO: Add an indication that filter is on */}
-            <img
-              src={filter}
-              alt="filter-icon"
-              width={24}
-              height={24}
-              onClick={() => {
-                setShowComponent("filter");
-              }}
-            />
+            <div className="search__filter-cont">
+              <img
+                src={filter}
+                alt="filter-icon"
+                className="search__icon"
+                onClick={() => {
+                  setShowComponent("filter");
+                }}
+              />
+              <p className="search__filter">Filter</p>
+            </div>
           </section>
           <MapContainer
             className="full-height-map"
@@ -235,27 +243,36 @@ function HomePage({setIsLoggedIn}) {
                         }
                       >
                         <Popup>
-                          <div>
-                            <p>Meter Head: </p>
-                            <p>{parking.meterhead}</p>
-                            <p>Meter Id:</p>
-                            <p>{parking.meter_id}</p>
-                            <p>Current Rate:</p>
-                            <p>
+                          <div className="pop-up">
+                            <p className="pop-up__header">METER HEAD: </p>
+                            <p className="pop-up__info">{parking.meterhead}</p>
+                            <p className="pop-up__header">METER ID:</p>
+                            <p className="pop-up__info">{parking.meter_id}</p>
+                            <p className="pop-up__header">CURRENT RATE:</p>
+                            <p className="pop-up__info">
                               {displayParkingRate(parking, Date.now()).day}{" "}
                               {displayParkingRate(parking, Date.now()).time}
                             </p>
-                            <p>
+                            <p className="pop-up__info">
                               {displayParkingRate(parking, Date.now()).rate} per
                               hour
                             </p>
-                            <p>Location:</p>
-                            <p>{parking.geo_local_area}</p>
-                            <button
-                              onClick={() => handleClick(parking.meter_id)}
-                            >
-                              Select
-                            </button>
+                            <p className="pop-up__header">LOCATION:</p>
+                            <p className="pop-up__info">
+                              {parking.geo_local_area}
+                            </p>
+                            {!(parking.status === "vacant") ? (
+                              <p className="pop-up__info pop-up__info--alert">
+                                {parking.status.toUpperCase()}
+                              </p>
+                            ) : (
+                              <button
+                                className="pop-up__cta"
+                                onClick={() => handleSelect(parking.meter_id)}
+                              >
+                                Select
+                              </button>
+                            )}
                           </div>
                         </Popup>
                       </Marker>
@@ -263,12 +280,6 @@ function HomePage({setIsLoggedIn}) {
                   })}
             </MarkerClusterGroup>
           </MapContainer>
-          {filterOptions && (
-            <div>
-              <p>Filter Options:</p>
-              <pre>{JSON.stringify(filterOptions, null, 2)}</pre>
-            </div>
-          )}
         </>
       )}
 

@@ -1,31 +1,86 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
 .full-height-map {
-    // height: 100vh;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // flex-direction: column;
-    // gap: 1em;
-    // font-family: sans-serif;
-    // color: #333;
-    background-color: #f3e4d7;
-  }
-  
-  /* height of the container */
-  .leaflet-container {
-    height: 90vh;
-    // width: 90%;
+  background-color: #f3e4d7;
+}
 
+/* height of the container */
+.leaflet-container {
+  height: 90vh;
+}
+
+.leaflet-container .leaflet-popup-content p {
+  /* override Leaflet's popup content */
+  margin: 0;
+}
+
+.cluster-icon {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  background-color: #3e8cb3;
+  transform: translate(-25%, -25%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: $font-weight-semi-bold;
+  font-size: $mobile-font-size-sub-header;
+}
+
+.search {
+  margin: $mobile-margin $mobile-margin 0 $mobile-margin;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  &__icon {
+    @include icon-style;
   }
 
-  .cluster-icon {
-    height: 3rem;
-    width: 3rem;
-    border-radius: 50%;
-    background-color: #3E8CB3; //#137EB3; //TODO: change color
-    transform: translate(-25%, -25%);
+  &__input {
+    @include form-field-style;
+    flex: 1;
+    background-image: url("../../assets/icons/round_search_black_24dp.png");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 2rem;
+    background-color: $color-background-light;
+  }
+
+  &__filter-cont {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    font-weight: 700; //TODO: use global variable
-    font-size: 1rem; //TODO: use global variable
   }
+  &__filter {
+    font-size: $mobile-font-size-label-button;
+  }
+}
+
+.pop-up {
+  &__header {
+    font-weight: $font-weight-medium;
+    color: $color-secondary-text;
+    padding-bottom: 0.2rem;
+    font-family: $font-family;
+  }
+
+  &__info {
+    margin: 0;
+    padding-bottom: 0.75rem;
+    font-family: $font-family;
+    &--alert {
+      color: $color-error;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+
+  &__cta {
+    @include button-style;
+    padding: 0.625rem;
+    background-color: $color-primary-cta;
+  }
+}
