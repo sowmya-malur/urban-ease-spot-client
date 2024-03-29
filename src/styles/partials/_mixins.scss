@@ -1,0 +1,31 @@
+@use "../partials/variables" as *;
+
+@mixin button-style {
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    font-weight: $font-weight-semi-bold;
+    border-radius: $border-radius;
+  }
+
+  // form input fields
+@mixin form-field-style {
+    font-family: $font-family;
+    font-size: $mobile-font-size-body; 
+    background-color: $color-background-light;
+    border-radius: $border-radius;
+    border: 0.0625rem solid $color-borders;
+    padding: 0.625rem;
+    margin-bottom: $mobile-margin;
+    height: $element-mobile-height;
+  
+    &:active,
+    &:focus {
+      border: 0.0625rem solid $color-primary-cta;
+    }
+  }
+
+@mixin icon-style {
+    width: 2rem;
+    height: 2rem;
+}
