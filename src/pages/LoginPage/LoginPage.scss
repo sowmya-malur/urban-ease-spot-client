@@ -1,0 +1,71 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin: $mobile-margin;
+
+  &__title {
+    font-size: $mobile-font-size-header;
+    padding-bottom: $mobile-padding-bottom;
+  }
+
+  &__create-account {
+    font-weight: $font-weight-semi-bold;
+  }
+
+  &__form {
+    margin-top: $mobile-margin;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__label {
+    font-weight: $font-weight-semi-bold;
+    padding-bottom: 0.4rem;
+    margin-top: $mobile-margin;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    border: 0.063rem solid $color-borders;
+    font-family: $font-family;
+    padding: 0 1rem 0.25rem 1rem;
+  }
+
+  &__forgot-link {
+    font-weight: $font-weight-semi-bold;
+    align-self: flex-end;
+    padding-top: 0.5rem;
+    padding-bottom: $mobile-padding-bottom;
+  }
+
+  &__cta {
+    color: $color-primary-text;
+    background-color: $color-primary-cta;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    border: 0.063rem solid $color-borders;
+    padding: 0 1rem 0.25rem 1rem;
+    font-size: $mobile-font-size-sub-header;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: $color-cta-hover;
+    }
+  }
+
+  &__secondary {
+    margin: $mobile-margin 0;
+    font-weight: $font-weight-semi-bold;
+    align-self: center;
+  }
+}
