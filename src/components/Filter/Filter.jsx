@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
+
+// Import style
+import "../Filter/Filter.scss";
 
 // Import icons
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
@@ -17,15 +20,23 @@ import availableIcon from "../../assets/icons/round_where_to_vote_black_24dp.png
  * @returns {JSX} Filter options to apply on the JSON parking information.
  */
 function Filter({ handleClick, handleFilterOptions }) {
-
+  // Initialize hooks
   const navigate = useNavigate();
 
-  const [isPaymentChecked, setIsPaymentChecked] = useState(localStorage.getItem("isPaymentChecked") === "true" || false);
-  const [isDisabilityChecked, setIsDisabilityChecked] = useState(localStorage.getItem("isDisabilityChecked") === "true" || false);
-  const [isMotorbikeChecked, setIsMotorbikeChecked] = useState(localStorage.getItem("isMotorbikeChecked") === "true" || false);
-  const [isAvailableChecked, setIsAvailableChecked] = useState(localStorage.getItem("isAvailableChecked") === "true" || false);
+  // Initialize state variables
+  const [isPaymentChecked, setIsPaymentChecked] = useState(
+    localStorage.getItem("isPaymentChecked") === "true" || false
+  );
+  const [isDisabilityChecked, setIsDisabilityChecked] = useState(
+    localStorage.getItem("isDisabilityChecked") === "true" || false
+  );
+  const [isMotorbikeChecked, setIsMotorbikeChecked] = useState(
+    localStorage.getItem("isMotorbikeChecked") === "true" || false
+  );
+  const [isAvailableChecked, setIsAvailableChecked] = useState(
+    localStorage.getItem("isAvailableChecked") === "true" || false
+  );
 
-  
   const handlePaymentChange = () => {
     setIsPaymentChecked(!isPaymentChecked);
   };
@@ -49,9 +60,7 @@ function Filter({ handleClick, handleFilterOptions }) {
     setIsAvailableChecked(false);
   };
 
-  // TODO: improve usability of filter feature by displaying the # of results dynamically when a filter option is checked.
   const sendDataToHomePage = () => {
-    
     const filterOptions = {
       acceptCreditCard: isPaymentChecked,
       disability: isDisabilityChecked,
@@ -73,110 +82,167 @@ function Filter({ handleClick, handleFilterOptions }) {
 
   return (
     <main>
-      <div>
-        <img
-          src={backIcon}
-          onClick={() => {
-            handleClick(false);
-            navigate("/");
-          }}
-          alt="back-icon"
-        />
-        <p>Filter</p>
-      </div>
-      {/* Accept Credit Card Payment */}
-      <div>
-        <input
-          type="checkbox"
-          id="acceptCreditCard"
-          style={{ display: "none" }} // hide the default checkbox. TODO: in scss
-        />
-        <label htmlFor="acceptCreditCard" onClick={handlePaymentChange}>
-          <div>
-            <img src={paymentIcon} alt="payment-icon" />
+      <section className="filter">
+        <div className="filter__page-header">
+          <img
+            className="filter__icon"
+            src={backIcon}
+            onClick={() => {
+              handleClick(false);
+              navigate("/");
+            }}
+            alt="back-icon"
+          />
+          <p className="filter__title">Filter</p>
+        </div>
+
+        <div className="filter__outer-cont">
+        {/* Accept Credit Card Payment */}
+        <div className="filter__options">
+          <input
+            type="checkbox"
+            id="acceptCreditCard"
+            className="filter__checkbox"
+          />
+
+          <div className="filter__container">
+            <img
+              src={paymentIcon}
+              alt="payment-icon"
+              className="filter__icon"
+            />
             Accept credit cards
           </div>
-          <img
-            src={isPaymentChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
-            alt={
-              isPaymentChecked
-                ? "check-box-selected-icon"
-                : "check-box-unselected-icon"
-            }
-          />
-        </label>
-      </div>
+          <label
+            htmlFor="acceptCreditCard"
+            onClick={handlePaymentChange}
+            className="filter__label"
+          >
+            <img
+              className="filter__icon"
+              src={isPaymentChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
+              alt={
+                isPaymentChecked
+                  ? "check-box-selected-icon"
+                  : "check-box-unselected-icon"
+              }
+            />
+          </label>
+        </div>
 
-      {/* Show Disability Parking Spots */}
-      <div>
-        <input
-          type="checkbox"
-          id="disabilityParking"
-          style={{ display: "none" }} // hide the default checkbox. TODO: in scss
-        />
-        <label htmlFor="disabilityParking" onClick={handleDisabilityChange}>
-          <div>
-            <img src={disabilityIcon} alt="disability-icon" />
+        {/* Show Disability Parking Spots */}
+        <div className="filter__options">
+          <input
+            type="checkbox"
+            id="disabilityParking"
+            className="filter__checkbox"
+          />
+
+          <div className="filter__container">
+            <img
+              src={disabilityIcon}
+              alt="disability-icon"
+              className="filter__icon"
+            />
             Disability Parking
           </div>
-          <img
-            src={isDisabilityChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
-            alt={
-              isDisabilityChecked
-                ? "check-box-selected-icon"
-                : "check-box-unselected-icon"
-            }
-          />
-        </label>
-      </div>
+          <label
+            htmlFor="disabilityParking"
+            onClick={handleDisabilityChange}
+            className="filter__label"
+          >
+            <img
+              className="filter__icon"
+              src={
+                isDisabilityChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+              }
+              alt={
+                isDisabilityChecked
+                  ? "check-box-selected-icon"
+                  : "check-box-unselected-icon"
+              }
+            />
+          </label>
+        </div>
 
-      {/* Show Motorbike Parking Spots */}
-      <div>
-        <input
-          type="checkbox"
-          id="motorbikeParking"
-          style={{ display: "none" }} // hide the default checkbox. TODO: in scss
-        />
-        <label htmlFor="motorbikeParking" onClick={handleMotorbikeChange}>
-          <div>
-            <img src={motorbikeIcon} alt="motorbike-icon" />
+        {/* Show Motorbike Parking Spots */}
+        <div className="filter__options">
+          <input
+            type="checkbox"
+            id="motorbikeParking"
+            className="filter__checkbox"
+          />
+
+          <div className="filter__container">
+            <img
+              src={motorbikeIcon}
+              alt="motorbike-icon"
+              className="filter__icon"
+            />
             Motorbike Parking
           </div>
-          <img
-            src={isMotorbikeChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
-            alt={
-              isMotorbikeChecked
-                ? "check-box-selected-icon"
-                : "check-box-unselected-icon"
-            }
-          />
-        </label>
-      </div>
+          <label
+            htmlFor="motorbikeParking"
+            onClick={handleMotorbikeChange}
+            className="filter__label"
+          >
+            <img
+              className="filter__icon"
+              src={
+                isMotorbikeChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+              }
+              alt={
+                isMotorbikeChecked
+                  ? "check-box-selected-icon"
+                  : "check-box-unselected-icon"
+              }
+            />
+          </label>
+        </div>
 
-      {/* Show Available Parking Spots */}
-      <div>
-        <input
-          type="checkbox"
-          id="availableParking"
-          style={{ display: "none" }} // hide the default checkbox. TODO: in scss
-        />
-        <label htmlFor="availableParking" onClick={handleAvailableChange}>
-          <div>
-            <img src={availableIcon} alt="available-icon" />
+        {/* Show Available Parking Spots */}
+        <div className="filter__options">
+          <input
+            type="checkbox"
+            id="availableParking"
+            className="filter__checkbox"
+          />
+          <div className="filter__container">
+            <img
+              src={availableIcon}
+              alt="available-icon"
+              className="filter__icon"
+            />
             Show Available Parking
           </div>
-          <img
-            src={isAvailableChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
-            alt={
-              isAvailableChecked
-                ? "check-box-selected-icon"
-                : "check-box-unselected-icon"
-            }
-          />
-        </label>
-      </div>
-      <button onClick={handleClear}>Clear Filters</button>
-      <button onClick={sendDataToHomePage}>Apply</button> 
+          <label
+            htmlFor="availableParking"
+            onClick={handleAvailableChange}
+            className="filter__label"
+          >
+            <img
+              className="filter__icon"
+              src={
+                isAvailableChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+              }
+              alt={
+                isAvailableChecked
+                  ? "check-box-selected-icon"
+                  : "check-box-unselected-icon"
+              }
+            />
+          </label>
+        </div>
+        </div>
+        <div className="filter__button-cont">
+          <button className="filter__secondary" onClick={handleClear}>
+            Clear Filters
+          </button>
+          <button className="filter__cta" onClick={sendDataToHomePage}>
+            Apply
+          </button>
+        </div>
+      </section>
     </main>
   );
 }

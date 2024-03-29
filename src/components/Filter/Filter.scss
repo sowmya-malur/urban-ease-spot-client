@@ -1,0 +1,81 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.filter {
+  
+    &__page-header {
+    padding: $mobile-margin;
+    display: flex;
+    align-items: center;
+    gap: $mobile-icon-gap;
+    border-bottom: 0.063rem solid $color-borders;
+   }
+
+   &__icon {
+    @include icon-style;
+   }
+
+   &__title {
+    font-size: $mobile-font-size-header;
+   }
+
+   &__outer-cont {
+    padding-bottom: $mobile-margin;
+   }
+   &__options {
+    margin: $mobile-margin;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   }
+
+   &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $mobile-icon-gap;
+   }
+
+   &__checkbox {
+    display: none;
+   }
+
+   &__button-cont {
+    margin: $mobile-margin;
+    display: flex;
+    justify-content: space-between;
+    gap: $mobile-icon-gap;
+   }
+
+   &__secondary {
+    cursor: pointer;
+    border: 0.063rem solid $color-primary-cta;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+        border: 0.063rem solid $color-cta-hover;
+        font-weight: $font-weight-semi-bold;
+    }
+   }
+
+   &__cta {
+    cursor: pointer;
+    background-color: $color-primary-cta;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    border: none;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+        background-color: $color-cta-hover;
+        font-weight: $font-weight-semi-bold;
+    }
+   }
+}
