@@ -1,16 +1,13 @@
 import { useEffect } from "react";
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 
-function BookingPage({setIsLoggedIn}) {
+function BookingPage({ setIsLoggedIn }) {
+  useEffect(() => {
+    console.log("inuseeffect bookinpage");
+    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+  }, []);
 
-    useEffect(()=>{
-        console.log("inuseeffect bookinpage");
-        setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-    },[])
-   
-    return(
-        <ParkingDuration />
-    );
+  return <ParkingDuration />;
 }
 
 export default BookingPage;
