@@ -1,11 +1,11 @@
-// Import Leaflet Map components
+// Import Leaflet map components
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Icon, divIcon, point } from "leaflet";
 
 // Import styles
 import "leaflet/dist/leaflet.css";
-import "../HomePage/HomePage.scss"; // add to override any default styles from leaflet.css
+import "../HomePage/HomePage.scss"; // add to override any default styles in popup from leaflet.css
 
 // Import libraries
 import { useState, useEffect } from "react";
@@ -16,7 +16,7 @@ import axios from "axios";
 import filter from "../../assets/icons/round_tune_black_24dp.png";
 
 // Import components
-import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
+// import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 import Filter from "../../components/Filter/Filter";
 
 // Create custom icons
@@ -55,6 +55,7 @@ function HomePage({ setIsLoggedIn }) {
   // Set isLoggedIn from the localStorage on mount
   useEffect(() => {
     console.log("in useeffect homepage"); // TODO: del
+    console.log("localstorage",localStorage.getItem("isLoggedIn"));
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 

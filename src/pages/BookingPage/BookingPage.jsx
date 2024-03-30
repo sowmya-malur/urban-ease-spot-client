@@ -3,11 +3,11 @@ import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 
 function BookingPage({ setIsLoggedIn }) {
   useEffect(() => {
-    console.log("inuseeffect bookinpage");
+    console.log("in useeffect bookinpage");
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
-  return <ParkingDuration />;
+  return <ParkingDuration setIsLoggedIn={setIsLoggedIn}/>;
 }
 
 export default BookingPage;
