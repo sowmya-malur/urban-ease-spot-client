@@ -18,7 +18,7 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
-function ParkingDuration({ setIsLoggedIn }) {
+function ParkingDuration({ setIsLoggedIn, setUserId}) {
   //Initialize hooks
   const navigate = useNavigate();
   // const { userId } = useParams();
@@ -257,7 +257,7 @@ function ParkingDuration({ setIsLoggedIn }) {
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage setIsLoggedIn={setIsLoggedIn}/> // TODO: pass isLoggedIn?
+        <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/> // TODO: pass isLoggedIn?
       ) : (
         <>
           {!showComponent && (

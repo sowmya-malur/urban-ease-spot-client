@@ -14,12 +14,13 @@ import "../Header/Header.scss";
  * @param {*} param0 
  * @returns 
  */
-function Header({ isLoggedIn, setIsLoggedIn }) {
+function Header({ isLoggedIn, setIsLoggedIn, setUserId }) {
 
   const handleSignOut = () => {
     // Reset the isLoggedIn state variable to false
     // Remove logged in and notify variables from localStorage.
     setIsLoggedIn(false);
+    setUserId(0);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("isNotifyChecked");
     localStorage.removeItem("selectedMeterId"); // TODO: move this line of code to confirmparking page
