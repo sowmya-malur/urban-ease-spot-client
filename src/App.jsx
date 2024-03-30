@@ -16,22 +16,24 @@ function App() {
     localStorage.getItem("isLoggedIn") === "true" || false
   );
 
+  const [userId, setUserId] = useState(0);
+
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>
         <Routes>
           <Route
             path="/"
-            element={<HomePage setIsLoggedIn={setIsLoggedIn} />}
+            element={<HomePage setIsLoggedIn={setIsLoggedIn} userId={userId}/>}
           ></Route>
           <Route
             path="/login"
-            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
           ></Route>
           <Route
-            path="/booking"
-            element={<BookingPage setIsLoggedIn={setIsLoggedIn} />}
+            path="/booking/:userId"
+            element={<BookingPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
           ></Route>
         </Routes>
         <Footer />

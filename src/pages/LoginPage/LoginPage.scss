@@ -39,6 +39,18 @@
     border: 0.063rem solid $color-borders;
     font-family: $font-family;
     padding: 0 1rem 0.25rem 1rem;
+
+    &--error {
+      border: 0.063rem solid $color-error;
+    }
+
+    ::placeholder {
+      color: $color-secondary-text;
+    }
+    &:hover,
+    &:focus {
+      border-color: $color-primary-cta;
+    }
   }
 
   &__forgot-link {
@@ -69,5 +81,19 @@
     margin: $mobile-margin 0;
     font-weight: $font-weight-semi-bold;
     align-self: center;
+  }
+
+  &__error-message {
+    color: $color-error;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: $mobile-font-size-label-button;
+    padding-top: 0.25rem;
+
+    &--align {
+      padding: 0.5rem 0 1rem 0;
+      justify-content: center;
+    }
   }
 }

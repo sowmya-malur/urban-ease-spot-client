@@ -41,9 +41,11 @@ const createClusterCustomIcon = function (cluster) {
  *
  * @returns
  */
-function HomePage({ setIsLoggedIn }) {
+function HomePage({ setIsLoggedIn , userId}) {
   // Initialize hooks
   const navigate = useNavigate();
+
+  console.log("userId", userId);
 
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
@@ -176,7 +178,7 @@ function HomePage({ setIsLoggedIn }) {
     localStorage.setItem("selectedMeterId", meter_id);
 
     // TODO: redirect to login page if the user is not logged in
-    navigate("/booking");
+    navigate(`/booking/${userId}`);
   };
 
   const handleFilterOptions = (data) => {
