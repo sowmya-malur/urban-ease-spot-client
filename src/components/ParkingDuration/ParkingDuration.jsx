@@ -42,7 +42,9 @@ function ParkingDuration() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false); // TODO: Get this from param or localStorage?
 
   const getMaxStay = () => {
+
     let maximumStay;
+    if(selectedParkingMeter) {
     // If the day is Mon/Tue/Wed/Thurs/Fri
     if (currentDay >= 1 && currentDay <= 5) {
       if (currentHours >= 9 && currentHours < 18) {
@@ -82,6 +84,9 @@ function ParkingDuration() {
         maximumStay = "11 hr";
       }
     }
+  }else {
+    maximumStay = 0;
+  }
     return maximumStay;
   };
 
@@ -283,6 +288,7 @@ function ParkingDuration() {
                 <p className="duration__stay">Maximum Stay: {getMaxStay()}</p>
               </div>
 
+              {/* Select Parking Duration */}
               <div className="duration__time-container">
                 <div className="duration__wrapper">
                   <img
@@ -333,6 +339,7 @@ function ParkingDuration() {
                 </div>
               </div>
 
+              {/* Your Vehicle */}
               <div>
                 <input
                   type="radio"
@@ -397,7 +404,7 @@ function ParkingDuration() {
               handleEndSession={() => {
                 console.log(
                   "Update the tables to end session and release parking spot"
-                );
+                ); // TODO: del
                 navigate("/");
               }}
             />
