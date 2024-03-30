@@ -2,6 +2,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Import styling
+import "../ParkingDuration/ParkingDuration.scss";
+
+// Import components
 import HomePage from "../../pages/HomePage/HomePage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import ConfirmParking from "../ConfirmParking/ConfirmParking";
@@ -17,10 +21,8 @@ import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 function ParkingDuration() {
   //Initialize hooks
   const navigate = useNavigate();
-
-  let userId = 1; // get this from params
-
-  // console.log(localStorage.getItem("selectedMeterId"));
+  // const { userId } = useParams();
+  let userId = 1; // get this from params or localStorage
 
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
@@ -242,101 +244,141 @@ function ParkingDuration() {
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage />
+        <LoginPage /> // TODO: pass isLoggedIn?
       ) : (
         <>
           {!showComponent && (
-            <>
-              <img
-                src={backIcon}
-                onClick={() => {
-                  // handleClick(false);
-                  // setShowComponent("home-page");
-                  navigate("/");
-                }}
-                alt="back-icon"
-              />
-              <h1>Select Parking Duration</h1>
-              <p>Meter #</p>
-              {/* parking.meterid */}
-              <h2>{selectedParkingMeter.meterid}</h2>
-              {/* parking.location */}
-              <p>{selectedParkingMeter.geo_local_area}</p>
-              <div>
-                <img src={infoIcon} alt="info-icon" />
-                <p>Maximum Stay: {getMaxStay()}</p>
+            <section className="duration">
+              {/* Page header */}
+              <div className="duration__page-header">
+                <img
+                  className="duration__icon"
+                  src={backIcon}
+                  onClick={() => {
+                    // handleClick(false);
+                    // setShowComponent("home-page");
+                    navigate("/");
+                  }}
+                  alt="back-icon"
+                />
+                <h1 className="duration__title">Select Parking Duration</h1>
               </div>
-              <div>
-                <img src={timeIcon} alt="time-icon" />
-                <h3>Parking Duration</h3>
-                <div>
-                  <p>Hours:</p>
-                  {/* TODO: which is better input field or select and setting the available values */}
-                  <select
-                    name="hours"
-                    id="hours"
-                    value={selectedHours}
-                    onChange={handleHourChange}
-                  >
-                    <option value="">Select hours</option>
-                    {availableHours.map((hour) => (
-                      <option key={hour} value={hour}>
-                        {hour === maxStay ? maxStay + " (maximum)" : hour}
-                      </option>
-                    ))}
-                  </select>
 
-                  <p>Minutes:</p>
-                  <select
-                    name="minutes"
-                    id="minutes"
-                    value={selectedMins}
-                    onChange={handleMinsChange}
-                  >
-                    <option value="">Select Minutes</option>
-                    {availableMins.map((mins) => (
-                      <option key={mins} value={mins}>
-                        {mins === 30 ? "30 (minimum)" : mins}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  {/* <p>{calculateTotal()}</p> */}
-                  <p>$ {totalCost}</p>
-                  <p>Total Cost</p>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="vehicle"
-                    name="vehicle"
-                    value={vehicleDetails?.license_plate}
-                    style={{ display: "none" }}
-                    defaultChecked
+              {/* Meter Info  */}
+              <div className="duration__meter-info">
+                <p>Meter #</p>
+                <h2 className="duration__sub-title">
+                  {selectedParkingMeter.meterid}
+                </h2>
+                <p>{selectedParkingMeter.geo_local_area}</p>
+              </div>
+
+              {/* Maximum Stay */}
+              <div className="duration__wrapper duration__wrapper--background">
+                <img
+                  className="duration__icon"
+                  src={infoIcon}
+                  alt="info-icon"
+                />
+                <p className="duration__stay">Maximum Stay: {getMaxStay()}</p>
+              </div>
+
+              <div className="duration__time-container">
+                <div className="duration__wrapper">
+                  <img
+                    className="duration__icon"
+                    src={timeIcon}
+                    alt="time-icon"
                   />
-                  <label htmlFor="vehicle">
-                    <div>
-                      <img src={carIcon} alt="car-icon" />
-                      <h3>Your Vehicle</h3>
-                    </div>
-                    <div>
-                      <img src={radioCheckedIcon} alt={"radio-checked-icon"} />
-                      <p>{vehicleDetails?.license_plate}</p>
-                    </div>
-                  </label>
+                  <h3 className="duration__sub-header">Parking Duration</h3>
+                </div>
+
+                <div className="three-column">
+                  <div className="duration__hrs-wrapper">
+                    <p className="duration__heading">Hours:</p>
+                    <select
+                      name="hours"
+                      id="hours"
+                      value={selectedHours}
+                      onChange={handleHourChange}
+                    >
+                      <option value="">Select hours</option>
+                      {availableHours.map((hour) => (
+                        <option key={hour} value={hour}>
+                          {hour === maxStay ? maxStay + " (maximum)" : hour}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="duration__mins-wrapper">
+                    <p className="duration__heading">Minutes:</p>
+                    <select
+                      name="minutes"
+                      id="minutes"
+                      value={selectedMins}
+                      onChange={handleMinsChange}
+                    >
+                      <option value="">Select Minutes</option>
+                      {availableMins.map((mins) => (
+                        <option key={mins} value={mins}>
+                          {mins === 30 ? "30 (minimum)" : mins}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="duration__cost-wrapper">
+                    <p className="duration__heading">Total Cost:</p>
+                    <p className="duration__cost">$ {totalCost}</p>
+                  </div>
                 </div>
               </div>
-              <button onClick={handleCancel}>Cancel</button>
-              <button onClick={handlePark}>Proceed to Park</button>
-            </>
+
+              <div>
+                <input
+                  type="radio"
+                  id="vehicle"
+                  name="vehicle"
+                  value={vehicleDetails?.license_plate}
+                  style={{ display: "none" }}
+                  defaultChecked
+                />
+                <label htmlFor="vehicle" className="className__label">
+                  <div className="duration__wrapper duration__wrapper--border-top">
+                    <img
+                      className="duration__icon"
+                      src={carIcon}
+                      alt="car-icon"
+                    />
+                    <h3 className="duration__sub-header">Your Vehicle</h3>
+                  </div>
+                </label>
+              </div>
+              <div className="duration__inner-wrapper">
+                <img
+                  className="duration__radio-icon"
+                  src={radioCheckedIcon}
+                  alt={"radio-checked-icon"}
+                />
+                <p className="duration__info">
+                  {vehicleDetails?.license_plate}
+                </p>
+              </div>
+
+              <div className="duration__button-cont">
+                <button className="filter__secondary" onClick={handleCancel}>
+                  Cancel
+                </button>
+                <button className="filter__cta" onClick={handlePark}>
+                  Proceed to Park
+                </button>
+              </div>
+            </section>
           )}
 
           {showComponent === "confirm-parking" && (
             <ConfirmParking
               // handleCancel={() => setShowComponent("home-page")}
               handleCancel={() => {
-            
                 localStorage.removeItem("selectedMeterId");
                 // navigate("/booking");
                 setShowComponent("home-page");
@@ -351,10 +393,14 @@ function ParkingDuration() {
           {/* {showComponent === "home-page" && <HomePage />} */}
           {/* {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>} */}
           {showComponent === "notification-page" && (
-            <Notification handleEndSession={() => {
-              console.log("Update the tables to end session and release parking spot");
-              navigate("/");
-            }} />
+            <Notification
+              handleEndSession={() => {
+                console.log(
+                  "Update the tables to end session and release parking spot"
+                );
+                navigate("/");
+              }}
+            />
           )}
         </>
       )}
