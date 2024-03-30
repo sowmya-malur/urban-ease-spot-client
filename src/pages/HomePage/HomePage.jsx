@@ -179,6 +179,7 @@ function HomePage({ setIsLoggedIn , userId}) {
 
     // TODO: redirect to login page if the user is not logged in
     navigate(`/booking/${userId}`);
+    
   };
 
   const handleFilterOptions = (data) => {

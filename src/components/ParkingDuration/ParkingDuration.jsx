@@ -1,3 +1,4 @@
+// Import libraries
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -18,12 +19,13 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
-function ParkingDuration({ setIsLoggedIn, setUserId}) {
+function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
+  console.log("pd-userid", userId); //TODO:del
+
   //Initialize hooks
   const navigate = useNavigate();
-  // const { userId } = useParams();
-  let userId = 1; // get this from params or localStorage
-  
+  userId = 1; // get this from params or localStorage
+
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [selectedParkingMeter, setSelectedParkingMeter] = useState({});
@@ -34,6 +36,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
   const [maxStay, setMaxStay] = useState(0);
   const [totalCost, setTotalCost] = useState(0.0);
 
+  // Initialize constants
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
@@ -41,51 +44,51 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
   const currentDay = currentDate.getDay();
 
   const getMaxStay = () => {
-
     let maximumStay;
-    if(selectedParkingMeter) {
-    // If the day is Mon/Tue/Wed/Thurs/Fri
-    if (currentDay >= 1 && currentDay <= 5) {
-      if (currentHours >= 9 && currentHours < 18) {
-        // If the time is between 9 am and 6 pm
-        maximumStay = selectedParkingMeter.t_mf_9a_6p;
-      } else if (currentHours >= 18 && currentHours < 22) {
-        // If the time is between 6 pm and 10 pm
-        maximumStay = selectedParkingMeter.t_mf_6p_10p;
-      } else {
-        // If the time is between 10 pm and 9 am
-        maximumStay = "11 hr";
-      }
-    } else if (currentDay === 6) {
-      // If the day is Sat
+    // console.log("selectedParkingMeter getmaxstay", selectedParkingMeter); //TODO:del
 
-      if (currentHours >= 9 && currentHours < 18) {
-        // If the time is between 9 am and 6 pm
+    if (selectedParkingMeter?.meterid) {
+      // Weekday: M-F
+      if (currentDay >= 1 && currentDay <= 5) {
+        if (currentHours >= 9 && currentHours < 18) {
+          // M-F: Between 9 am and 6 pm
+          maximumStay = selectedParkingMeter.t_mf_9a_6p;
+        } else if (currentHours >= 18 && currentHours < 22) {
+          // M-F: Between 6 pm and 10 pm
+          maximumStay = selectedParkingMeter.t_mf_6p_10p;
+        } else {
+          // M-F: between 10 pm and 9 am
+          maximumStay = "11 hr";
+        }
+      } else if (currentDay === 6) {
+        // Sat
+        if (currentHours >= 9 && currentHours < 18) {
+          // Sat: Between 9 am and 6 pm
 
-        maximumStay = selectedParkingMeter.t_sa_9a_6p;
-      } else if (currentHours >= 18 && currentHours < 22) {
-        // If the time is between 6 pm and 10 pm
-        maximumStay = selectedParkingMeter.r_sa_6p_10;
+          maximumStay = selectedParkingMeter.t_sa_9a_6p;
+        } else if (currentHours >= 18 && currentHours < 22) {
+          // Sat: Between 6 pm and 10 pm
+          maximumStay = selectedParkingMeter.r_sa_6p_10;
+        } else {
+          // Sat: Between 10 pm and 9 am
+          maximumStay = "11 hr";
+        }
       } else {
-        // If the time is between 10 pm and 9 am
-        maximumStay = "11 hr";
+        // Sun
+        if (currentHours >= 9 && currentHours < 18) {
+          // Sun: Between 9 am and 6 pm
+          maximumStay = selectedParkingMeter.r_su_9a_6;
+        } else if (currentHours >= 18 && currentHours < 22) {
+          // Sun: Between 6 pm and 10 pm
+          maximumStay = selectedParkingMeter.r_su_6p_10;
+        } else {
+          // Sun: Between 10 pm and 9 am
+          maximumStay = "11 hr";
+        }
       }
     } else {
-      // If the day is Sun
-      if (currentHours >= 9 && currentHours < 18) {
-        // If the time is between 9 am and 6 pm
-        maximumStay = selectedParkingMeter.r_su_9a_6;
-      } else if (currentHours >= 18 && currentHours < 22) {
-        // If the time is between 6 pm and 10 pm
-        maximumStay = selectedParkingMeter.r_su_6p_10;
-      } else {
-        // If the time is between 10 pm and 9 am
-        maximumStay = "11 hr";
-      }
+      maximumStay = 0;
     }
-  }else {
-    maximumStay = 0;
-  }
     return maximumStay;
   };
 
@@ -93,41 +96,41 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
     let currentRate = 0.0;
     let totalCost = 0.0;
 
-    // If the day is Mon/Tue/Wed/Thurs/Fri
+    // Weekday: M-F
     if (currentDay >= 1 && currentDay <= 5) {
       if (currentHours >= 9 && currentHours < 18) {
-        // If the time is between 9 am and 6 pm
+        // M-F: Between 9 am and 6 pm
         currentRate = selectedParkingMeter.r_mf_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
-        // If the time is between 6 pm and 10 pm
+        // M-F: Between 6 pm and 10 pm
         currentRate = selectedParkingMeter.r_mf_6p_10p;
       } else {
-        // If the time is between 10 pm and 9 am
+        // M-F: Between 10 pm and 9 am
         currentRate = 0.0;
       }
     } else if (currentDay === 6) {
-      // If the day is Sat
+      // Sat
 
       if (currentHours >= 9 && currentHours < 18) {
-        // If the time is between 9 am and 6 pm
+        // Sat: Between 9 am and 6 pm
         currentRate = selectedParkingMeter.r_sa_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
-        // If the time is between 6 pm and 10 pm
+        // Sat: Between 6 pm and 10 pm
         currentRate = selectedParkingMeter.r_sa_6p_10p;
       } else {
-        // If the time is between 10 pm and 9 am
+        // Sat: Between 10 pm and 9 am
         currentRate = 0.0;
       }
     } else {
-      // If the day is Sun
+      // Sun
       if (currentHours >= 9 && currentHours < 18) {
-        // If the time is between 9 am and 6 pm
+        // Sun: Between 9 am and 6 pm
         currentRate = selectedParkingMeter.r_su_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
-        // If the time is between 6 pm and 10 pm
+        // Sun: Between 6 pm and 10 pm
         currentRate = selectedParkingMeter.r_su_6p_10p;
       } else {
-        // If the time is between 10 pm and 9 am
+        // Sun: Between 10 pm and 9 am
         currentRate = 0.0;
       }
     }
@@ -135,69 +138,67 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
     if (selectedHours >= 1) {
       totalCost = (currentRate * selectedHours).toFixed(2);
     }
-    // console.log("selectedMins", selectedMins);
-
     if (Number(selectedMins) === 30) {
-      // console.log("currentRate", currentRate);
       totalCost = (currentRate / 2).toFixed(2);
     }
-
     return totalCost;
   };
 
+  // Set the isloggedIn state variable from localStorage on mount
   useEffect(() => {
-    console.log("in useeffect parking duration");
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
   // Get parking details for the selected Meter Id
-  // Calculate the available hours based on max stay information
-  // Calculate total cost for default 30 mins on mount 
   useEffect(() => {
     try {
       const getParkingDetails = async () => {
-        const meterId = localStorage.getItem("selectedMeterId") || 680504;
+        const meterId = localStorage.getItem("selectedMeterId");
         const parkingResponse = await axios.get(
           `http://localhost:8080/api/parking/${meterId}`
         ); // TODO: use env variable
 
         if (parkingResponse.data) {
+          console.log("parkingResponse.data", parkingResponse.data);
           setSelectedParkingMeter(parkingResponse.data);
-
-          // Calculate available hours from maximum stay
-          const maximumStayAllowed = getMaxStay();
-          if (maximumStayAllowed) {
-            const maximumStay = parseInt(maximumStayAllowed.match(/\d+/)[0]); // extract the number from string.
-            setMaxStay(maximumStay);
-            const availableHrs = Array.from(
-              { length: maximumStay },
-              (_, i) => i + 1
-            );
-            setAvailableHours(availableHrs);
-          }
-
-          // calculate total cost on mount for the default minutes
-          const cT = calculateTotal();
-          setTotalCost(cT);
         }
       };
 
-      // const getVehicleDetails = async () => {
-      //   // call get to vehicle table for the user id
-      //   const vehicleResponse = await axios.get(
-      //     `http://localhost:8080/api/user/${userId}/vehicle`
-      //   );
-      //   // console.log("vehicleResponse", vehicleResponse.data); //TODO: del
-      //   if (vehicleResponse.data) {
-      //     setVehicleDetails(vehicleResponse.data);
-      //   }
-      // };
       // call async func
       getParkingDetails();
     } catch (error) {
-      console.error(`Error fetching parking data for}`);
+      console.error(`Error fetching parking data: ${error}`);
     }
   }, []);
+
+  // Calculate the available hours based on max stay information if selectedParkingMetter data is available
+  // Calculate total cost for default 30 mins on mount
+  useEffect(() => {
+    try {
+      // Check if selectedParkingMeter has been fetched before calling getMaxStay and calculateTotal
+      if (selectedParkingMeter?.meterid) {
+        const maximumStayAllowed = getMaxStay();
+        if (maximumStayAllowed) {
+          // Calculate available hours based on maximum stay
+          const maximumStay = parseInt(maximumStayAllowed.match(/\d+/)[0]);
+          const availableHrs = Array.from(
+            { length: maximumStay },
+            (_, i) => i + 1
+          );
+          setMaxStay(maximumStay);
+          setAvailableHours(availableHrs);
+        }
+        // Calculate total cost
+        const cT = calculateTotal();
+        setTotalCost(cT);
+      }
+    } catch (error) {
+      console.error(
+        `Error calculating maximum stay allowed and total cost, ${error}
+          )}`
+      );
+    }
+  }, [selectedParkingMeter]);
 
   // Get vehicle details for the user Id on mount
   useEffect(() => {
@@ -211,6 +212,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
           setVehicleDetails(vehicleResponse.data);
         }
       };
+
       // call async func
       getVehicleDetails();
     } catch (error) {
@@ -219,7 +221,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
           )}`
       );
     }
-  }, []);
+  }, [userId, localStorage.getItem("isLoggedIn") === "true"]);
 
   useEffect(() => {
     setTotalCost(calculateTotal());
@@ -257,7 +259,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId}) {
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/> // TODO: pass isLoggedIn?
+        <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} /> // TODO: pass isLoggedIn?
       ) : (
         <>
           {!showComponent && (
