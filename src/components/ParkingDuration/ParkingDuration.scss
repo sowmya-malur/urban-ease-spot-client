@@ -1,0 +1,134 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.duration {
+  &__page-header {
+    padding: $mobile-margin;
+    display: flex;
+    align-items: center;
+    gap: $mobile-icon-gap;
+    border-bottom: 0.063rem solid $color-borders;
+  }
+
+  &__icon {
+    @include icon-style;
+  }
+
+  &__title {
+    font-size: $mobile-font-size-header;
+  }
+
+  &__meter-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: $mobile-margin;
+    border-bottom: 0.063rem solid $color-borders;
+  }
+
+  &__sub-title {
+    font-size: $mobile-font-size-section-header;
+    padding: $mobile-icon-gap;
+    background-color: $color-background-light;
+    border-radius: $border-radius;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: $mobile-icon-gap;
+    padding: $mobile-margin;
+
+    &--background {
+      background-color: $color-borders;
+    }
+
+    &--border-top {
+      border-top: 0.063rem solid $color-borders;
+    }
+  }
+
+  &__inner-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: $mobile-icon-gap;
+    padding: 0 2rem 1.5rem 2rem;
+  }
+
+  &__heading {
+    color: $color-secondary-text;
+    font-weight: $font-weight-semi-bold;
+    padding-bottom: 0.25rem;
+  }
+  &__stay,
+  &__cost {
+    font-weight: $font-weight-semi-bold;
+    font-size: $mobile-font-size-sub-header;
+  }
+
+  &__sub-header {
+    font-size: $mobile-font-size-sub-header;
+  }
+
+  &__hrs-wrapper,
+  &__mins-wrapper,
+  &__cost-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__radio-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &__button-cont {
+    padding: $mobile-margin;
+    display: flex;
+    justify-content: space-between;
+    gap: $mobile-icon-gap;
+    padding-top: $mobile-padding-top;
+    border-top: 0.063rem solid $color-borders;
+  }
+
+  &__secondary {
+    cursor: pointer;
+    border: 0.063rem solid $color-primary-cta;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+      border: 0.063rem solid $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+
+  &__cta {
+    cursor: pointer;
+    background-color: $color-primary-cta;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    border: none;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+      background-color: $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+}
+
+.three-column {
+  display: flex;
+  justify-content: space-between;
+  padding: 0rem 2rem 1.5rem 2rem;
+}

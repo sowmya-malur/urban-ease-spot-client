@@ -5,11 +5,14 @@ import axios from "axios";
 import "../LoginPage/LoginPage.scss";
 
 function LoginPage({ setIsLoggedIn }) {
+
+  // Initialize hooks
   const navigate = useNavigate();
   console.log("setIsLoggedIn in login", setIsLoggedIn);
-  // const setIsLoggedIn = useParams();
+
   const errorMessage = "This field is required";
 
+   // Initialize state variables
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -81,8 +84,10 @@ function LoginPage({ setIsLoggedIn }) {
 
       // If the localStorage has meterid, then user was redirected from parking duration page.
       // Redirect the user back to parking duration page after login successful.
-      // Otherwise, redirect user back to home page.
+      // Otherwise, redirect user back to home page (last visited page).
+      let userId = 1; // TODO: del
       if (localStorage.getItem("selectedMeterId")) {
+        // navigate(`/booking/${userId}`);
         navigate("/booking");
       } else {
         navigate("/");
