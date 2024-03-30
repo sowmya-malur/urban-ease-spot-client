@@ -18,12 +18,12 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
-function ParkingDuration() {
+function ParkingDuration({ setIsLoggedIn }) {
   //Initialize hooks
   const navigate = useNavigate();
   // const { userId } = useParams();
   let userId = 1; // get this from params or localStorage
-
+  
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [selectedParkingMeter, setSelectedParkingMeter] = useState({});
@@ -39,7 +39,6 @@ function ParkingDuration() {
   const currentDate = new Date(currentTimeStamp);
   const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // TODO: Get this from param or localStorage?
 
   const getMaxStay = () => {
 
@@ -147,6 +146,14 @@ function ParkingDuration() {
   };
 
   useEffect(() => {
+    console.log("in useeffect parking duration");
+    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+  }, []);
+
+  // Get parking details for the selected Meter Id
+  // Calculate the available hours based on max stay information
+  // Calculate total cost for default 30 mins on mount 
+  useEffect(() => {
     try {
       const getParkingDetails = async () => {
         const meterId = localStorage.getItem("selectedMeterId") || 680504;
@@ -192,6 +199,7 @@ function ParkingDuration() {
     }
   }, []);
 
+  // Get vehicle details for the user Id on mount
   useEffect(() => {
     try {
       const getVehicleDetails = async () => {
@@ -249,7 +257,7 @@ function ParkingDuration() {
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage /> // TODO: pass isLoggedIn?
+        <LoginPage setIsLoggedIn={setIsLoggedIn}/> // TODO: pass isLoggedIn?
       ) : (
         <>
           {!showComponent && (

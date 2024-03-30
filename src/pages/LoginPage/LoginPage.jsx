@@ -1,14 +1,16 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+// Import libraries
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
 
+// Import styles
 import "../LoginPage/LoginPage.scss";
 
 function LoginPage({ setIsLoggedIn }) {
 
   // Initialize hooks
   const navigate = useNavigate();
-  console.log("setIsLoggedIn in login", setIsLoggedIn);
+  console.log("setIsLoggedIn in login");
 
   const errorMessage = "This field is required";
 
@@ -16,8 +18,7 @@ function LoginPage({ setIsLoggedIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // this or user info
-  const [userInfo, setUserInfo] = useState({});
+  // const [userInfo, setUserInfo] = useState({});
 
   // Get reference to the form fields to focus on error entry
   const formRef = useRef();
@@ -80,7 +81,7 @@ function LoginPage({ setIsLoggedIn }) {
       // Set isLoggedIn state variable to true
       // Set the value in the localStorage to true to track if the user is logged in or not
       localStorage.setItem("isLoggedIn", true);
-      // setIsLoggedIn(true);
+      setIsLoggedIn(true);
 
       // If the localStorage has meterid, then user was redirected from parking duration page.
       // Redirect the user back to parking duration page after login successful.
