@@ -1,0 +1,105 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.confirm {
+  &__page-header {
+    padding: $mobile-margin;
+    display: flex;
+    align-items: center;
+    gap: $mobile-icon-gap;
+    border-bottom: 0.063rem solid $color-borders;
+  }
+
+  &__icon {
+    @include icon-style;
+  }
+
+  &__title {
+    font-size: $mobile-font-size-header;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: $mobile-icon-gap;
+    padding: $mobile-margin;
+
+  }
+
+  &__sub-header {
+    font-size: $mobile-font-size-sub-header;
+  }
+
+  &__info {
+    padding-bottom: 0.25rem;
+    &--spacing-top {
+        padding-top: 1rem;
+    }
+  }
+
+  &__button-cont {
+    padding: $mobile-margin;
+    display: flex;
+    justify-content: space-between;
+    gap: $mobile-icon-gap;
+    padding-top: $mobile-padding-top;
+    border-top: 0.063rem solid $color-borders;
+  }
+
+  &__secondary {
+    cursor: pointer;
+    border: 0.063rem solid $color-primary-cta;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+      border: 0.063rem solid $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+
+  &__cta {
+    cursor: pointer;
+    background-color: $color-primary-cta;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius;
+    height: $element-mobile-height;
+    border: none;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+      background-color: $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__notify {
+    margin: $mobile-margin;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $mobile-icon-gap;
+  }
+
+  &__cost {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
