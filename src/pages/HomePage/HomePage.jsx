@@ -58,8 +58,12 @@ function HomePage({ setIsLoggedIn, userId }) {
   // Initialize constants
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  const currentHours = currentDate.getHours();
-  const currentDay = currentDate.getDay();
+  // const currentHours = currentDate.getHours();
+  // const currentDay = currentDate.getDay();
+
+      // TODO: del after testing
+    let currentDay = 7;
+    let currentHours = 1;
 
   // Set isLoggedIn from the localStorage on mount
   useEffect(() => {
@@ -129,9 +133,6 @@ function HomePage({ setIsLoggedIn, userId }) {
   }, [filterOptions, parkingMeters]);
 
   const displayParkingRate = (parking) => {
-    // TODO: del after testing
-    // let currentDay = 1;
-    // let currentHours = 10;
 
     let parkingInfo = {
       day: "",
@@ -139,6 +140,7 @@ function HomePage({ setIsLoggedIn, userId }) {
       rate: "",
     };
 
+    console.log("parking", parking);
     // Weekday: M-F
     if (currentDay >= 1 && currentDay <= 5) {
       parkingInfo.day = "Mon-Fri: ";
@@ -150,7 +152,7 @@ function HomePage({ setIsLoggedIn, userId }) {
       } else if (currentHours >= 18 && currentHours < 22) {
         // M-F: Between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
-        parkingInfo.rate = "$" + parking.r_mf_6p_10p;
+        parkingInfo.rate = "$" + parking.r_mf_6p_10;
       } else {
         // M-F: Between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
@@ -167,7 +169,7 @@ function HomePage({ setIsLoggedIn, userId }) {
       } else if (currentHours >= 18 && currentHours < 22) {
         // Sat: Between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
-        parkingInfo.rate = "$" + parking.r_sa_6p_10p;
+        parkingInfo.rate = "$" + parking.r_sa_6p_10;
       } else {
         // Sat: Between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
@@ -175,6 +177,8 @@ function HomePage({ setIsLoggedIn, userId }) {
       }
     } else {
       // Sun
+      parkingInfo.day = "Sun: ";
+
       if (currentHours >= 9 && currentHours < 18) {
         // Sun: Between 9 am and 6 pm
         parkingInfo.time = "9 am - 6 pm";
@@ -182,7 +186,7 @@ function HomePage({ setIsLoggedIn, userId }) {
       } else if (currentHours >= 18 && currentHours < 22) {
         // Sun: Between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
-        parkingInfo.rate = "$" + parking.r_su_6p_10p;
+        parkingInfo.rate = "$" + parking.r_su_6p_10;
       } else {
         // Sun: Between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";

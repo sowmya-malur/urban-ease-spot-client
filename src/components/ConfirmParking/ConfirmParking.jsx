@@ -118,7 +118,7 @@ function ConfirmParking({
         `http://localhost:8080/api/booking/${selectedParkingMeter.meterid}/user/${userId}`, bookingData);
 
         if(response.status === 201) {
-          console.log("Booking successful:");
+          localStorage.removeItem("selectedMeterId");
           navigate(`/notification/${userId}`);
         }
     } catch (error) {
