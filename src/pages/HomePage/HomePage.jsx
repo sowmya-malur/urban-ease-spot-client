@@ -53,7 +53,7 @@ function HomePage({ setIsLoggedIn, userId }) {
   const [filterOptions, setFilterOptions] = useState({});
   const [parkingMeters, setParkingMeters] = useState([]);
   const [filteredParkingMeters, setFilteredParkingMeters] = useState([]);
-  const [selectedParkingMeter, setSelectedParkingMeter] = useState("");
+  // const [selectedParkingMeter, setSelectedParkingMeter] = useState("");
 
   // Initialize constants
   const currentTimeStamp = Date.now();
@@ -68,24 +68,40 @@ function HomePage({ setIsLoggedIn, userId }) {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
-  // Get all parking meter data on mount
+  // Get all parking meter data on mount and set filter options from localStorage if any on mount
   useEffect(() => {
+    console.log("on mount");
     const getAllParkingMeters = async () => {
-      // TODO: test why env varaible is not working
-      // const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
-      const response = await axios.get("http://localhost:8080/api/parking");
+      try {
+        // TODO: test why env varaible is not working
+        // const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
+        const response = await axios.get("http://localhost:8080/api/parking");
 
-      if (response.data && response.status === 200) {
-        setParkingMeters(response.data);
+        if (response.data && response.status === 200) {
+          setParkingMeters(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching parking meter data:", error);
       }
     };
 
     // Call async func
     getAllParkingMeters();
+
+    // Set filter options
+    const storedFilterOptions = {
+      acceptCreditCard: localStorage.getItem("isPaymentChecked") === "true",
+      disability: localStorage.getItem("isDisabilityChecked") === "true",
+      motorbike: localStorage.getItem("isMotorbikeChecked") === "true",
+      available: localStorage.getItem("isAvailableChecked") === "true",
+    };
+
+    setFilterOptions(storedFilterOptions);
   }, []);
 
-  // Set parking meter data for the selected filter options
+  // Set filtered parking meter data for the selected filter options
   useEffect(() => {
+    console.log("in filtering");
     let filterParkingMeters = [...parkingMeters];
 
     if (filterOptions.available) {
@@ -179,9 +195,11 @@ function HomePage({ setIsLoggedIn, userId }) {
 
   const handleSelect = (meter_id) => {
     localStorage.setItem("selectedMeterId", meter_id);
-
-    // TODO: redirect to login page if the user is not logged in
-    navigate(`/booking/${userId}`);
+    if(localStorage.getItem("isLoggedIn")) {
+      navigate(`/booking/${userId}`);
+    } else {
+      navigate(`/login`);
+    }
   };
 
   const handleFilterOptions = (data) => {

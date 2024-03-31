@@ -40,12 +40,17 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  const currentHours = currentDate.getHours();
+  // const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
+
+   // TODO: del after testing
+    // let currentDay = 1;
+  const currentHours = 23;
 
   const getMaxStay = () => {
     let maximumStay;
 
+    console.log("currentHours", currentHours);
     if (selectedParkingMeter?.meterid) {
       // Weekday: M-F
       if (currentDay >= 1 && currentDay <= 5) {
