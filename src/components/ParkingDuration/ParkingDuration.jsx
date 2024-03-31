@@ -9,7 +9,7 @@ import "../ParkingDuration/ParkingDuration.scss";
 // Import components
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import ConfirmParking from "../ConfirmParking/ConfirmParking";
-import Notification from "../Notification/Notification";
+import Notification from "../ParkingNotification/ParkingNotification";
 
 // Import icons
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
@@ -425,7 +425,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
 
           {/* {showComponent === "home-page" && <HomePage />} */}
           {/* {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>} */}
-          {showComponent === "notification-page" && (
+          {/* {showComponent === "notification-page" && (
             <Notification
               handleEndSession={() => {
                 console.log(
@@ -434,7 +434,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
                 navigate("/");
               }}
             />
-          )}
+          )} */}
         </>
       )}
     </main>

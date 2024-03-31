@@ -2,18 +2,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // Import styling
-import "../Notification/Notification.scss";
+import "../ParkingNotification/ParkingNotification.scss";
 
 // Import icons
 import warningIcon from "../../assets/icons/round_warning_amber_black_24dp.png";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 
-function Notification({ handleEndSession }) {
+function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
   // Initialize hooks
   const navigate = useNavigate();
-
+  console.log("userId", userId);
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
+
+  const handleEndSession = () => {
+    console.log("handleEndSession");
+    navigate("/");
+  };
 
   return (
     <main>
@@ -87,4 +92,4 @@ function Notification({ handleEndSession }) {
   );
 }
 
-export default Notification;
+export default ParkingNotification;
