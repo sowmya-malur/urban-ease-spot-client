@@ -104,10 +104,6 @@ function ConfirmParking({
     return currentTimeStamp + durationMilliseconds;
   };
 
-  // const startTime = formatDateToLocale(currentTimeStamp);
-
-  // const endTime = formatDateToLocale(endTimeStamp());
-
   const handlePay = async () => {
     try {
       // Make axios call to post booking data
@@ -116,22 +112,20 @@ function ConfirmParking({
         end_time: formatToISO(endTimeStamp()),
         duration: formatDuration(),
         status: "active",
-        user_id: userId,
-        meter_id: selectedParkingMeter.meterid,
       };
 
-      console.log("bookingData", bookingData);
-      // const response = await axios.post(`http://localhost:8080/api/booking/${selectedParkingMeter.meterid}/user/${userId}`, bookingData);
+      // console.log("bookingData", bookingData);
+      const response = await axios.post(
+        `http://localhost:8080/api/booking/${selectedParkingMeter.meterid}/user/${userId}`, bookingData);
 
-      // Handle successful response
-      // console.log("Booking successful:", response.data);
-
-      // Proceed with any other logic after successful booking
-      // For example, you may want to navigate to another page
+       
+        if(response.status === 201) {
+          console.log("Booking successful:");
+          // navigate("/notification")
+        }
     } catch (error) {
       // Handle errors
       console.error("Error booking parking:", error);
-      // You may want to display an error message to the user
     }
   };
 
@@ -160,13 +154,10 @@ function ConfirmParking({
             alt="location-icon"
           />
           <div className="confirm__location">
-            <h3 className="confirm__sub-header">Location Details</h3>
-
-            {/* parking.meterid */}
+            <h2 className="confirm__sub-header">Location Details</h2>
             <p className="confirm__info confirm__info--spacing-top">
               Meter #: {selectedParkingMeter.meterid}
             </p>
-            {/* parking.location */}
             <p className="confirm__info">
               Location: {selectedParkingMeter.geo_local_area}
             </p>
@@ -177,8 +168,7 @@ function ConfirmParking({
         <div className="confirm__wrapper">
           <img className="confirm__icon" src={carIcon} alt="car-icon" />
           <div className="confirm__vehicle">
-            <h3 className="confirm__sub-header">Vehicle Details</h3>
-            {/* vehicle.license */}
+            <h2 className="confirm__sub-header">Vehicle Details</h2>
             <p className="confirm__info confirm__info--spacing-top">
               License Plate #: {licensePlate}
             </p>
@@ -190,7 +180,7 @@ function ConfirmParking({
         <div className="confirm__wrapper">
           <img className="confirm__icon" src={paymentIcon} alt="payment-icon" />
           <div className="confirm__payment">
-            <h3 className="confirm__sub-header">Payment Details</h3>
+            <h2 className="confirm__sub-header">Payment Details</h2>
             {/* payment.card */}
             <p className="confirm__info confirm__info--spacing-top">
               Card ending with 1234
@@ -202,7 +192,7 @@ function ConfirmParking({
         <div className="confirm__wrapper">
           <img className="confirm__icon" src={timeIcon} alt="time-icon" />
           <div className="confirm__duration">
-            <h3 className="confirm__sub-header">Duration</h3>
+            <h2 className="confirm__sub-header">Duration</h2>
             <p className="confirm__info confirm__info--spacing-top">
               Start time: {formatDateToLocale(currentTimeStamp)}
             </p>
@@ -220,7 +210,7 @@ function ConfirmParking({
         <div className="confirm__wrapper">
           <img className="confirm__icon" src={priceIcon} alt="price-icon" />
           <div className="confirm__cost">
-            <h3 className="confirm__sub-header">Price</h3>
+            <h2 className="confirm__sub-header">Price</h2>
             <p className="confirm__info confirm__info--spacing-top">
               Total Cost: ${totalCost}
             </p>
