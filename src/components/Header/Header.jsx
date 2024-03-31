@@ -1,6 +1,6 @@
 // Import libraries
 import { Link, NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 // Import icons
 import menu from "../../assets/icons/round_menu_black_24dp.png";
