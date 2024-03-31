@@ -45,7 +45,6 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
 
   const getMaxStay = () => {
     let maximumStay;
-    // console.log("selectedParkingMeter getmaxstay", selectedParkingMeter); //TODO:del
 
     if (selectedParkingMeter?.meterid) {
       // Weekday: M-F
