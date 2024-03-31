@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer";
 import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import BookingPage from "./pages/BookingPage/BookingPage";
+import NotifyPage from "./pages/NotifyPage/NotifyPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -34,6 +35,10 @@ function App() {
           <Route
             path="/booking/:userId"
             element={<BookingPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
+          ></Route>
+          <Route
+            path="/notification/:userId"
+            element={<NotifyPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
           ></Route>
         </Routes>
         <Footer />

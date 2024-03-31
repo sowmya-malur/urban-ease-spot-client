@@ -114,14 +114,12 @@ function ConfirmParking({
         status: "active",
       };
 
-      // console.log("bookingData", bookingData);
       const response = await axios.post(
         `http://localhost:8080/api/booking/${selectedParkingMeter.meterid}/user/${userId}`, bookingData);
 
-       
         if(response.status === 201) {
           console.log("Booking successful:");
-          // navigate("/notification")
+          navigate(`/notification/${userId}`);
         }
     } catch (error) {
       // Handle errors
