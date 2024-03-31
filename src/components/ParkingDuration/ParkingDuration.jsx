@@ -47,9 +47,9 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
   // console.log("currentHours",currentHours);
   // console.log("currentDay",currentDay);
 
-   // TODO: del after testing
-    // let currentDay = 1;
-  // const currentHours = 23;
+  // TODO: del after testing
+  // let currentDay = 7;
+  // const currentHours = 21;
 
   const getMaxStay = () => {
     let maximumStay;
@@ -62,7 +62,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
           maximumStay = selectedParkingMeter.t_mf_9a_6p;
         } else if (currentHours >= 18 && currentHours < 22) {
           // M-F: Between 6 pm and 10 pm
-          maximumStay = selectedParkingMeter.t_mf_6p_10p;
+          maximumStay = selectedParkingMeter.t_mf_6p_10;
         } else {
           // M-F: between 10 pm and 9 am
           maximumStay = "11 hr";
@@ -75,7 +75,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
           maximumStay = selectedParkingMeter.t_sa_9a_6p;
         } else if (currentHours >= 18 && currentHours < 22) {
           // Sat: Between 6 pm and 10 pm
-          maximumStay = selectedParkingMeter.r_sa_6p_10;
+          maximumStay = selectedParkingMeter.t_sa_6p_10;
         } else {
           // Sat: Between 10 pm and 9 am
           maximumStay = "11 hr";
@@ -84,10 +84,10 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
         // Sun
         if (currentHours >= 9 && currentHours < 18) {
           // Sun: Between 9 am and 6 pm
-          maximumStay = selectedParkingMeter.r_su_9a_6;
+          maximumStay = selectedParkingMeter.t_su_9a_6p;
         } else if (currentHours >= 18 && currentHours < 22) {
           // Sun: Between 6 pm and 10 pm
-          maximumStay = selectedParkingMeter.r_su_6p_10;
+          maximumStay = selectedParkingMeter.t_su_6p_10;
         } else {
           // Sun: Between 10 pm and 9 am
           maximumStay = "11 hr";
@@ -103,6 +103,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
     let currentRate = 0.0;
     let totalCost = 0.0;
 
+    console.log("selectedParkingMeter", selectedParkingMeter);
     // Weekday: M-F
     if (currentDay >= 1 && currentDay <= 5) {
       if (currentHours >= 9 && currentHours < 18) {
@@ -110,7 +111,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
         currentRate = selectedParkingMeter.r_mf_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
         // M-F: Between 6 pm and 10 pm
-        currentRate = selectedParkingMeter.r_mf_6p_10p;
+        currentRate = selectedParkingMeter.r_mf_6p_10;
       } else {
         // M-F: Between 10 pm and 9 am
         currentRate = 0.0;
@@ -123,7 +124,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
         currentRate = selectedParkingMeter.r_sa_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
         // Sat: Between 6 pm and 10 pm
-        currentRate = selectedParkingMeter.r_sa_6p_10p;
+        currentRate = selectedParkingMeter.r_sa_6p_10;
       } else {
         // Sat: Between 10 pm and 9 am
         currentRate = 0.0;
@@ -135,7 +136,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
         currentRate = selectedParkingMeter.r_su_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
         // Sun: Between 6 pm and 10 pm
-        currentRate = selectedParkingMeter.r_su_6p_10p;
+        currentRate = selectedParkingMeter.r_su_6p_10;
       } else {
         // Sun: Between 10 pm and 9 am
         currentRate = 0.0;
@@ -239,12 +240,9 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
   const handleCancel = () => {
     localStorage.removeItem("selectedMeterId");
     navigate("/");
-    // handleClick(false);
-    // setShowComponent("home-page");
   };
 
   const handlePark = () => {
-    // localStorage.removeItem("selectedMeterId"); // TODO: should this be removed here?
     setShowComponent("confirm-parking");
   };
 
@@ -402,24 +400,19 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
 
           {showComponent === "confirm-parking" && (
             <ConfirmParking
-            currentTimeStamp={currentTimeStamp}
-            userId={userId}
-            licensePlate={vehicleDetails?.license_plate}
-            totalCost={totalCost}
-            selectedHours={selectedHours}
-            selectedMins={selectedMins}
-            selectedParkingMeter={selectedParkingMeter}
-              // handleCancel={() => setShowComponent("home-page")}
+              currentTimeStamp={currentTimeStamp}
+              userId={userId}
+              licensePlate={vehicleDetails?.license_plate}
+              totalCost={totalCost}
+              selectedHours={selectedHours}
+              selectedMins={selectedMins}
+              selectedParkingMeter={selectedParkingMeter}
               handleCancel={() => {
                 localStorage.removeItem("selectedMeterId");
-                // navigate("/booking");
-                setShowComponent("home-page");
+                console.log("in cancel");
+                setShowComponent(false);
+                navigate("/");
               }}
-              // handlePay={handlePay}
-              // handlePay={() => {
-              //   // localStorage.removeItem("selectedMeterId");
-              //   setShowComponent("notification-page");
-              // }}
             />
           )}
 

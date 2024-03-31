@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 // Import styling
 import "../ParkingNotification/ParkingNotification.scss";
@@ -14,6 +15,10 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
   console.log("userId", userId);
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
+
+  useEffect(()=>{ 
+    console.log("get booking information for the userId", userId);
+  },[userId]);
 
   const handleEndSession = () => {
     console.log("handleEndSession");
