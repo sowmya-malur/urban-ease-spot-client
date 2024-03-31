@@ -9,7 +9,7 @@ import "../HomePage/HomePage.scss"; // add to override any default styles in pop
 
 // Import libraries
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // Import icons

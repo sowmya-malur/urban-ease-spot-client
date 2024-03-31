@@ -1,5 +1,5 @@
 // Import libraries
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -7,7 +7,6 @@ import axios from "axios";
 import "../ParkingDuration/ParkingDuration.scss";
 
 // Import components
-import HomePage from "../../pages/HomePage/HomePage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import ConfirmParking from "../ConfirmParking/ConfirmParking";
 import Notification from "../Notification/Notification";
@@ -40,17 +39,21 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  // const currentHours = currentDate.getHours();
+  const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
+
+  // console.log("currentTimestamp", currentTimeStamp);
+  // console.log("currentDate",currentDate);
+  // console.log("currentHours",currentHours);
+  // console.log("currentDay",currentDay);
 
    // TODO: del after testing
     // let currentDay = 1;
-  const currentHours = 23;
+  // const currentHours = 23;
 
   const getMaxStay = () => {
     let maximumStay;
 
-    console.log("currentHours", currentHours);
     if (selectedParkingMeter?.meterid) {
       // Weekday: M-F
       if (currentDay >= 1 && currentDay <= 5) {
@@ -227,6 +230,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
     }
   }, [userId, localStorage.getItem("isLoggedIn") === "true"]);
 
+  // Set total cost when user picks hours and mins from drop down
   useEffect(() => {
     setTotalCost(calculateTotal());
   }, [selectedHours, selectedMins]);
@@ -398,16 +402,24 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
 
           {showComponent === "confirm-parking" && (
             <ConfirmParking
+            currentTimeStamp={currentTimeStamp}
+            userId={userId}
+            licensePlate={vehicleDetails?.license_plate}
+            totalCost={totalCost}
+            selectedHours={selectedHours}
+            selectedMins={selectedMins}
+            selectedParkingMeter={selectedParkingMeter}
               // handleCancel={() => setShowComponent("home-page")}
               handleCancel={() => {
                 localStorage.removeItem("selectedMeterId");
                 // navigate("/booking");
                 setShowComponent("home-page");
               }}
-              handlePay={() => {
-                localStorage.removeItem("selectedMeterId");
-                setShowComponent("notification-page");
-              }}
+              // handlePay={handlePay}
+              // handlePay={() => {
+              //   // localStorage.removeItem("selectedMeterId");
+              //   setShowComponent("notification-page");
+              // }}
             />
           )}
 

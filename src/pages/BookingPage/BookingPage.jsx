@@ -1,5 +1,5 @@
 // Import libraries
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 // Import components
