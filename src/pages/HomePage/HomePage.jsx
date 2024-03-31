@@ -130,11 +130,11 @@ function HomePage({ setIsLoggedIn, userId }) {
       if (currentHours >= 9 && currentHours < 18) {
         // M-F: Between 9 am and 6 pm
         parkingInfo.time = "9 am - 6 pm";
-        parkingInfo.rate = "$" + parking.r_mf_9a_6;
+        parkingInfo.rate = "$" + parking.r_mf_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
         // M-F: Between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
-        parkingInfo.rate = "$" + parking.r_mf_6p_10;
+        parkingInfo.rate = "$" + parking.r_mf_6p_10p;
       } else {
         // M-F: Between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
@@ -147,11 +147,11 @@ function HomePage({ setIsLoggedIn, userId }) {
       if (currentHours >= 9 && currentHours < 18) {
         // Sat: Between 9 am and 6 pm
         parkingInfo.time = "9 am - 6 pm";
-        parkingInfo.rate = "$" + parking.r_sa_9a_6;
+        parkingInfo.rate = "$" + parking.r_sa_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
         // Sat: Between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
-        parkingInfo.rate = "$" + parking.r_sa_6p_10;
+        parkingInfo.rate = "$" + parking.r_sa_6p_10p;
       } else {
         // Sat: Between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
@@ -162,11 +162,11 @@ function HomePage({ setIsLoggedIn, userId }) {
       if (currentHours >= 9 && currentHours < 18) {
         // Sun: Between 9 am and 6 pm
         parkingInfo.time = "9 am - 6 pm";
-        parkingInfo.rate = "$" + parking.r_su_9a_6;
+        parkingInfo.rate = "$" + parking.r_su_9a_6p;
       } else if (currentHours >= 18 && currentHours < 22) {
         // Sun: Between 6 pm and 10 pm
         parkingInfo.time = "6 pm - 10 pm";
-        parkingInfo.rate = "$" + parking.r_su_6p_10;
+        parkingInfo.rate = "$" + parking.r_su_6p_10p;
       } else {
         // Sun: Between 10 pm and 9 am
         parkingInfo.time = "10pm - 9 am";
