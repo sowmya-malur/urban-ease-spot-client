@@ -27,9 +27,7 @@ function ConfirmParking({
   selectedParkingMeter,
   handleCancel,
 }) {
-  //  console.log("selectedParkingMeter", selectedParkingMeter);
 
-  //  console.log("currentTimestmap", currentTimeStamp);
   // Initialize hooks
   const navigate = useNavigate();
 
