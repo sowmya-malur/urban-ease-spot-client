@@ -16,7 +16,6 @@ function BookingPage({ setIsLoggedIn, setUserId}) {
   const { userId } = useParams();
 
   useEffect(() => {
-    console.log("in useeffect bookinpage");
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 

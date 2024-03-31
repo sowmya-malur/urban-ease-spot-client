@@ -12,7 +12,7 @@ import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
   // Initialize hooks
   const navigate = useNavigate();
-  console.log("userId", userId);
+  console.log("notification page userId", userId);
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
 

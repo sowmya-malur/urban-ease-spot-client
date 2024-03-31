@@ -77,6 +77,11 @@
       color: $color-error;
       font-weight: $font-weight-semi-bold;
     }
+
+    &--free {
+      color: $color-success;
+      font-weight: $font-weight-semi-bold;
+    }
   }
 
   &__cta {

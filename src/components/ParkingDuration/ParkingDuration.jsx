@@ -1,5 +1,5 @@
 // Import libraries
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -18,13 +18,11 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
-function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
-  console.log("pd-userid", userId); //TODO:del
+function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
 
   //Initialize hooks
   const navigate = useNavigate();
-  userId = 1; // get this from params or localStorage
-
+  
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [selectedParkingMeter, setSelectedParkingMeter] = useState({});
@@ -41,11 +39,6 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
   const currentDate = new Date(currentTimeStamp);
   const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
-
-  // console.log("currentTimestamp", currentTimeStamp);
-  // console.log("currentDate",currentDate);
-  // console.log("currentHours",currentHours);
-  // console.log("currentDay",currentDay);
 
   // TODO: del after testing
   // let currentDay = 7;
@@ -103,7 +96,6 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
     let currentRate = 0.0;
     let totalCost = 0.0;
 
-    console.log("selectedParkingMeter", selectedParkingMeter);
     // Weekday: M-F
     if (currentDay >= 1 && currentDay <= 5) {
       if (currentHours >= 9 && currentHours < 18) {
@@ -167,7 +159,6 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
         ); // TODO: use env variable
 
         if (parkingResponse.data) {
-          console.log("parkingResponse.data", parkingResponse.data);
           setSelectedParkingMeter(parkingResponse.data);
         }
       };
@@ -409,25 +400,12 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId }) {
               selectedParkingMeter={selectedParkingMeter}
               handleCancel={() => {
                 localStorage.removeItem("selectedMeterId");
-                console.log("in cancel");
                 setShowComponent(false);
                 navigate("/");
               }}
             />
           )}
 
-          {/* {showComponent === "home-page" && <HomePage />} */}
-          {/* {showComponent === "notification-page" && <Notification handleEndSession={() => setShowComponent("home-page")}/>} */}
-          {/* {showComponent === "notification-page" && (
-            <Notification
-              handleEndSession={() => {
-                console.log(
-                  "Update the tables to end session and release parking spot"
-                ); // TODO: del
-                navigate("/");
-              }}
-            />
-          )} */}
         </>
       )}
     </main>

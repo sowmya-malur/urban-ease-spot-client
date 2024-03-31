@@ -46,14 +46,11 @@ function HomePage({ setIsLoggedIn, userId }) {
   // Initialize hooks
   const navigate = useNavigate();
 
-  console.log("userId", userId);
-
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
   const [parkingMeters, setParkingMeters] = useState([]);
   const [filteredParkingMeters, setFilteredParkingMeters] = useState([]);
-  // const [selectedParkingMeter, setSelectedParkingMeter] = useState("");
 
   // Initialize constants
   const currentTimeStamp = Date.now();
@@ -63,18 +60,15 @@ function HomePage({ setIsLoggedIn, userId }) {
 
       // TODO: del after testing
     let currentDay = 7;
-    let currentHours = 1;
+    let currentHours = 23;
 
   // Set isLoggedIn from the localStorage on mount
   useEffect(() => {
-    console.log("in useeffect homepage"); // TODO: del
-    console.log("localstorage", localStorage.getItem("isLoggedIn"));
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
   // Get all parking meter data on mount and set filter options from localStorage if any on mount
   useEffect(() => {
-    console.log("on mount");
     const getAllParkingMeters = async () => {
       try {
         // TODO: test why env varaible is not working
@@ -105,7 +99,6 @@ function HomePage({ setIsLoggedIn, userId }) {
 
   // Set filtered parking meter data for the selected filter options
   useEffect(() => {
-    console.log("in filtering");
     let filterParkingMeters = [...parkingMeters];
 
     if (filterOptions.available) {
@@ -140,7 +133,6 @@ function HomePage({ setIsLoggedIn, userId }) {
       rate: "",
     };
 
-    console.log("parking", parking);
     // Weekday: M-F
     if (currentDay >= 1 && currentDay <= 5) {
       parkingInfo.day = "Mon-Fri: ";
@@ -282,9 +274,15 @@ function HomePage({ setIsLoggedIn, userId }) {
                                 <p className="pop-up__info">
                                   {parkingInfo.day} {parkingInfo.time}
                                 </p>
-                                <p className="pop-up__info">
+                                {(currentHours >=22 || currentHours < 9) ?
+                                ( 
+                                  <p className="pop-up__info pop-up__info--free">FREE Parking Hours</p>
+                                ) : (
+                                  <p className="pop-up__info">
                                   {parkingInfo.rate} per hour
                                 </p>
+                                 )}
+                                
                               </>
                             ) : (
                               ""
@@ -298,12 +296,13 @@ function HomePage({ setIsLoggedIn, userId }) {
                                 {parking.status.toUpperCase()}
                               </p>
                             ) : (
-                              <button
+                              !(currentHours >= 22 || currentHours < 9) ? 
+                              (<button
                                 className="pop-up__cta"
                                 onClick={() => handleSelect(parking.meter_id)}
                               >
                                 Select
-                              </button>
+                              </button>) : ''
                             )}
                           </div>
                         </Popup>
