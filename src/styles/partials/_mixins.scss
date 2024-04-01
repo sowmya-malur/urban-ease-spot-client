@@ -1,7 +1,5 @@
 @use "../partials/variables" as *;
 
-
-
 // form input fields
 @mixin form-field-style {
   font-family: $font-family;
@@ -31,7 +29,6 @@
   background-color: $color-primary-cta;
   border-radius: $border-radius;
   height: $element-mobile-height;
-  // padding: 0 1rem 0.25rem 1rem;
   font-size: $mobile-font-size-body;
   font-weight: $font-weight-medium;
   cursor: pointer;
@@ -41,13 +38,12 @@
 @mixin secondary-button-style {
   color: $color-primary-text;
   background-color: $color-background-light;
-    cursor: pointer;
-    border: 0.063rem solid $color-primary-cta;
-    font-weight: $font-weight-medium;
-    border-radius: $border-radius;
-    height: $element-mobile-height;
-    font-size: $mobile-font-size-body;
-
+  cursor: pointer;
+  border: 0.063rem solid $color-primary-cta;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius;
+  height: $element-mobile-height;
+  font-size: $mobile-font-size-body;
 }
 
 @mixin button-style {

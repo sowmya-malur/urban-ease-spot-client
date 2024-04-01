@@ -51,14 +51,24 @@
     text-align: center;
   }
 
+  &__button-cont {
+    @include mobile-button-container;
+  }
+
+  &__secondary {
+    @include secondary-button-style;
+    flex: 1;
+
+    &:focus,
+    &:hover {
+      border: 0.063rem solid $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+
   &__cta {
-    cursor: pointer;
-    background-color: $color-primary-cta;
-    font-weight: $font-weight-medium;
-    border-radius: $border-radius;
-    height: $element-mobile-height;
-    border: none;
-    width: 100%;
+    @include cta-button-style;
+    flex: 1;
 
     &:focus,
     &:hover {
@@ -66,6 +76,8 @@
       font-weight: $font-weight-semi-bold;
     }
   }
+
+
 
   &__time {
     font-size: $mobile-font-size-section-header;

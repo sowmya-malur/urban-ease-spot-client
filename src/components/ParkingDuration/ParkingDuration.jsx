@@ -163,7 +163,6 @@ function ParkingDuration({ setIsLoggedIn }) {
       navigate("/login");
     }
     if (currentHours >= 22 || currentHours < 9) {
-      console.log("here");
       navigate("/");
     }
   }, []);
@@ -176,7 +175,6 @@ function ParkingDuration({ setIsLoggedIn }) {
           const response = await axios.get(
             `http://localhost:8080/api/booking/user/${userId}`
           );
-          console.log("response in activebooking", response.data);
           if (response.data && response.status === 200) {
             navigate("/notification");
           }

@@ -6,6 +6,7 @@ import axios from "axios";
 // Import styling
 import "../ConfirmParking/ConfirmParking.scss";
 
+// Import functions from util.js
 import formatDateToLocale from "../../util";
 
 // Import icons
@@ -19,6 +20,18 @@ import checkBoxSelectedIcon from "../../assets/icons/round_check_box_black_24dp.
 import priceIcon from "../../assets/icons/round_attach_money_black_24dp.png";
 import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.png";
 
+/**
+ * Confirm Parking component with Location, Parking Duration, Payment, Vehicle and Price details
+ * @param {currentTimeStamp} currentTimeStamp time stamp for the start time of the parking session
+ * @param {userId} userId user id is passed from the parking duration component
+ * @param {licensePlate} licensePlate vehicle details
+ * @param {totalCost} totalCost total cost calculated for the selected duration and rate per hour based on day and time
+ * @param {selectedHours} selectedHours hours selected by the user from parking duration component
+ * @param {selectedMins} selectedMins minutes selected by the user from the parking duration component
+ * @param {selectedParkingMeter} selectedParkingMeter selected parking meter details
+ * @param {handleCancel} handleCancel call back function to handleCancel to conditionally render component 
+ * @returns {JSX.Element} Confirm Parking Component to pay and park
+ */
 function ConfirmParking({
   currentTimeStamp,
   userId,
@@ -30,26 +43,11 @@ function ConfirmParking({
   handleCancel,
 }) {
 
-  console.log("userId in confirm", userId);
-
   // Initialize hooks
   const navigate = useNavigate();
 
   // Initialize state variables
-  const [isNotifyChecked, setIsNotifyChecked] = useState(
-    localStorage.getItem("isNotifyChecked") === "true" || false
-  );
-
-  useEffect(() => {
-    const storedIsNotifyChecked =
-      localStorage.getItem("isNotifyChecked") === "true";
-    setIsNotifyChecked(storedIsNotifyChecked);
-  }, []);
-
-  const handleNotifyChange = () => {
-    setIsNotifyChecked(!isNotifyChecked);
-    localStorage.setItem("isNotifyChecked", !isNotifyChecked);
-  };
+  const [isNotifyChecked, setIsNotifyChecked] = useState(true); // set it to true by default
 
   // Func to format duration in HH:MM:SS
   const formatDuration = () => {
@@ -91,9 +89,13 @@ function ConfirmParking({
     return currentTimeStamp + durationMilliseconds;
   };
 
+  // Add the booking information with start, end time, duration and active status to the backend. 
+  // If successful, remove the seletedMeterId from localStorage 
+  // and redirect user to the notification page
   const handlePay = async () => {
     try {
-      // Make axios call to post booking data
+      
+      // create booking data information
       const bookingData = {
         start_time: formatToISO(currentTimeStamp),
         end_time: formatToISO(endTimeStamp()),
@@ -101,13 +103,13 @@ function ConfirmParking({
         status: "active",
       };
 
+      // Make axios call to post booking data
       const response = await axios.post(
         `http://localhost:8080/api/booking/${selectedParkingMeter.meterid}/user/${userId}`, bookingData);
 
         if(response.status === 201) {
           localStorage.removeItem("selectedMeterId");
           navigate("/notification");
-          // navigate(`/notification/${userId}`);
         }
     } catch (error) {
       // Handle errors
@@ -158,7 +160,6 @@ function ConfirmParking({
         </div>
 
         {/* Payment Details */}
-
         <div className="confirm__wrapper">
           <img className="confirm__icon" src={paymentIcon} alt="payment-icon" />
           <div className="confirm__payment">
@@ -205,6 +206,8 @@ function ConfirmParking({
             type="checkbox"
             id="notifyExpire"
             className="confirm__checkbox"
+            defaultChecked
+            disabled
           />
           <div className="confirm__container">
             <img className="confirm__icon" src={alertIcon} alt="alert-icon" />
@@ -212,8 +215,8 @@ function ConfirmParking({
           </div>
           <label
             htmlFor="notifyExpire"
-            onClick={handleNotifyChange}
             className="confirm__label"
+            
           >
             <img
               className="confirm__icon"
