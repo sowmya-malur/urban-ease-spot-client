@@ -7,7 +7,7 @@ import axios from "axios";
 import "../ConfirmParking/ConfirmParking.scss";
 
 // Import functions from util.js
-import formatDateToLocale from "../../util";
+import { formatDateToLocale, formatToISO, formatDuration } from "../../util";
 
 // Import icons
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
@@ -48,37 +48,6 @@ function ConfirmParking({
   // Initialize state variables
   const [isNotifyChecked, setIsNotifyChecked] = useState(true); // set it to true by default
 
-  // Func to format duration in HH:MM:SS
-  const formatDuration = () => {
-    // convert hours and mins to seconds
-    const durationInSeconds = selectedHours * 3600 + selectedMins * 60;
-
-    // convert into milliseconds
-    const durationInMilli = new Date(durationInSeconds * 1000);
-
-    // Extract hours, minutes, and seconds from durationInMilli
-    const hours = durationInMilli.getUTCHours().toString().padStart(2, "0");
-    const minutes = durationInMilli.getUTCMinutes().toString().padStart(2, "0");
-    const seconds = durationInMilli.getUTCSeconds().toString().padStart(2, "0");
-
-    // format "HH:MM:SS"
-    return `${hours}:${minutes}:${seconds}`;
-  };
-
-  // Func to convert timestamp to ISO, compatible with database format - "YYYY-MM-DD HH:MM:SS"
-  const formatToISO = (timeStamp) => {
-    const date = new Date(timeStamp);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
-
   // Func to calulate end time stamp by adding current time stamp and duration
   const endTimeStamp = () => {
     // convert hours and minutes to milliseconds
@@ -97,7 +66,7 @@ function ConfirmParking({
       const bookingData = {
         start_time: formatToISO(currentTimeStamp),
         end_time: formatToISO(endTimeStamp()),
-        duration: formatDuration(),
+        duration: formatDuration(selectedHours, selectedMins),
         status: "active",
       };
 
