@@ -2,6 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import formatDateToLocale from "../../util";
+
 // Import styling
 import "../ParkingNotification/ParkingNotification.scss";
 
@@ -10,14 +12,28 @@ import warningIcon from "../../assets/icons/round_warning_amber_black_24dp.png";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 
 function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
+
   // Initialize hooks
   const navigate = useNavigate();
   console.log("notification page userId", userId);
+
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
+  const [bookingData, setBookingData] = useState({});
 
   useEffect(()=>{ 
-    console.log("get booking information for the userId", userId);
+    const getActiveBooking = async() => {
+
+      const response = await axios.get(`http://localhost:8080/api/booking/user/1`);
+      console.log("response",response.data);
+      if(response.data && response.status === 200) {
+        setBookingData(response.data);
+        setExpireSoon(true);
+      }
+    }
+
+    // call to async func
+    getActiveBooking();
   },[userId]);
 
   const handleEndSession = () => {
@@ -41,13 +57,18 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
           />
           <h1 className="notification__title">Notification</h1>
         </div>
-        <div className="notification__meter-info">
+        {bookingData? (
+          <div className="notification__meter-info">
           <p>Meter #</p>
-          {/* parking.meterid */}
-          <h2 className="notification__sub-title">872503</h2>
+          <h2 className="notification__sub-title">{bookingData.meter_id}</h2>
           {/* parking.location */}
-          <p>Fairview</p>
+          <p>{bookingData.location}</p>
         </div>
+        ): 
+          <>
+          <p className="notification__info">Currently, there are no active parking sessions associated with this account.</p>
+          </>
+        }
         {expireSoon ? (
           <>
             <div className="notification__container notification__container--top-spacing">
@@ -57,41 +78,21 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
                 className="notification__icon notification__icon--warning"
               />
               <p className="notification__info">
-                Your parking will expire soon, at
+                Your parking will expire at
               </p>
-              <p className="notification__time">March 19, 12:30 pm</p>
+              <p className="notification__time">{formatDateToLocale(bookingData.end_time)}</p>
               <p className="notification__info">
                 Please remove your car to avoid penalties.
               </p>
             </div>
             <div className="notification__wrapper">
+              <button className="notification__secondary" onClick={()=> navigate("/")}>Dismiss</button>
               <button className="notification__cta" onClick={handleEndSession}>
                 End Parking Session
               </button>
             </div>
           </>
-        ) : (
-          <>
-            <div className="notification__container">
-              <p className="notification__info">
-                Your parking is set to expire at
-              </p>
-              <p className="notification__time">March 19, 12:30 pm</p>
-              <p className="notification__info">
-                We will notify you 15 minutes before your parking session
-                expires.
-              </p>
-            </div>
-            <div className="notification__wrapper">
-              <button
-                className="notification__cta"
-                onClick={() => navigate("/")}
-              >
-                Okay
-              </button>
-            </div>
-          </>
-        )}{" "}
+        ) : ""}
       </section>
     </main>
   );
