@@ -36,9 +36,25 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
     getActiveBooking();
   },[userId]);
 
-  const handleEndSession = () => {
-    console.log("handleEndSession");
-    navigate("/");
+  const handleEndSession = async() => {
+try {
+  const response = await axios.put(`http://localhost:8080/api/booking/${bookingData.meter_id}/user/1`, 
+    { 
+      id: bookingData.id,
+      status: "complete"
+  });
+
+    if(response.data && response.status === 200){
+      alert("Parking session ended.");
+      setBookingData({});
+      setExpireSoon(false);
+      navigate(`/${userId}`);
+    }
+} catch (error) {
+  console.error("Error ending the parking session");
+}
+    
+   
   };
 
   return (
@@ -49,9 +65,7 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
             className="notification__icon"
             src={backIcon}
             onClick={() => {
-              // handleClick(false);
-              // setShowComponent("home-page");
-              navigate("/");
+              navigate(`/${userId}`);
             }}
             alt="back-icon"
           />
@@ -61,7 +75,6 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
           <div className="notification__meter-info">
           <p>Meter #</p>
           <h2 className="notification__sub-title">{bookingData.meter_id}</h2>
-          {/* parking.location */}
           <p>{bookingData.location}</p>
         </div>
         ): 

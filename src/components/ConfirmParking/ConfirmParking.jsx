@@ -6,6 +6,8 @@ import axios from "axios";
 // Import styling
 import "../ConfirmParking/ConfirmParking.scss";
 
+import formatDateToLocale from "../../util";
+
 // Import icons
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 import timeIcon from "../../assets/icons/round_schedule_black_24dp.png";
@@ -45,21 +47,6 @@ function ConfirmParking({
   const handleNotifyChange = () => {
     setIsNotifyChecked(!isNotifyChecked);
     localStorage.setItem("isNotifyChecked", !isNotifyChecked);
-  };
-
-  // Func to format date into  Month DD, YYYY HH:MM AM/PM format
-  const formatDateToLocale = (timeStamp) => {
-    const date = new Date(timeStamp);
-
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-    return date.toLocaleString("en-US", options);
   };
 
   // Func to format duration in HH:MM:SS
