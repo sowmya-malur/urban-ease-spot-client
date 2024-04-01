@@ -1,43 +1,66 @@
 @use "../partials/variables" as *;
 
-@mixin button-style {
-    cursor: pointer;
-    border: none;
-    width: 100%;
-    font-weight: $font-weight-semi-bold;
-    border-radius: $border-radius;
-  }
 
-  // form input fields
+
+// form input fields
 @mixin form-field-style {
-    font-family: $font-family;
-    font-size: $mobile-font-size-body; 
-    background-color: $color-background-light;
-    border-radius: $border-radius;
-    border: 0.0625rem solid $color-borders;
-    padding: 0.625rem;
-    margin-bottom: $mobile-margin;
-    height: $element-mobile-height;
-  
-    &:active,
-    &:focus {
-      border: 0.0625rem solid $color-primary-cta;
-    }
+  font-family: $font-family;
+  font-size: $mobile-font-size-body;
+  background-color: $color-background-light;
+  border-radius: $border-radius;
+  border: 0.0625rem solid $color-borders;
+  padding: 0.625rem;
+  margin-bottom: $mobile-margin;
+  height: $element-mobile-height;
+
+  &:active,
+  &:focus {
+    border: 0.0625rem solid $color-primary-cta;
   }
+}
 
 @mixin icon-style {
-    width: 2rem; // 32px
-    height: 2rem; // 32px
+  width: 2rem; // 32px
+  height: 2rem; // 32px
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 @mixin cta-button-style {
   color: $color-primary-text;
-    background-color: $color-primary-cta;
+  background-color: $color-primary-cta;
+  border-radius: $border-radius;
+  height: $element-mobile-height;
+  // padding: 0 1rem 0.25rem 1rem;
+  font-size: $mobile-font-size-body;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  border: none;
+}
+
+@mixin secondary-button-style {
+  color: $color-primary-text;
+  background-color: $color-background-light;
+    cursor: pointer;
+    border: 0.063rem solid $color-primary-cta;
+    font-weight: $font-weight-medium;
     border-radius: $border-radius;
     height: $element-mobile-height;
-    border: 0.063rem solid $color-borders;
-    padding: 0 1rem 0.25rem 1rem;
-    font-size: $mobile-font-size-sub-header;
-    font-weight: $font-weight-medium;
-    cursor: pointer;
+    font-size: $mobile-font-size-body;
+
+}
+
+@mixin button-style {
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  font-weight: $font-weight-semi-bold;
+  border-radius: $border-radius;
+}
+
+@mixin mobile-button-container {
+  margin: $mobile-margin;
+  display: flex;
+  justify-content: space-between;
+  gap: $mobile-icon-gap;
 }

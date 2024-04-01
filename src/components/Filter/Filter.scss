@@ -3,80 +3,67 @@
 @use "../../styles/partials/mixins" as *;
 
 .filter {
-  
-    &__page-header {
+  &__page-header {
     padding: $mobile-margin;
     display: flex;
     align-items: center;
     gap: $mobile-icon-gap;
     border-bottom: 0.063rem solid $color-borders;
-   }
+  }
 
-   &__icon {
+  &__icon {
     @include icon-style;
-   }
+  }
 
-   &__title {
+  &__title {
     font-size: $mobile-font-size-header;
-   }
+  }
 
-   &__outer-cont {
+  &__outer-cont {
     padding-bottom: $mobile-margin;
-   }
-   
-   &__options {
+  }
+
+  &__options {
     margin: $mobile-margin;
     display: flex;
     justify-content: space-between;
     align-items: center;
-   }
+  }
 
-   &__container {
+  &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: $mobile-icon-gap;
-   }
+  }
 
-   &__checkbox {
+  &__checkbox {
     display: none;
-   }
+  }
 
-   &__button-cont {
-    margin: $mobile-margin;
-    display: flex;
-    justify-content: space-between;
-    gap: $mobile-icon-gap;
-   }
+  &__button-cont {
+    @include mobile-button-container;
+  }
 
-   &__secondary {
-    cursor: pointer;
-    border: 0.063rem solid $color-primary-cta;
-    font-weight: $font-weight-medium;
-    border-radius: $border-radius;
-    height: $element-mobile-height;
+  &__secondary {
+    @include secondary-button-style;
     flex: 1;
 
     &:focus,
     &:hover {
-        border: 0.063rem solid $color-cta-hover;
-        font-weight: $font-weight-semi-bold;
+      border: 0.063rem solid $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
     }
-   }
+  }
 
-   &__cta {
-    cursor: pointer;
-    background-color: $color-primary-cta;
-    font-weight: $font-weight-medium;
-    border-radius: $border-radius;
-    height: $element-mobile-height;
-    border: none;
+  &__cta {
+    @include cta-button-style;
     flex: 1;
 
     &:focus,
     &:hover {
-        background-color: $color-cta-hover;
-        font-weight: $font-weight-semi-bold;
+      background-color: $color-cta-hover;
+      font-weight: $font-weight-semi-bold;
     }
-   }
+  }
 }
