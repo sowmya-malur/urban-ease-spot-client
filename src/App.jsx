@@ -29,6 +29,10 @@ function App() {
             element={<HomePage setIsLoggedIn={setIsLoggedIn} userId={userId}/>}
           ></Route>
           <Route
+            path="/:userId"
+            element={<HomePage setIsLoggedIn={setIsLoggedIn} userId={userId}/>}
+          ></Route>
+          <Route
             path="/login"
             element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
           ></Route>
