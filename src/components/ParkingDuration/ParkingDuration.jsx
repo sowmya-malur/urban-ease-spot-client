@@ -20,6 +20,8 @@ import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
 function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
 
+  console.log("userId in duration", userId);
+
   //Initialize hooks
   const navigate = useNavigate();
   

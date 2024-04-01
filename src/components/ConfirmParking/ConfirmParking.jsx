@@ -30,6 +30,8 @@ function ConfirmParking({
   handleCancel,
 }) {
 
+  console.log("userId in confirm", userId);
+
   // Initialize hooks
   const navigate = useNavigate();
 
