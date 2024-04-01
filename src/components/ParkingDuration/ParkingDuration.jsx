@@ -9,7 +9,6 @@ import "../ParkingDuration/ParkingDuration.scss";
 // Import components
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import ConfirmParking from "../ConfirmParking/ConfirmParking";
-import Notification from "../ParkingNotification/ParkingNotification";
 
 // Import icons
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
@@ -18,17 +17,20 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
-function ParkingDuration({ setIsLoggedIn}) {
-
+/**
+ * Component to allow user to select parking duration for the selected parking meter
+ * @param {setIsLoggedIn} setIsLoggedIn callback function to update Login status
+ * @returns {JSX.Element} Returns parking duration component
+ */
+function ParkingDuration({ setIsLoggedIn }) {
   let userId;
-  if(localStorage.getItem("isLoggedIn")) {
+  if (localStorage.getItem("isLoggedIn")) {
     userId = localStorage.getItem("userId");
-    console.log("userId in duration", userId);
   }
 
   //Initialize hooks
   const navigate = useNavigate();
-  
+
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [selectedParkingMeter, setSelectedParkingMeter] = useState({});
@@ -38,7 +40,6 @@ function ParkingDuration({ setIsLoggedIn}) {
   const [availableHours, setAvailableHours] = useState([]);
   const [maxStay, setMaxStay] = useState(0);
   const [totalCost, setTotalCost] = useState(0.0);
-  // const [hasActiveBooking, setHasActiveBooking] = useState(false);
 
   // Initialize constants
   const availableMins = [0, 30];
@@ -51,6 +52,7 @@ function ParkingDuration({ setIsLoggedIn}) {
   // let currentDay = 7;
   const currentHours = 21;
 
+  // Func to get max stay from the selectedParkingMeter object based on current day and hours
   const getMaxStay = () => {
     let maximumStay;
 
@@ -99,6 +101,7 @@ function ParkingDuration({ setIsLoggedIn}) {
     return maximumStay;
   };
 
+  // Func to calculate Total Cost based on rate for current hours and day and selected duration
   const calculateTotal = () => {
     let currentRate = 0.0;
     let totalCost = 0.0;
@@ -152,56 +155,59 @@ function ParkingDuration({ setIsLoggedIn}) {
   };
 
   // Set the isloggedIn state variable from localStorage on mount
+  // Redirect the user to login page if user is not logged in
+  // Prevent the user from booking if it is free parking hours
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-    if(localStorage.getItem("isLoggedIn") !== "true") {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
       navigate("/login");
     }
-    if(currentHours >=22 || currentHours < 9) {
+    if (currentHours >= 22 || currentHours < 9) {
       console.log("here");
-        navigate("/");
+      navigate("/");
     }
   }, []);
 
-  useEffect(()=>{ 
-    const getActiveBooking = async() => {
-
+  // Prevent the user from booking if there is an active parking session and redirect the user to notification page
+  useEffect(() => {
+    const getActiveBooking = async () => {
       try {
-        if(localStorage.getItem("isLoggedIn")) {
-          const response = await axios.get(`http://localhost:8080/api/booking/user/${userId}`);
-          console.log("response in activebooking",response.data);
-          if(response.data && response.status === 200) {
-              navigate("/notification");
-            } 
+        if (localStorage.getItem("isLoggedIn")) {
+          const response = await axios.get(
+            `http://localhost:8080/api/booking/user/${userId}`
+          );
+          console.log("response in activebooking", response.data);
+          if (response.data && response.status === 200) {
+            navigate("/notification");
+          }
         }
-      } catch(error) {
+      } catch (error) {
         console.error("Error retrieving active booking:", error);
       }
     };
 
     // call to async func
     getActiveBooking();
-  },[userId]);
+  }, [userId]);
 
-  // Get parking details for the selected Meter Id
+  // Get parking details for the selected Meter Id on mount
   useEffect(() => {
     try {
-      if(localStorage.getItem("selectedMeterId")) {
+      if (localStorage.getItem("selectedMeterId")) {
         const getParkingDetails = async () => {
           const meterId = localStorage.getItem("selectedMeterId");
           const parkingResponse = await axios.get(
             `http://localhost:8080/api/parking/${meterId}`
           ); // TODO: use env variable
-  
+
           if (parkingResponse.data) {
             setSelectedParkingMeter(parkingResponse.data);
           }
         };
-  
+
         // call async func
         getParkingDetails();
       }
-      
     } catch (error) {
       console.error(`Error fetching parking data: ${error}`);
     }
@@ -225,8 +231,8 @@ function ParkingDuration({ setIsLoggedIn}) {
           setAvailableHours(availableHrs);
         }
         // Calculate total cost
-        const cT = calculateTotal();
-        setTotalCost(cT);
+        const output = calculateTotal();
+        setTotalCost(output);
       }
     } catch (error) {
       console.error(
@@ -238,24 +244,22 @@ function ParkingDuration({ setIsLoggedIn}) {
 
   // Get vehicle details for the user Id on mount
   useEffect(() => {
-   
     try {
-     if(localStorage.getItem("isLoggedIn")) {
-      const getVehicleDetails = async () => {
-        // call get to vehicle table for the user id
-        const vehicleResponse = await axios.get(
-          `http://localhost:8080/api/user/${userId}/vehicle`
-        );
+      if (localStorage.getItem("isLoggedIn")) {
+        const getVehicleDetails = async () => {
+          // call get to vehicle table for the user id
+          const vehicleResponse = await axios.get(
+            `http://localhost:8080/api/user/${userId}/vehicle`
+          );
 
-        if (vehicleResponse.data) {
-          setVehicleDetails(vehicleResponse.data);
-        }
-      };
+          if (vehicleResponse.data) {
+            setVehicleDetails(vehicleResponse.data);
+          }
+        };
 
-      // call async func
-      getVehicleDetails();
-     }
-     
+        // call async func
+        getVehicleDetails();
+      }
     } catch (error) {
       console.error(
         `Error fetching vehicles data for ${userId}
@@ -275,10 +279,13 @@ function ParkingDuration({ setIsLoggedIn}) {
     navigate("/");
   };
 
+  // Render confirm parking component on proceed to park
   const handlePark = () => {
     setShowComponent("confirm-parking");
   };
 
+  // Set hours and mins on change to drop down fields
+  // If user chooses hrs, set to default "0" minutes
   const handleHourChange = (event) => {
     setSelectedHours(event.target.value);
 
@@ -286,6 +293,8 @@ function ParkingDuration({ setIsLoggedIn}) {
     setSelectedMins(0);
   };
 
+  // Set hours and mins on change to drop down fields
+  // If user chooses minutes, set to default "0" hours
   const handleMinsChange = (event) => {
     setSelectedMins(Number(event.target.value)); // convert to number to keep type consistent for calculations
 
@@ -298,7 +307,7 @@ function ParkingDuration({ setIsLoggedIn}) {
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage setIsLoggedIn={setIsLoggedIn} /> 
+        <LoginPage setIsLoggedIn={setIsLoggedIn} />
       ) : (
         <>
           {!showComponent && (
@@ -446,7 +455,6 @@ function ParkingDuration({ setIsLoggedIn}) {
               }}
             />
           )}
-
         </>
       )}
     </main>

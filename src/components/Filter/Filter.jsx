@@ -1,3 +1,4 @@
+// Import libraries
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -14,10 +15,10 @@ import checkBoxEmptyIcon from "../../assets/icons/round_check_box_outline_blank_
 import availableIcon from "../../assets/icons/round_where_to_vote_black_24dp.png";
 
 /**
- *
- * @param {Function} handleClick callback function to set show component.
- * @param {Function} handleFilterOptions callback function to send selected filter options.
- * @returns {JSX} Filter options to apply on the JSON parking information.
+ * Filter component to filter based on disability, motorbike, available parking spots and accepting credit cards
+ * @param {Function} handleClick callback function to set show component
+ * @param {Function} handleFilterOptions callback function to send selected filter options to parent component
+ * @returns {JSX} Filter options to apply on the JSON parking information
  */
 function Filter({ handleClick, handleFilterOptions }) {
   // Initialize hooks
@@ -97,142 +98,144 @@ function Filter({ handleClick, handleFilterOptions }) {
         </div>
 
         <div className="filter__outer-cont">
-        {/* Accept Credit Card Payment */}
-        <div className="filter__options">
-          <input
-            type="checkbox"
-            id="acceptCreditCard"
-            className="filter__checkbox"
-          />
-
-          <div className="filter__container">
-            <img
-              src={paymentIcon}
-              alt="payment-icon"
-              className="filter__icon"
+          {/* Accept Credit Card Payment */}
+          <div className="filter__options">
+            <input
+              type="checkbox"
+              id="acceptCreditCard"
+              className="filter__checkbox"
             />
-            Accept credit cards
+
+            <div className="filter__container">
+              <img
+                src={paymentIcon}
+                alt="payment-icon"
+                className="filter__icon"
+              />
+              Accept credit cards
+            </div>
+            <label
+              htmlFor="acceptCreditCard"
+              onClick={handlePaymentChange}
+              className="filter__label"
+            >
+              <img
+                className="filter__icon"
+                src={
+                  isPaymentChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+                }
+                alt={
+                  isPaymentChecked
+                    ? "check-box-selected-icon"
+                    : "check-box-unselected-icon"
+                }
+              />
+            </label>
           </div>
-          <label
-            htmlFor="acceptCreditCard"
-            onClick={handlePaymentChange}
-            className="filter__label"
-          >
-            <img
-              className="filter__icon"
-              src={isPaymentChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}
-              alt={
-                isPaymentChecked
-                  ? "check-box-selected-icon"
-                  : "check-box-unselected-icon"
-              }
-            />
-          </label>
-        </div>
 
-        {/* Show Disability Parking Spots */}
-        <div className="filter__options">
-          <input
-            type="checkbox"
-            id="disabilityParking"
-            className="filter__checkbox"
-          />
-
-          <div className="filter__container">
-            <img
-              src={disabilityIcon}
-              alt="disability-icon"
-              className="filter__icon"
+          {/* Show Disability Parking Spots */}
+          <div className="filter__options">
+            <input
+              type="checkbox"
+              id="disabilityParking"
+              className="filter__checkbox"
             />
-            Disability Parking
+
+            <div className="filter__container">
+              <img
+                src={disabilityIcon}
+                alt="disability-icon"
+                className="filter__icon"
+              />
+              Disability Parking
+            </div>
+            <label
+              htmlFor="disabilityParking"
+              onClick={handleDisabilityChange}
+              className="filter__label"
+            >
+              <img
+                className="filter__icon"
+                src={
+                  isDisabilityChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+                }
+                alt={
+                  isDisabilityChecked
+                    ? "check-box-selected-icon"
+                    : "check-box-unselected-icon"
+                }
+              />
+            </label>
           </div>
-          <label
-            htmlFor="disabilityParking"
-            onClick={handleDisabilityChange}
-            className="filter__label"
-          >
-            <img
-              className="filter__icon"
-              src={
-                isDisabilityChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
-              }
-              alt={
-                isDisabilityChecked
-                  ? "check-box-selected-icon"
-                  : "check-box-unselected-icon"
-              }
-            />
-          </label>
-        </div>
 
-        {/* Show Motorbike Parking Spots */}
-        <div className="filter__options">
-          <input
-            type="checkbox"
-            id="motorbikeParking"
-            className="filter__checkbox"
-          />
-
-          <div className="filter__container">
-            <img
-              src={motorbikeIcon}
-              alt="motorbike-icon"
-              className="filter__icon"
+          {/* Show Motorbike Parking Spots */}
+          <div className="filter__options">
+            <input
+              type="checkbox"
+              id="motorbikeParking"
+              className="filter__checkbox"
             />
-            Motorbike Parking
+
+            <div className="filter__container">
+              <img
+                src={motorbikeIcon}
+                alt="motorbike-icon"
+                className="filter__icon"
+              />
+              Motorbike Parking
+            </div>
+            <label
+              htmlFor="motorbikeParking"
+              onClick={handleMotorbikeChange}
+              className="filter__label"
+            >
+              <img
+                className="filter__icon"
+                src={
+                  isMotorbikeChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+                }
+                alt={
+                  isMotorbikeChecked
+                    ? "check-box-selected-icon"
+                    : "check-box-unselected-icon"
+                }
+              />
+            </label>
           </div>
-          <label
-            htmlFor="motorbikeParking"
-            onClick={handleMotorbikeChange}
-            className="filter__label"
-          >
-            <img
-              className="filter__icon"
-              src={
-                isMotorbikeChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
-              }
-              alt={
-                isMotorbikeChecked
-                  ? "check-box-selected-icon"
-                  : "check-box-unselected-icon"
-              }
-            />
-          </label>
-        </div>
 
-        {/* Show Available Parking Spots */}
-        <div className="filter__options">
-          <input
-            type="checkbox"
-            id="availableParking"
-            className="filter__checkbox"
-          />
-          <div className="filter__container">
-            <img
-              src={availableIcon}
-              alt="available-icon"
-              className="filter__icon"
+          {/* Show Available Parking Spots */}
+          <div className="filter__options">
+            <input
+              type="checkbox"
+              id="availableParking"
+              className="filter__checkbox"
             />
-            Show Available Parking
+            <div className="filter__container">
+              <img
+                src={availableIcon}
+                alt="available-icon"
+                className="filter__icon"
+              />
+              Show Available Parking
+            </div>
+            <label
+              htmlFor="availableParking"
+              onClick={handleAvailableChange}
+              className="filter__label"
+            >
+              <img
+                className="filter__icon"
+                src={
+                  isAvailableChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
+                }
+                alt={
+                  isAvailableChecked
+                    ? "check-box-selected-icon"
+                    : "check-box-unselected-icon"
+                }
+              />
+            </label>
           </div>
-          <label
-            htmlFor="availableParking"
-            onClick={handleAvailableChange}
-            className="filter__label"
-          >
-            <img
-              className="filter__icon"
-              src={
-                isAvailableChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon
-              }
-              alt={
-                isAvailableChecked
-                  ? "check-box-selected-icon"
-                  : "check-box-unselected-icon"
-              }
-            />
-          </label>
-        </div>
         </div>
         <div className="filter__button-cont">
           <button className="filter__secondary" onClick={handleClear}>
