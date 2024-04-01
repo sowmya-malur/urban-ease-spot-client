@@ -1,6 +1,3 @@
-// Import libraries
-import { useEffect } from "react";
-
 // Import components
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 
@@ -10,11 +7,6 @@ import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
  * @returns {JSX.Element} Returns ParkingDuration component
  */
 function BookingPage({ setIsLoggedIn}) {
-  // Set isLoggedIn on mount in a callback
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-  }, []);
-
   return <ParkingDuration setIsLoggedIn={setIsLoggedIn}/>;
 }
 

@@ -1,5 +1,5 @@
 // Import libraries
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -45,12 +45,12 @@ function ParkingDuration({ setIsLoggedIn }) {
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  // const currentHours = currentDate.getHours();
+  const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
   // TODO: del after testing
   // let currentDay = 7;
-  const currentHours = 21;
+  // const currentHours = 21;
 
   // Func to get max stay from the selectedParkingMeter object based on current day and hours
   const getMaxStay = () => {
@@ -173,7 +173,7 @@ function ParkingDuration({ setIsLoggedIn }) {
       try {
         if (localStorage.getItem("isLoggedIn")) {
           const response = await axios.get(
-            `http://localhost:8080/api/booking/user/${userId}`
+            `${process.env.REACT_APP_BACKEND_URL}/booking/user/${userId}`
           );
           if (response.data && response.status === 200) {
             navigate("/notification");
@@ -195,8 +195,8 @@ function ParkingDuration({ setIsLoggedIn }) {
         const getParkingDetails = async () => {
           const meterId = localStorage.getItem("selectedMeterId");
           const parkingResponse = await axios.get(
-            `http://localhost:8080/api/parking/${meterId}`
-          ); // TODO: use env variable
+            `${process.env.REACT_APP_BACKEND_URL}/parking/${meterId}`
+          );
 
           if (parkingResponse.data) {
             setSelectedParkingMeter(parkingResponse.data);
@@ -247,7 +247,7 @@ function ParkingDuration({ setIsLoggedIn }) {
         const getVehicleDetails = async () => {
           // call get to vehicle table for the user id
           const vehicleResponse = await axios.get(
-            `http://localhost:8080/api/user/${userId}/vehicle`
+            `${process.env.REACT_APP_BACKEND_URL}/user/${userId}/vehicle`
           );
 
           if (vehicleResponse.data) {
