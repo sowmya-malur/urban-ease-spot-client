@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import formatDateToLocale from "../../util";
+import { formatDateToLocale } from "../../util";
 
 // Import components
 import LoginPage from "../../pages/LoginPage/LoginPage";
