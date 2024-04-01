@@ -38,17 +38,18 @@ function ParkingDuration({ setIsLoggedIn}) {
   const [availableHours, setAvailableHours] = useState([]);
   const [maxStay, setMaxStay] = useState(0);
   const [totalCost, setTotalCost] = useState(0.0);
+  // const [hasActiveBooking, setHasActiveBooking] = useState(false);
 
   // Initialize constants
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  const currentHours = currentDate.getHours();
+  // const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
   // TODO: del after testing
   // let currentDay = 7;
-  // const currentHours = 21;
+  const currentHours = 21;
 
   const getMaxStay = () => {
     let maximumStay;
@@ -156,7 +157,31 @@ function ParkingDuration({ setIsLoggedIn}) {
     if(localStorage.getItem("isLoggedIn") !== "true") {
       navigate("/login");
     }
+    if(currentHours >=22 || currentHours < 9) {
+      console.log("here");
+        navigate("/");
+    }
   }, []);
+
+  useEffect(()=>{ 
+    const getActiveBooking = async() => {
+
+      try {
+        if(localStorage.getItem("isLoggedIn")) {
+          const response = await axios.get(`http://localhost:8080/api/booking/user/${userId}`);
+          console.log("response in activebooking",response.data);
+          if(response.data && response.status === 200) {
+              navigate("/notification");
+            } 
+        }
+      } catch(error) {
+        console.error("Error retrieving active booking:", error);
+      }
+    };
+
+    // call to async func
+    getActiveBooking();
+  },[userId]);
 
   // Get parking details for the selected Meter Id
   useEffect(() => {
