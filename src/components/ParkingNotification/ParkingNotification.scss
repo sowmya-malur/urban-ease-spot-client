@@ -96,4 +96,9 @@
     border-top: 0.063rem solid $color-borders;
     width: 100%;
   }
+
+  &__default {
+    padding: $mobile-margin;
+    text-align: center;
+  }
 }

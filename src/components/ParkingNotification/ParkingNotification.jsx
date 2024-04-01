@@ -19,18 +19,23 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
 
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
-  const [bookingData, setBookingData] = useState({});
+  const [bookingData, setBookingData] = useState(null);
 
   useEffect(()=>{ 
     const getActiveBooking = async() => {
 
-      const response = await axios.get(`http://localhost:8080/api/booking/user/1`);
-      console.log("response",response.data);
-      if(response.data && response.status === 200) {
-        setBookingData(response.data);
-        setExpireSoon(true);
+      try {
+        const response = await axios.get(`http://localhost:8080/api/booking/user/1`);
+        console.log("response",response.data);
+        if(response.data && response.status === 200) {
+          setBookingData(response.data);
+          setExpireSoon(true);
+        }
+      } catch(error) {
+        console.error("Error retrieving active booking:", error);
       }
-    }
+     
+    };
 
     // call to async func
     getActiveBooking();
@@ -45,16 +50,18 @@ try {
   });
 
     if(response.data && response.status === 200){
-      alert("Parking session ended.");
-      setBookingData({});
+      alert("Parking session ended successfully.");
+      setBookingData(null);
       setExpireSoon(false);
       navigate(`/${userId}`);
     }
 } catch (error) {
   console.error("Error ending the parking session");
-}
-    
-   
+}   
+  };
+
+  const handleDismiss = () => {
+    navigate(`/${userId.userId}`);
   };
 
   return (
@@ -71,20 +78,14 @@ try {
           />
           <h1 className="notification__title">Notification</h1>
         </div>
-        {bookingData? (
+        {bookingData && expireSoon && (
+          <>
           <div className="notification__meter-info">
           <p>Meter #</p>
-          <h2 className="notification__sub-title">{bookingData.meter_id}</h2>
-          <p>{bookingData.location}</p>
+          <h2 className="notification__sub-title">{bookingData?.meter_id}</h2>
+          <p>{bookingData?.location}</p>
         </div>
-        ): 
-          <>
-          <p className="notification__info">Currently, there are no active parking sessions associated with this account.</p>
-          </>
-        }
-        {expireSoon ? (
-          <>
-            <div className="notification__container notification__container--top-spacing">
+        <div className="notification__container notification__container--top-spacing">
               <img
                 src={warningIcon}
                 alt="warning-icon"
@@ -93,19 +94,27 @@ try {
               <p className="notification__info">
                 Your parking will expire at
               </p>
-              <p className="notification__time">{formatDateToLocale(bookingData.end_time)}</p>
+              <p className="notification__time">{formatDateToLocale(bookingData?.end_time)}</p>
               <p className="notification__info">
                 Please remove your car to avoid penalties.
               </p>
             </div>
             <div className="notification__wrapper">
-              <button className="notification__secondary" onClick={()=> navigate("/")}>Dismiss</button>
+              <button className="notification__secondary" onClick={handleDismiss}>Dismiss</button>
               <button className="notification__cta" onClick={handleEndSession}>
                 End Parking Session
               </button>
             </div>
           </>
-        ) : ""}
+          
+        )}
+        {!bookingData && !expireSoon && (
+          <p className="notification__default">
+            Currently, there are no active parking sessions associated with
+            this account.
+          </p>
+        )}
+    
       </section>
     </main>
   );

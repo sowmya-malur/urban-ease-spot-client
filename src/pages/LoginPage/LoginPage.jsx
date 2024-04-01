@@ -107,6 +107,9 @@ function LoginPage({ setIsLoggedIn, setUserId }) {
           setIsLoggedIn(true);
           setUserId(response.data);
 
+          // Store userId in localStorage. Later to be enhanced to JWT tokens
+          localStorage.setItem("userId", response.data);  
+
           // If the localStorage has meterid, then user was redirected from parking duration page.
           // Redirect the user back to parking duration page after login successful.
           // Otherwise, redirect user back to home page (last visited page).
@@ -114,7 +117,7 @@ function LoginPage({ setIsLoggedIn, setUserId }) {
             // navigate(`/booking/${userId}`);
             navigate(`/booking/${response.data}`);
           } else {
-            navigate("/");
+            navigate(`/${response.data}`);
           }
         }
       }

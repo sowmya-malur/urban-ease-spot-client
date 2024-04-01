@@ -46,6 +46,8 @@ function HomePage({ setIsLoggedIn, userId }) {
   // Initialize hooks
   const navigate = useNavigate();
 
+  console.log("userId in homepage", userId);
+  
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
