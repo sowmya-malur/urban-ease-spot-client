@@ -16,7 +16,6 @@ import axios from "axios";
 import filter from "../../assets/icons/round_tune_black_24dp.png";
 
 // Import components
-// import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 import Filter from "../../components/Filter/Filter";
 
 // Create custom icons
@@ -42,12 +41,10 @@ const createClusterCustomIcon = function (cluster) {
  * @param {userId} ?
  * @returns
  */
-function HomePage({ setIsLoggedIn, userId }) {
+function HomePage({ setIsLoggedIn }) {
   // Initialize hooks
   const navigate = useNavigate();
 
-  console.log("userId in homepage", userId);
-  
   // Initialize state variables
   const [showComponent, setShowComponent] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
@@ -60,9 +57,9 @@ function HomePage({ setIsLoggedIn, userId }) {
   const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
-      // TODO: del after testing
-    // let currentDay = 7;
-    // let currentHours = 13;
+  // TODO: del after testing
+  // let currentDay = 7;
+  // let currentHours = 13;
 
   // Set isLoggedIn from the localStorage on mount
   useEffect(() => {
@@ -127,8 +124,8 @@ function HomePage({ setIsLoggedIn, userId }) {
     setFilteredParkingMeters(filterParkingMeters);
   }, [filterOptions, parkingMeters]);
 
+  // Func to display parking rate based on day and hours in the pop-up
   const displayParkingRate = (parking) => {
-
     let parkingInfo = {
       day: "",
       time: "",
@@ -192,15 +189,19 @@ function HomePage({ setIsLoggedIn, userId }) {
   };
 
   const handleSelect = (meter_id) => {
+    // Store the meter id in local storage to redirect the user after logging in to last visited page
     localStorage.setItem("selectedMeterId", meter_id);
-    if(localStorage.getItem("isLoggedIn")) {
-      // navigate(`/booking/${userId}`);
+
+    // If the user is logged in, redirect to booking page
+    // else redirect to login page
+    if (localStorage.getItem("isLoggedIn")) {
       navigate("/booking");
     } else {
       navigate(`/login`);
     }
   };
 
+  // Func to set the filter options
   const handleFilterOptions = (data) => {
     setFilterOptions(data);
     setShowComponent(false);
@@ -277,15 +278,15 @@ function HomePage({ setIsLoggedIn, userId }) {
                                 <p className="pop-up__info">
                                   {parkingInfo.day} {parkingInfo.time}
                                 </p>
-                                {(currentHours >=22 || currentHours < 9) ?
-                                ( 
-                                  <p className="pop-up__info pop-up__info--free">FREE Parking Hours</p>
+                                {currentHours >= 22 || currentHours < 9 ? (
+                                  <p className="pop-up__info pop-up__info--free">
+                                    FREE Parking Hours
+                                  </p>
                                 ) : (
                                   <p className="pop-up__info">
-                                  {parkingInfo.rate} per hour
-                                </p>
-                                 )}
-                                
+                                    {parkingInfo.rate} per hour
+                                  </p>
+                                )}
                               </>
                             ) : (
                               ""
@@ -298,14 +299,15 @@ function HomePage({ setIsLoggedIn, userId }) {
                               <p className="pop-up__info pop-up__info--alert">
                                 {parking.status.toUpperCase()}
                               </p>
-                            ) : (
-                              !(currentHours >= 22 || currentHours < 9) ? 
-                              (<button
+                            ) : !(currentHours >= 22 || currentHours < 9) ? (
+                              <button
                                 className="pop-up__cta"
                                 onClick={() => handleSelect(parking.meter_id)}
                               >
                                 Select
-                              </button>) : ''
+                              </button>
+                            ) : (
+                              ""
                             )}
                           </div>
                         </Popup>
@@ -318,10 +320,6 @@ function HomePage({ setIsLoggedIn, userId }) {
       )}
 
       {/* Add conditional rendering here */}
-      {/* {showComponent === "parking-duration" && (
-        // <ParkingDuration handleClick={() => setShowComponent(false)} />
-        <ParkingDuration handleClick={handleClick} />
-      )} */}
       {showComponent === "filter" && (
         <Filter
           handleClick={() => setShowComponent(false)}

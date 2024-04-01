@@ -61,15 +61,7 @@
   }
 
   &__cta {
-    color: $color-primary-text;
-    background-color: $color-primary-cta;
-    border-radius: $border-radius;
-    height: $element-mobile-height;
-    border: 0.063rem solid $color-borders;
-    padding: 0 1rem 0.25rem 1rem;
-    font-size: $mobile-font-size-sub-header;
-    font-weight: $font-weight-semi-bold;
-    cursor: pointer;
+    @include cta-button-style;
 
     &:hover,
     &:focus {

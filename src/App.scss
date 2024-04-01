@@ -1,12 +1,11 @@
-@use "../src/styles/partials/mixins" as *;
-@use "../src/styles/partials/variables" as *;
 @use "../src/styles/partials/typography" as *;
+@use "../src/styles/partials/variables" as *;
+@use "../src/styles/partials/mixins" as *;
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    //border: 0.25px solid blue; // TODO:del
 }
 
 body {

@@ -1,7 +1,9 @@
+// Import libraries
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 
+// Import styling
 import "./App.scss";
 
 // Import components and pages
@@ -12,13 +14,15 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import BookingPage from "./pages/BookingPage/BookingPage";
 import NotifyPage from "./pages/NotifyPage/NotifyPage";
 
+/**
+ * The main component, responsible for routing and rendering components
+ * @returns {JSX.Element} The JSX element representing the entire application.
+ */
 function App() {
+  // Initialize state variables
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true" || false
   );
-
-  // const [userId, setUserId] = useState(0);
-
   return (
     <div className="App">
       <BrowserRouter>

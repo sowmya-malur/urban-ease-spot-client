@@ -8,19 +8,19 @@ $font-family: "NotoSans", sans-serif;
 
 // mobile font sizes
 $mobile-font-size-header: 1.5rem; // 24px
-$mobile-font-size-section-header: 1.25rem; // 24px
-$mobile-font-size-sub-header: 1rem; // 14px
-$mobile-font-size-body: 0.875rem; // 13px
+$mobile-font-size-section-header: 1.25rem; // 20px
+$mobile-font-size-sub-header: 1rem; // 16px
+$mobile-font-size-body: 0.875rem; // 14px
 $mobile-font-size-label-button: 0.625rem; // 10px
 
 $mobile-body-line-height: 1.125rem; // 18px
 $mobile-title-line-height: 2rem; // 32px
 
 // padding and margins
-$mobile-margin: 1rem;
-$mobile-padding-top: 1.5rem;
-$mobile-padding-bottom: 1rem;
-$mobile-icon-gap: 0.75rem;
+$mobile-margin: 1rem; // 16px
+$mobile-padding-top: 1.5rem; // 24px
+$mobile-padding-bottom: 1rem; // 16px
+$mobile-icon-gap: 0.75rem; // 12px
 
 // colors
 $color-primary-text: #011c26; // Blue
@@ -31,15 +31,15 @@ $color-background-dark: #232940; // Graphite
 $color-background-light: #f8f8f8; // Light Grey
 $color-cta-hover: #89a621; // Light Green
 
-$color-secondary-text: #5c667e; //Slate
-$color-borders: #bdc5d5; //Cloud
+$color-secondary-text: #5c667e; // Slate
+$color-borders: #bdc5d5; // Cloud
 
 $color-error: #d62e2f;
 $color-success: #28B67A;
 
 // button size
-$button-max-width: 9.375rem; 
-$button-max-height: 2.5rem; 
-$element-padding: 2rem; 
-$border-radius: 0.25rem; 
-$element-mobile-height: 2.5rem; 
+$button-max-width: 9.375rem; // 150px
+$button-max-height: 2.5rem; // 40px
+$element-padding: 2rem; // 32px
+$border-radius: 0.25rem; // 4px
+$element-mobile-height: 2.5rem; // 40px
