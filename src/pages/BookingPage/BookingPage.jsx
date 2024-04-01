@@ -11,17 +11,12 @@ import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
  * @param {setUserId} setUserId callback function to set the user id state variable
  * @returns {JSX.Element} ParkingDuration component
  */
-function BookingPage({ setIsLoggedIn, setUserId}) {
-
-  const { userId } = useParams();
-
-  console.log("userId in bookingpage", userId);
-
+function BookingPage({ setIsLoggedIn}) {
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
-  return <ParkingDuration setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} userId={userId}/>;
+  return <ParkingDuration setIsLoggedIn={setIsLoggedIn}/>;
 }
 
 export default BookingPage;

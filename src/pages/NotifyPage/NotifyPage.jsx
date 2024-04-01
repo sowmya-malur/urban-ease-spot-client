@@ -5,18 +5,18 @@ import { useEffect } from "react";
 // Import components
 import ParkingNotification from "../../components/ParkingNotification/ParkingNotification";
 
-function NotifyPage({setIsLoggedIn, setUserId}){
+function NotifyPage({setIsLoggedIn}){
 
-  const userId = useParams();
+  // const userId = useParams();
 
-  console.log("user id in notify", userId);
+  // console.log("user id in notify", userId);
   
   useEffect(() => {
     console.log("in useeffect notify page");
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
-  return(<ParkingNotification setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} userId={userId}/>
+  return(<ParkingNotification setIsLoggedIn={setIsLoggedIn}/>
   );
 
 }

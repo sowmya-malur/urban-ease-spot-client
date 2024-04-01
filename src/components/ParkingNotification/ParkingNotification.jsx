@@ -4,6 +4,9 @@ import axios from "axios";
 
 import formatDateToLocale from "../../util";
 
+// Import components
+import LoginPage from "../../pages/LoginPage/LoginPage";
+
 // Import styling
 import "../ParkingNotification/ParkingNotification.scss";
 
@@ -11,25 +14,40 @@ import "../ParkingNotification/ParkingNotification.scss";
 import warningIcon from "../../assets/icons/round_warning_amber_black_24dp.png";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 
-function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
+function ParkingNotification({setIsLoggedIn}) {
 
   // Initialize hooks
   const navigate = useNavigate();
-  console.log("notification page userId", userId);
+
+  let userId = 0;
+  if(localStorage.getItem("isLoggedIn")) {
+    userId = localStorage.getItem("userId");
+    console.log("userId in duration", userId);
+  }
 
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
   const [bookingData, setBookingData] = useState(null);
 
+   // Set the isloggedIn state variable from localStorage on mount
+   useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+    if(localStorage.getItem("isLoggedIn") !== "true") {
+      navigate("/login");
+    }
+  }, []);
+
   useEffect(()=>{ 
     const getActiveBooking = async() => {
 
       try {
-        const response = await axios.get(`http://localhost:8080/api/booking/user/1`);
-        console.log("response",response.data);
-        if(response.data && response.status === 200) {
-          setBookingData(response.data);
-          setExpireSoon(true);
+        if(localStorage.getItem("isLoggedIn")) {
+          const response = await axios.get(`http://localhost:8080/api/booking/user/${userId}`);
+          console.log("response",response.data);
+          if(response.data && response.status === 200) {
+            setBookingData(response.data);
+            setExpireSoon(true);
+          }
         }
       } catch(error) {
         console.error("Error retrieving active booking:", error);
@@ -43,7 +61,7 @@ function ParkingNotification({setIsLoggedIn, setUserId, userId}) {
 
   const handleEndSession = async() => {
 try {
-  const response = await axios.put(`http://localhost:8080/api/booking/${bookingData.meter_id}/user/1`, 
+  const response = await axios.put(`http://localhost:8080/api/booking/${bookingData.meter_id}/user/${userId}`, 
     { 
       id: bookingData.id,
       status: "complete"
@@ -53,7 +71,7 @@ try {
       alert("Parking session ended successfully.");
       setBookingData(null);
       setExpireSoon(false);
-      navigate(`/${userId}`);
+      navigate("/");
     }
 } catch (error) {
   console.error("Error ending the parking session");
@@ -61,19 +79,20 @@ try {
   };
 
   const handleDismiss = () => {
-    navigate(`/${userId.userId}`);
+    navigate("/");
   };
 
   return (
     <main>
+      {!localStorage.getItem("isLoggedIn") ? (
+        <LoginPage setIsLoggedIn={setIsLoggedIn} /> 
+      ) : (
       <section className="notification">
         <div className="notification__page-header">
           <img
             className="notification__icon"
             src={backIcon}
-            onClick={() => {
-              navigate(`/${userId}`);
-            }}
+            onClick={handleDismiss}
             alt="back-icon"
           />
           <h1 className="notification__title">Notification</h1>
@@ -116,6 +135,7 @@ try {
         )}
     
       </section>
+      )}
     </main>
   );
 }
