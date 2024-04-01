@@ -1,6 +1,5 @@
 // Import libraries
 import { Link, NavLink } from "react-router-dom";
-// import { useState, useEffect } from "react";
 
 // Import icons
 import menu from "../../assets/icons/round_menu_black_24dp.png";
@@ -10,20 +9,18 @@ import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.pn
 import "../Header/Header.scss";
 
 /**
- * 
- * @param {*} param0 
- * @returns 
+ * Header component
+ * @param {isLoggedIn} isLoggedIn state variable to track if the user is logged in
+ * @param {setIsLoggedIn} setIsLoggedIn callback function to update Login status
+ * @returns {JSX.Element} Returns Header component
  */
 function Header({ isLoggedIn, setIsLoggedIn }) {
-
   const handleSignOut = () => {
     // Reset the isLoggedIn state variable to false
-    // Remove logged in and notify variables from localStorage.
+    // Remove isLoggedIn, userId variables from localStorage.
     setIsLoggedIn(false);
     localStorage.removeItem("userId");
-    // setUserId(0);
     localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("isNotifyChecked");
     localStorage.removeItem("selectedMeterId"); // TODO: move this line of code to confirmparking page
   };
 
@@ -38,23 +35,15 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
             <p>Sign In</p>
           </NavLink>
         ) : (
-          <NavLink to="/" className="header__sign-out">
-            <p onClick={handleSignOut}>Sign Out</p>
-          </NavLink>
+          <>
+            <NavLink to="/" className="header__sign-out">
+              <p onClick={handleSignOut}>Sign Out</p>
+            </NavLink>
+            <NavLink to="/notification">
+              <img src={alertIcon} alt="alert-icon" className="header__icon" />
+            </NavLink>
+          </>
         )}
-
-        {/* {!localStorage.getItem("isNotifyChecked") ? "" : (
-              <Link to="/notification">
-                <img 
-                src={alertIcon}
-                alt="alert-icon"
-              /></Link> 
-            )} */}
-        {/* {!isNotifyChecked && (
-        <Link to="/notification">
-          <img src={alertIcon} alt="alert-icon" />
-        </Link>
-      )} */}
         <img src={menu} alt="burger-menu-icon" className="header__icon" />
       </div>
     </header>

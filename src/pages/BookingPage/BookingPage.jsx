@@ -1,17 +1,16 @@
 // Import libraries
-import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 // Import components
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 
 /**
- * 
- * @param {setIsLoggedIn} setIsLoggedIn callback function to set isLoggedIn state variable
- * @param {setUserId} setUserId callback function to set the user id state variable
- * @returns {JSX.Element} ParkingDuration component
+ * Displays parking duration component 
+ * @param {setIsLoggedIn} setIsLoggedIn callback function to parent component (Header) to update Login status
+ * @returns {JSX.Element} Returns ParkingDuration component
  */
 function BookingPage({ setIsLoggedIn}) {
+  // Set isLoggedIn on mount in a callback
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);

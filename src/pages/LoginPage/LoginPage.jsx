@@ -9,6 +9,11 @@ import "../LoginPage/LoginPage.scss";
 // Import icons
 import errorIcon from "../../assets/icons/error-24px.svg";
 
+/**
+ * Displays Login page
+ * @param {setIsLoggedIn} setIsLoggedIn callback function to parent component (Header) to update Login status
+ * @returns {JSX.Element} Return login component
+ */
 function LoginPage({ setIsLoggedIn }) {
   // Initialize hooks
   const navigate = useNavigate();
@@ -30,7 +35,7 @@ function LoginPage({ setIsLoggedIn }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  // Event handler for form field changes
+  // Event handler for changes to form field
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -99,6 +104,7 @@ function LoginPage({ setIsLoggedIn }) {
         // If login successful,
         // Set isLoggedIn state variable to true
         // Set the value in the localStorage to true to track if the user is logged in or not
+        // Store userId in localStorage. Later to be enhanced to JWT tokens
         if (response.data && response.status === 200) {
           // Reset form fields and clear errors
           resetForm();
@@ -106,8 +112,7 @@ function LoginPage({ setIsLoggedIn }) {
           localStorage.setItem("isLoggedIn", true);
           setIsLoggedIn(true);
 
-          // Store userId in localStorage. Later to be enhanced to JWT tokens
-          localStorage.setItem("userId", response.data);  
+          localStorage.setItem("userId", response.data);
 
           // If the localStorage has meterid, then user was redirected from parking duration page.
           // Redirect the user back to parking duration page after login successful.
@@ -164,7 +169,7 @@ function LoginPage({ setIsLoggedIn }) {
       <section className="login">
         <h1 className="login__title">Welcome back!</h1>
         <p>
-          Login below or{" "}
+          Login below or
           <Link to="/" className="login__create-account">
             create an account
           </Link>

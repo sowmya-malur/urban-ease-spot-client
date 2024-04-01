@@ -5,20 +5,18 @@ import { useEffect } from "react";
 // Import components
 import ParkingNotification from "../../components/ParkingNotification/ParkingNotification";
 
-function NotifyPage({setIsLoggedIn}){
-
-  // const userId = useParams();
-
-  // console.log("user id in notify", userId);
-  
+/**
+ * Displays parking notifications
+ * @param {setIsLoggedIn} setIsLoggedIn callback function to parent component (Header) to update Login status
+ * @returns {JSX.Element} Return parking notification component
+ */
+function NotifyPage({ setIsLoggedIn }) {
+  // Set isLoggedIn on mount in a callback
   useEffect(() => {
-    console.log("in useeffect notify page");
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
-  return(<ParkingNotification setIsLoggedIn={setIsLoggedIn}/>
-  );
-
+  return <ParkingNotification setIsLoggedIn={setIsLoggedIn} />;
 }
 
 export default NotifyPage;
