@@ -10,7 +10,7 @@ function NotifyPage({setIsLoggedIn, setUserId}){
   const userId = useParams();
 
   useEffect(() => {
-    console.log("in useeffect bookinpage");
+    console.log("in useeffect notify page");
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
   }, []);
 
