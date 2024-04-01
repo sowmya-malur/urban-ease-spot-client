@@ -91,17 +91,12 @@ function LoginPage({ setIsLoggedIn }) {
         };
 
         // Call to validate the user in the backend
-        // const response = await axios.get(
-        //   `${process.env.REACT_APP_BACKEND_URL}/user`,
-        //   userInfo
-        // );
-
         const response = await axios.post(
-          "http://localhost:8080/api/user/",
+          `${process.env.REACT_APP_BACKEND_URL}/user/`,
           userInfo
         );
 
-        // If login successful,
+        // If login successful:
         // Set isLoggedIn state variable to true
         // Set the value in the localStorage to true to track if the user is logged in or not
         // Store userId in localStorage. Later to be enhanced to JWT tokens
@@ -169,7 +164,7 @@ function LoginPage({ setIsLoggedIn }) {
       <section className="login">
         <h1 className="login__title">Welcome back!</h1>
         <p>
-          Login below or
+          Login below or {" "}
           <Link to="/" className="login__create-account">
             create an account
           </Link>

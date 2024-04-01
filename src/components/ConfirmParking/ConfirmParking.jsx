@@ -1,6 +1,6 @@
 // Import libraries
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 // Import styling
@@ -29,7 +29,7 @@ import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.pn
  * @param {selectedHours} selectedHours hours selected by the user from parking duration component
  * @param {selectedMins} selectedMins minutes selected by the user from the parking duration component
  * @param {selectedParkingMeter} selectedParkingMeter selected parking meter details
- * @param {handleCancel} handleCancel call back function to handleCancel to conditionally render component 
+ * @param {handleCancel} handleCancel call back function to handleCancel to conditionally render component
  * @returns {JSX.Element} Confirm Parking Component to pay and park
  */
 function ConfirmParking({
@@ -42,7 +42,6 @@ function ConfirmParking({
   selectedParkingMeter,
   handleCancel,
 }) {
-
   // Initialize hooks
   const navigate = useNavigate();
 
@@ -89,12 +88,11 @@ function ConfirmParking({
     return currentTimeStamp + durationMilliseconds;
   };
 
-  // Add the booking information with start, end time, duration and active status to the backend. 
-  // If successful, remove the seletedMeterId from localStorage 
+  // Add the booking information with start, end time, duration and active status to the backend.
+  // If successful, remove the seletedMeterId from localStorage
   // and redirect user to the notification page
   const handlePay = async () => {
     try {
-      
       // create booking data information
       const bookingData = {
         start_time: formatToISO(currentTimeStamp),
@@ -105,12 +103,14 @@ function ConfirmParking({
 
       // Make axios call to post booking data
       const response = await axios.post(
-        `http://localhost:8080/api/booking/${selectedParkingMeter.meterid}/user/${userId}`, bookingData);
+        `${process.env.REACT_APP_BACKEND_URL}/booking/${selectedParkingMeter.meterid}/user/${userId}`,
+        bookingData
+      );
 
-        if(response.status === 201) {
-          localStorage.removeItem("selectedMeterId");
-          navigate("/notification");
-        }
+      if (response.status === 201) {
+        localStorage.removeItem("selectedMeterId");
+        navigate("/notification");
+      }
     } catch (error) {
       // Handle errors
       console.error("Error booking parking:", error);
@@ -213,11 +213,7 @@ function ConfirmParking({
             <img className="confirm__icon" src={alertIcon} alt="alert-icon" />
             <p>Notify me 15 minutes before my parking session expires</p>
           </div>
-          <label
-            htmlFor="notifyExpire"
-            className="confirm__label"
-            
-          >
+          <label htmlFor="notifyExpire" className="confirm__label">
             <img
               className="confirm__icon"
               src={isNotifyChecked ? checkBoxSelectedIcon : checkBoxEmptyIcon}

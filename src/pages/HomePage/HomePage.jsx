@@ -37,9 +37,9 @@ const createClusterCustomIcon = function (cluster) {
 };
 
 /**
+ * Home page that displays the map of all the parking meters in the city
  * @param {setIsLoggedIn} setIsLoggedIn callback function to set if user is logged in
- * @param {userId} ?
- * @returns
+ * @returns {JSX.Element} Home page component
  */
 function HomePage({ setIsLoggedIn }) {
   // Initialize hooks
@@ -70,9 +70,7 @@ function HomePage({ setIsLoggedIn }) {
   useEffect(() => {
     const getAllParkingMeters = async () => {
       try {
-        // TODO: test why env varaible is not working
-        // const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
-        const response = await axios.get("http://localhost:8080/api/parking");
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
 
         if (response.data && response.status === 200) {
           setParkingMeters(response.data);

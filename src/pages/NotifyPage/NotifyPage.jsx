@@ -1,7 +1,3 @@
-// Import libraries
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-
 // Import components
 import ParkingNotification from "../../components/ParkingNotification/ParkingNotification";
 
@@ -11,11 +7,6 @@ import ParkingNotification from "../../components/ParkingNotification/ParkingNot
  * @returns {JSX.Element} Return parking notification component
  */
 function NotifyPage({ setIsLoggedIn }) {
-  // Set isLoggedIn on mount in a callback
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-  }, []);
-
   return <ParkingNotification setIsLoggedIn={setIsLoggedIn} />;
 }
 

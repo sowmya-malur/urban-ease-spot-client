@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -43,7 +43,7 @@ function ParkingNotification({ setIsLoggedIn }) {
       try {
         if (localStorage.getItem("isLoggedIn")) {
           const response = await axios.get(
-            `http://localhost:8080/api/booking/user/${userId}`
+            `${process.env.REACT_APP_BACKEND_URL}/booking/user/${userId}`
           );
 
           if (response.data && response.status === 200) {
@@ -64,7 +64,7 @@ function ParkingNotification({ setIsLoggedIn }) {
   const handleEndSession = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/booking/${bookingData.meter_id}/user/${userId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/booking/${bookingData.meter_id}/user/${userId}`,
         {
           id: bookingData.id,
           status: "complete",
@@ -102,6 +102,7 @@ function ParkingNotification({ setIsLoggedIn }) {
             />
             <h1 className="notification__title">Notification</h1>
           </div>
+          
           {/* Display details of active booking if it exists */}
           {bookingData && expireSoon && (
             <>
