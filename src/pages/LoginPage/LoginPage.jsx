@@ -9,7 +9,7 @@ import "../LoginPage/LoginPage.scss";
 // Import icons
 import errorIcon from "../../assets/icons/error-24px.svg";
 
-function LoginPage({ setIsLoggedIn, setUserId }) {
+function LoginPage({ setIsLoggedIn }) {
   // Initialize hooks
   const navigate = useNavigate();
 
@@ -105,7 +105,6 @@ function LoginPage({ setIsLoggedIn, setUserId }) {
 
           localStorage.setItem("isLoggedIn", true);
           setIsLoggedIn(true);
-          setUserId(response.data);
 
           // Store userId in localStorage. Later to be enhanced to JWT tokens
           localStorage.setItem("userId", response.data);  
@@ -114,10 +113,9 @@ function LoginPage({ setIsLoggedIn, setUserId }) {
           // Redirect the user back to parking duration page after login successful.
           // Otherwise, redirect user back to home page (last visited page).
           if (localStorage.getItem("selectedMeterId")) {
-            // navigate(`/booking/${userId}`);
-            navigate(`/booking/${response.data}`);
+            navigate("/booking");
           } else {
-            navigate(`/${response.data}`);
+            navigate("/");
           }
         }
       }

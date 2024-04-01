@@ -17,32 +17,28 @@ function App() {
     localStorage.getItem("isLoggedIn") === "true" || false
   );
 
-  const [userId, setUserId] = useState(0);
+  // const [userId, setUserId] = useState(0);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
         <Routes>
           <Route
             path="/"
-            element={<HomePage setIsLoggedIn={setIsLoggedIn} userId={userId}/>}
-          ></Route>
-          <Route
-            path="/:userId"
-            element={<HomePage setIsLoggedIn={setIsLoggedIn} userId={userId}/>}
+            element={<HomePage setIsLoggedIn={setIsLoggedIn}/>}
           ></Route>
           <Route
             path="/login"
-            element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>}
           ></Route>
           <Route
-            path="/booking/:userId"
-            element={<BookingPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
+            path="/booking"
+            element={<BookingPage setIsLoggedIn={setIsLoggedIn}/>}
           ></Route>
           <Route
-            path="/notification/:userId"
-            element={<NotifyPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId}/>}
+            path="/notification"
+            element={<NotifyPage setIsLoggedIn={setIsLoggedIn}/>}
           ></Route>
         </Routes>
         <Footer />

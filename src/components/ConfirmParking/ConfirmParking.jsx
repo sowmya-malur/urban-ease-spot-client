@@ -106,7 +106,8 @@ function ConfirmParking({
 
         if(response.status === 201) {
           localStorage.removeItem("selectedMeterId");
-          navigate(`/notification/${userId}`);
+          navigate("/notification");
+          // navigate(`/notification/${userId}`);
         }
     } catch (error) {
       // Handle errors
@@ -121,11 +122,7 @@ function ConfirmParking({
           <img
             className="confirm__icon"
             src={backIcon}
-            onClick={() => {
-              // handleClick(false);
-              // setShowComponent("parking-duration");
-              navigate("/booking"); // TODO: test
-            }}
+            onClick={handleCancel}
             alt="back-icon"
           />
           <h1 className="confirm__title">Confirm Parking</h1>

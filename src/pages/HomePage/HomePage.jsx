@@ -57,12 +57,12 @@ function HomePage({ setIsLoggedIn, userId }) {
   // Initialize constants
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  const currentHours = currentDate.getHours();
+  // const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
       // TODO: del after testing
     // let currentDay = 7;
-    // let currentHours = 23;
+    let currentHours = 13;
 
   // Set isLoggedIn from the localStorage on mount
   useEffect(() => {
@@ -194,7 +194,8 @@ function HomePage({ setIsLoggedIn, userId }) {
   const handleSelect = (meter_id) => {
     localStorage.setItem("selectedMeterId", meter_id);
     if(localStorage.getItem("isLoggedIn")) {
-      navigate(`/booking/${userId}`);
+      // navigate(`/booking/${userId}`);
+      navigate("/booking");
     } else {
       navigate(`/login`);
     }

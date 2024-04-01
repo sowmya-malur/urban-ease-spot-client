@@ -18,9 +18,13 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 
-function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
+function ParkingDuration({ setIsLoggedIn}) {
 
-  console.log("userId in duration", userId);
+  let userId;
+  if(localStorage.getItem("isLoggedIn")) {
+    userId = localStorage.getItem("userId");
+    console.log("userId in duration", userId);
+  }
 
   //Initialize hooks
   const navigate = useNavigate();
@@ -149,24 +153,30 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
   // Set the isloggedIn state variable from localStorage on mount
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+    if(localStorage.getItem("isLoggedIn") !== "true") {
+      navigate("/login");
+    }
   }, []);
 
   // Get parking details for the selected Meter Id
   useEffect(() => {
     try {
-      const getParkingDetails = async () => {
-        const meterId = localStorage.getItem("selectedMeterId");
-        const parkingResponse = await axios.get(
-          `http://localhost:8080/api/parking/${meterId}`
-        ); // TODO: use env variable
-
-        if (parkingResponse.data) {
-          setSelectedParkingMeter(parkingResponse.data);
-        }
-      };
-
-      // call async func
-      getParkingDetails();
+      if(localStorage.getItem("selectedMeterId")) {
+        const getParkingDetails = async () => {
+          const meterId = localStorage.getItem("selectedMeterId");
+          const parkingResponse = await axios.get(
+            `http://localhost:8080/api/parking/${meterId}`
+          ); // TODO: use env variable
+  
+          if (parkingResponse.data) {
+            setSelectedParkingMeter(parkingResponse.data);
+          }
+        };
+  
+        // call async func
+        getParkingDetails();
+      }
+      
     } catch (error) {
       console.error(`Error fetching parking data: ${error}`);
     }
@@ -203,12 +213,15 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
 
   // Get vehicle details for the user Id on mount
   useEffect(() => {
+   
     try {
+     if(localStorage.getItem("isLoggedIn")) {
       const getVehicleDetails = async () => {
         // call get to vehicle table for the user id
         const vehicleResponse = await axios.get(
           `http://localhost:8080/api/user/${userId}/vehicle`
         );
+
         if (vehicleResponse.data) {
           setVehicleDetails(vehicleResponse.data);
         }
@@ -216,13 +229,15 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
 
       // call async func
       getVehicleDetails();
+     }
+     
     } catch (error) {
       console.error(
         `Error fetching vehicles data for ${userId}
           )}`
       );
     }
-  }, [userId, localStorage.getItem("isLoggedIn") === "true"]);
+  }, [localStorage.getItem("isLoggedIn") === "true"]);
 
   // Set total cost when user picks hours and mins from drop down
   useEffect(() => {
@@ -258,7 +273,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
   return (
     <main>
       {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} /> // TODO: pass isLoggedIn?
+        <LoginPage setIsLoggedIn={setIsLoggedIn} /> 
       ) : (
         <>
           {!showComponent && (
@@ -269,8 +284,7 @@ function ParkingDuration({ setIsLoggedIn, setUserId, userId}) {
                   className="duration__icon"
                   src={backIcon}
                   onClick={() => {
-                    // handleClick(false);
-                    // setShowComponent("home-page");
+                    localStorage.removeItem("selectedMeterId");
                     navigate("/");
                   }}
                   alt="back-icon"
