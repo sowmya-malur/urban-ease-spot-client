@@ -7,7 +7,6 @@ import axios from "axios";
 import "../ParkingDuration/ParkingDuration.scss";
 
 // Import components
-import LoginPage from "../../pages/LoginPage/LoginPage";
 import ConfirmParking from "../ConfirmParking/ConfirmParking";
 
 // Import icons
@@ -20,10 +19,9 @@ import errorIcon from "../../assets/icons/error-24px.svg";
 
 /**
  * Component to allow user to select parking duration for the selected parking meter
- * @param {setIsLoggedIn} setIsLoggedIn callback function to update Login status
  * @returns {JSX.Element} Returns parking duration component
  */
-function ParkingDuration({ setIsLoggedIn }) {
+function ParkingDuration() {
   let userId;
   if (localStorage.getItem("isLoggedIn")) {
     userId = localStorage.getItem("userId");
@@ -151,14 +149,8 @@ function ParkingDuration({ setIsLoggedIn }) {
     return totalCost;
   };
 
-  // Set the isloggedIn state variable from localStorage on mount
-  // Redirect the user to login page if user is not logged in
   // Prevent the user from booking if it is free parking hours
   useEffect(() => {
-    // setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-    // if (localStorage.getItem("isLoggedIn") !== "true") {
-    //   navigate("/login");
-    // }
     if (currentHours >= 22 || currentHours < 9) {
       navigate("/");
     }
@@ -302,9 +294,6 @@ function ParkingDuration({ setIsLoggedIn }) {
 
   return (
     <main>
-      {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage setIsLoggedIn={setIsLoggedIn} />
-      ) : (
         <>
           {(!showComponent)? (Object.keys(selectedParkingMeter).length > 0 && Object.keys(vehicleDetails).length > 0 ? (
             <section className="duration">
@@ -458,7 +447,6 @@ function ParkingDuration({ setIsLoggedIn }) {
             />
           )}
         </>
-      )}
     </main>
   );
 }
