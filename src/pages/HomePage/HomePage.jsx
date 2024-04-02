@@ -57,11 +57,6 @@ function HomePage({ setIsLoggedIn }) {
   const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
-  // Set isLoggedIn from the localStorage on mount
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-  }, []);
-
   // Get all parking meter data on mount and set filter options from localStorage if any on mount
   useEffect(() => {
     const getAllParkingMeters = async () => {

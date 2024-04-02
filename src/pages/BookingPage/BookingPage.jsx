@@ -1,9 +1,6 @@
-// Import libraries
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-
 // Import components
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
+import LoginPage from "../LoginPage/LoginPage";
 
 /**
  * Displays parking duration component 
@@ -12,16 +9,17 @@ import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
  */
 function BookingPage({ setIsLoggedIn}) {
 
-  //Initialize hooks
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-     if (localStorage.getItem("isLoggedIn") !== "true") {
-      navigate("/login");
-    }
-  }, []);
-  return <ParkingDuration setIsLoggedIn={setIsLoggedIn}/>;
+  return (
+    <>
+    {/* Redirect user to Login page if user is not logged in */}
+    {!localStorage.getItem("isLoggedIn") ? (
+        <LoginPage setIsLoggedIn={setIsLoggedIn} />
+      ) : (
+   
+  <ParkingDuration setIsLoggedIn={setIsLoggedIn}/>)
+}
+</>
+  );
 }
 
 export default BookingPage;
