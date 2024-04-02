@@ -61,7 +61,9 @@ function HomePage({ setIsLoggedIn }) {
   useEffect(() => {
     const getAllParkingMeters = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/parking`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/parking`
+        );
 
         if (response.data && response.status === 200) {
           setParkingMeters(response.data);

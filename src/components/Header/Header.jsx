@@ -21,7 +21,7 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
     setIsLoggedIn(false);
     localStorage.removeItem("userId");
     localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("selectedMeterId"); // TODO: move this line of code to confirmparking page
+    localStorage.removeItem("selectedMeterId");
   };
 
   return (

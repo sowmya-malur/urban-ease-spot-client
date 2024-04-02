@@ -186,7 +186,7 @@ function ParkingDuration() {
           const parkingResponse = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/parking/${meterId}`
           );
-           
+
           if (parkingResponse.data) {
             setSelectedParkingMeter(parkingResponse.data);
           }
@@ -196,7 +196,7 @@ function ParkingDuration() {
         console.error(`Error fetching parking data: ${error}`);
       }
     };
-  
+
     // call async func
     getParkingDetails();
   }, []);
@@ -239,19 +239,17 @@ function ParkingDuration() {
           const vehicleResponse = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/user/${userId}/vehicle`
           );
-  
+
           if (vehicleResponse.data && vehicleResponse.status === 200) {
             setVehicleDetails(vehicleResponse.data);
           }
         }
       } catch (error) {
         setVehicleDetails({});
-        console.error(
-          `Error fetching vehicles data for ${userId}: ${error}`
-        );
+        console.error(`Error fetching vehicles data for ${userId}: ${error}`);
       }
     };
-  
+
     // call async func
     getVehicleDetails();
   }, [localStorage.getItem("isLoggedIn") === "true"]);
@@ -294,8 +292,10 @@ function ParkingDuration() {
 
   return (
     <main>
-        <>
-          {(!showComponent)? (Object.keys(selectedParkingMeter).length > 0 && Object.keys(vehicleDetails).length > 0 ? (
+      <>
+        {!showComponent ? (
+          Object.keys(selectedParkingMeter).length > 0 &&
+          Object.keys(vehicleDetails).length > 0 ? (
             <section className="duration">
               {/* Page header */}
               <div className="duration__page-header">
@@ -387,7 +387,11 @@ function ParkingDuration() {
                   type="radio"
                   id="vehicle"
                   name="vehicle"
-                  value={vehicleDetails? vehicleDetails.license_plate:"Missing information"}
+                  value={
+                    vehicleDetails
+                      ? vehicleDetails.license_plate
+                      : "Missing information"
+                  }
                   style={{ display: "none" }}
                   defaultChecked
                 />
@@ -409,7 +413,9 @@ function ParkingDuration() {
                   alt={"radio-checked-icon"}
                 />
                 <p className="duration__info">
-                {vehicleDetails? vehicleDetails.license_plate:"Missing information"}
+                  {vehicleDetails
+                    ? vehicleDetails.license_plate
+                    : "Missing information"}
                 </p>
               </div>
 
@@ -422,31 +428,33 @@ function ParkingDuration() {
                 </button>
               </div>
             </section>
-          ): (
+          ) : (
             <div className="duration__error-message duration__error-message--align">
               <img src={errorIcon} alt="error icon" />
-              <p >Something went wrong. Please try again later.</p>
+              <p>Something went wrong. Please try again later.</p>
             </div>
-            
-          )): ""}
+          )
+        ) : (
+          ""
+        )}
 
-          {showComponent === "confirm-parking" && (
-            <ConfirmParking
-              currentTimeStamp={currentTimeStamp}
-              userId={userId}
-              licensePlate={vehicleDetails?.license_plate}
-              totalCost={totalCost}
-              selectedHours={selectedHours}
-              selectedMins={selectedMins}
-              selectedParkingMeter={selectedParkingMeter}
-              handleCancel={() => {
-                localStorage.removeItem("selectedMeterId");
-                setShowComponent(false);
-                navigate("/");
-              }}
-            />
-          )}
-        </>
+        {showComponent === "confirm-parking" && (
+          <ConfirmParking
+            currentTimeStamp={currentTimeStamp}
+            userId={userId}
+            licensePlate={vehicleDetails?.license_plate}
+            totalCost={totalCost}
+            selectedHours={selectedHours}
+            selectedMins={selectedMins}
+            selectedParkingMeter={selectedParkingMeter}
+            handleCancel={() => {
+              localStorage.removeItem("selectedMeterId");
+              setShowComponent(false);
+              navigate("/");
+            }}
+          />
+        )}
+      </>
     </main>
   );
 }

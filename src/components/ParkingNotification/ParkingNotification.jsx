@@ -14,6 +14,10 @@ import warningIcon from "../../assets/icons/round_warning_amber_black_24dp.png";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
 import errorIcon from "../../assets/icons/error-24px.svg";
 
+/**
+ * Component to notify the user of active parking sessions
+ * @returns {JSX.Element} Returns parking notification component
+ */
 function ParkingNotification() {
   // Initialize hooks
   const navigate = useNavigate();
