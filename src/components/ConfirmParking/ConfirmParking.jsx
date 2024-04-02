@@ -85,7 +85,9 @@ function ConfirmParking({
       }
     } catch (error) {
       // Handle errors
-      setErrors({exception: "Error booking parking session. Please try again later."});
+      setErrors({
+        exception: "Error booking parking session. Please try again later.",
+      });
       console.error("Error booking parking:", error);
     }
   };

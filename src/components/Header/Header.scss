@@ -3,7 +3,6 @@
 @use "../../styles/partials/mixins" as *;
 
 .header {
-  // margin: 0 $mobile-margin;
   padding: $mobile-margin;
   color: $color-primary-text;
   display: flex;

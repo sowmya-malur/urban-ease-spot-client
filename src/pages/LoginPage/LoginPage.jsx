@@ -164,7 +164,7 @@ function LoginPage({ setIsLoggedIn }) {
       <section className="login">
         <h1 className="login__title">Welcome back!</h1>
         <p>
-          Login below or {" "}
+          Login below or{" "}
           <Link to="/" className="login__create-account">
             create an account
           </Link>
