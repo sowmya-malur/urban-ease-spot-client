@@ -235,3 +235,19 @@ Features:
 Tech-Stack:
 - Typescript
 - Tailwind.css
+
+## Instructions to setup client application
+
+### Install the following dependencies
+npm install <dependencies>
+- axios
+- leaflet
+- react-leaflet
+- react-leaflet-cluster
+- react-router-dom
+- react-scripts
+- sass
+
+### Create .env file
+- See .env.sample file
+
