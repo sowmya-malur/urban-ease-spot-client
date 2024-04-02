@@ -1,3 +1,7 @@
+// Import libraries
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 // Import components
 import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
 
@@ -7,6 +11,16 @@ import ParkingDuration from "../../components/ParkingDuration/ParkingDuration";
  * @returns {JSX.Element} Returns ParkingDuration component
  */
 function BookingPage({ setIsLoggedIn}) {
+
+  //Initialize hooks
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+     if (localStorage.getItem("isLoggedIn") !== "true") {
+      navigate("/login");
+    }
+  }, []);
   return <ParkingDuration setIsLoggedIn={setIsLoggedIn}/>;
 }
 
