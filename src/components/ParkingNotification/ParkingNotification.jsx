@@ -31,14 +31,6 @@ function ParkingNotification({ setIsLoggedIn }) {
   const [bookingData, setBookingData] = useState(null);
   const [errors, setErrors] = useState({});
 
-  // Set the isloggedIn state variable from localStorage on mount
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      navigate("/login");
-    }
-  }, []);
-
   // Get active bookings for the user id to display
   // If there are no active bookings, display default message
   useEffect(() => {
@@ -93,10 +85,6 @@ function ParkingNotification({ setIsLoggedIn }) {
 
   return (
     <main>
-      {/* Redirect user to Login page if user is not logged in */}
-      {!localStorage.getItem("isLoggedIn") ? (
-        <LoginPage setIsLoggedIn={setIsLoggedIn} />
-      ) : (
         <section className="notification">
           <div className="notification__page-header">
             <img
@@ -165,7 +153,6 @@ function ParkingNotification({ setIsLoggedIn }) {
           </div>
         )}
         </section>
-      )}
     </main>
   );
 }

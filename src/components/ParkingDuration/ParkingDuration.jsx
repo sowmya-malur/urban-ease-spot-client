@@ -49,10 +49,6 @@ function ParkingDuration({ setIsLoggedIn }) {
   const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
-  // TODO: del after testing
-  // let currentDay = 7;
-  // const currentHours = 21;
-
   // Func to get max stay from the selectedParkingMeter object based on current day and hours
   const getMaxStay = () => {
     let maximumStay;
@@ -159,10 +155,10 @@ function ParkingDuration({ setIsLoggedIn }) {
   // Redirect the user to login page if user is not logged in
   // Prevent the user from booking if it is free parking hours
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      navigate("/login");
-    }
+    // setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+    // if (localStorage.getItem("isLoggedIn") !== "true") {
+    //   navigate("/login");
+    // }
     if (currentHours >= 22 || currentHours < 9) {
       navigate("/");
     }
