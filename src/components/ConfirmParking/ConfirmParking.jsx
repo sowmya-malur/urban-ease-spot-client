@@ -19,6 +19,7 @@ import checkBoxEmptyIcon from "../../assets/icons/round_check_box_outline_blank_
 import checkBoxSelectedIcon from "../../assets/icons/round_check_box_black_24dp.png";
 import priceIcon from "../../assets/icons/round_attach_money_black_24dp.png";
 import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.png";
+import errorIcon from "../../assets/icons/error-24px.svg";
 
 /**
  * Confirm Parking component with Location, Parking Duration, Payment, Vehicle and Price details
@@ -47,6 +48,7 @@ function ConfirmParking({
 
   // Initialize state variables
   const [isNotifyChecked, setIsNotifyChecked] = useState(true); // set it to true by default
+  const [errors, setErrors] = useState({});
 
   // Func to calulate end time stamp by adding current time stamp and duration
   const endTimeStamp = () => {
@@ -76,12 +78,14 @@ function ConfirmParking({
         bookingData
       );
 
-      if (response.status === 201) {
+      if (response && response.status === 201) {
+        setErrors({});
         localStorage.removeItem("selectedMeterId");
         navigate("/notification");
       }
     } catch (error) {
       // Handle errors
+      setErrors({exception: "Error booking parking session. Please try again later."});
       console.error("Error booking parking:", error);
     }
   };
@@ -204,6 +208,12 @@ function ConfirmParking({
             Pay & Park
           </button>
         </div>
+        {errors.exception && (
+          <div className="confirm__error-message confirm__error-message--align">
+            <img src={errorIcon} alt="error icon" />
+            <p>{errors.exception}</p>
+          </div>
+        )}
       </section>
     </main>
   );
