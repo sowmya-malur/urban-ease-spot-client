@@ -16,6 +16,7 @@ import timeIcon from "../../assets/icons/round_schedule_black_24dp.png";
 import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_black_24dp.png";
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
+import errorIcon from "../../assets/icons/error-24px.svg";
 
 /**
  * Component to allow user to select parking duration for the selected parking meter
@@ -190,25 +191,25 @@ function ParkingDuration({ setIsLoggedIn }) {
 
   // Get parking details for the selected Meter Id on mount
   useEffect(() => {
-    try {
-      if (localStorage.getItem("selectedMeterId")) {
-        const getParkingDetails = async () => {
+    const getParkingDetails = async () => {
+      try {
+        if (localStorage.getItem("selectedMeterId")) {
           const meterId = localStorage.getItem("selectedMeterId");
           const parkingResponse = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/parking/${meterId}`
           );
-
+           
           if (parkingResponse.data) {
             setSelectedParkingMeter(parkingResponse.data);
           }
-        };
-
-        // call async func
-        getParkingDetails();
+        }
+      } catch (error) {
+        console.error(`Error fetching parking data: ${error}`);
       }
-    } catch (error) {
-      console.error(`Error fetching parking data: ${error}`);
-    }
+    };
+  
+    // call async func
+    getParkingDetails();
   }, []);
 
   // Calculate the available hours based on max stay information if selectedParkingMetter data is available
@@ -242,28 +243,27 @@ function ParkingDuration({ setIsLoggedIn }) {
 
   // Get vehicle details for the user Id on mount
   useEffect(() => {
-    try {
-      if (localStorage.getItem("isLoggedIn")) {
-        const getVehicleDetails = async () => {
+    const getVehicleDetails = async () => {
+      try {
+        if (localStorage.getItem("isLoggedIn")) {
           // call get to vehicle table for the user id
           const vehicleResponse = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/user/${userId}/vehicle`
           );
-
-          if (vehicleResponse.data) {
+  
+          if (vehicleResponse.data && vehicleResponse.status === 200) {
             setVehicleDetails(vehicleResponse.data);
           }
-        };
-
-        // call async func
-        getVehicleDetails();
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching vehicles data for ${userId}: ${error}`
+        );
       }
-    } catch (error) {
-      console.error(
-        `Error fetching vehicles data for ${userId}
-          )}`
-      );
-    }
+    };
+  
+    // call async func
+    getVehicleDetails();
   }, [localStorage.getItem("isLoggedIn") === "true"]);
 
   // Set total cost when user picks hours and mins from drop down
@@ -308,7 +308,7 @@ function ParkingDuration({ setIsLoggedIn }) {
         <LoginPage setIsLoggedIn={setIsLoggedIn} />
       ) : (
         <>
-          {!showComponent && (
+          {(!showComponent && selectedParkingMeter && vehicleDetails) ? (
             <section className="duration">
               {/* Page header */}
               <div className="duration__page-header">
@@ -400,7 +400,7 @@ function ParkingDuration({ setIsLoggedIn }) {
                   type="radio"
                   id="vehicle"
                   name="vehicle"
-                  value={vehicleDetails?.license_plate}
+                  value={vehicleDetails? vehicleDetails.license_plate:"Missing information"}
                   style={{ display: "none" }}
                   defaultChecked
                 />
@@ -422,7 +422,7 @@ function ParkingDuration({ setIsLoggedIn }) {
                   alt={"radio-checked-icon"}
                 />
                 <p className="duration__info">
-                  {vehicleDetails?.license_plate}
+                {vehicleDetails? vehicleDetails.license_plate:"Missing information"}
                 </p>
               </div>
 
@@ -435,6 +435,12 @@ function ParkingDuration({ setIsLoggedIn }) {
                 </button>
               </div>
             </section>
+          ): (
+            <div className="duration__error-message duration__error-message--align">
+              <img src={errorIcon} alt="error icon" />
+              <p >Something went wrong. Please try again later.</p>
+            </div>
+            
           )}
 
           {showComponent === "confirm-parking" && (

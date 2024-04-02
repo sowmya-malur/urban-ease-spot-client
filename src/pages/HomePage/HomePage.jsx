@@ -57,10 +57,6 @@ function HomePage({ setIsLoggedIn }) {
   const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
-  // TODO: del after testing
-  // let currentDay = 7;
-  // let currentHours = 13;
-
   // Set isLoggedIn from the localStorage on mount
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
