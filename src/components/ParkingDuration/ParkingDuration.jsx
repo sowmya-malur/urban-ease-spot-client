@@ -310,7 +310,7 @@ function ParkingDuration({ setIsLoggedIn }) {
         <LoginPage setIsLoggedIn={setIsLoggedIn} />
       ) : (
         <>
-          {(!showComponent)? ((selectedParkingMeter && vehicleDetails) ? (
+          {(!showComponent)? (Object.keys(selectedParkingMeter).length > 0 && Object.keys(vehicleDetails).length > 0 ? (
             <section className="duration">
               {/* Page header */}
               <div className="duration__page-header">
