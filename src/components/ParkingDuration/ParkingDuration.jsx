@@ -204,6 +204,7 @@ function ParkingDuration({ setIsLoggedIn }) {
           }
         }
       } catch (error) {
+        setSelectedParkingMeter({});
         console.error(`Error fetching parking data: ${error}`);
       }
     };
@@ -256,6 +257,7 @@ function ParkingDuration({ setIsLoggedIn }) {
           }
         }
       } catch (error) {
+        setVehicleDetails({});
         console.error(
           `Error fetching vehicles data for ${userId}: ${error}`
         );
@@ -308,7 +310,7 @@ function ParkingDuration({ setIsLoggedIn }) {
         <LoginPage setIsLoggedIn={setIsLoggedIn} />
       ) : (
         <>
-          {(!showComponent && selectedParkingMeter && vehicleDetails) ? (
+          {(!showComponent)? ((selectedParkingMeter && vehicleDetails) ? (
             <section className="duration">
               {/* Page header */}
               <div className="duration__page-header">
@@ -441,7 +443,7 @@ function ParkingDuration({ setIsLoggedIn }) {
               <p >Something went wrong. Please try again later.</p>
             </div>
             
-          )}
+          )): ""}
 
           {showComponent === "confirm-parking" && (
             <ConfirmParking

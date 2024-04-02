@@ -13,6 +13,8 @@ import "../ParkingNotification/ParkingNotification.scss";
 // Import icons
 import warningIcon from "../../assets/icons/round_warning_amber_black_24dp.png";
 import backIcon from "../../assets/icons/round_arrow_back_black_24dp.png";
+import errorIcon from "../../assets/icons/error-24px.svg";
+
 
 function ParkingNotification({ setIsLoggedIn }) {
   // Initialize hooks
@@ -27,6 +29,7 @@ function ParkingNotification({ setIsLoggedIn }) {
   // Initialize state variables
   const [expireSoon, setExpireSoon] = useState(false);
   const [bookingData, setBookingData] = useState(null);
+  const [errors, setErrors] = useState({});
 
   // Set the isloggedIn state variable from localStorage on mount
   useEffect(() => {
@@ -72,12 +75,14 @@ function ParkingNotification({ setIsLoggedIn }) {
       );
 
       if (response.data && response.status === 200) {
-        alert("Parking session ended successfully.");
+        setErrors({});
         setBookingData(null);
         setExpireSoon(false);
+        alert("Parking session ended successfully.");
         navigate("/");
       }
     } catch (error) {
+      setErrors({exception: "Error ending parking session. Please try again later."});
       console.error("Error ending the parking session", error);
     }
   };
@@ -152,6 +157,13 @@ function ParkingNotification({ setIsLoggedIn }) {
               this account.
             </p>
           )}
+
+          {errors.exception && (
+          <div className="notification__error-message notification__error-message--align">
+            <img src={errorIcon} alt="error icon" />
+            <p>{errors.exception}</p>
+          </div>
+        )}
         </section>
       )}
     </main>
