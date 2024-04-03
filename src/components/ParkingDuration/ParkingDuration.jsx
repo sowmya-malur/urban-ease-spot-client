@@ -16,6 +16,7 @@ import radioCheckedIcon from "../../assets/icons/round_radio_button_checked_blac
 import carIcon from "../../assets/icons/round_directions_car_black_24dp.png";
 import infoIcon from "../../assets/icons/round_info_outline_black_24dp.png";
 import errorIcon from "../../assets/icons/error-24px.svg";
+import arrowDownIcon from "../../assets/icons/arrow_drop_down-24px.svg";
 
 /**
  * Component to allow user to select parking duration for the selected parking meter
@@ -39,14 +40,17 @@ function ParkingDuration() {
   const [availableHours, setAvailableHours] = useState([]);
   const [maxStay, setMaxStay] = useState(0);
   const [totalCost, setTotalCost] = useState(0.0);
+  const [showHoursOptions, setShowHoursOptions] = useState(false);
+  const [showMinsOptions, setShowMinsOptions] = useState(false);
 
   // Initialize constants
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  const currentHours = currentDate.getHours();
+  // const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
+const currentHours = 18;
   // Func to get max stay from the selectedParkingMeter object based on current day and hours
   const getMaxStay = () => {
     let maximumStay;
@@ -272,8 +276,9 @@ function ParkingDuration() {
 
   // Set hours and mins on change to drop down fields
   // If user chooses hrs, set to default "0" minutes
-  const handleHourChange = (event) => {
-    setSelectedHours(event.target.value);
+  const handleHourChange = (hour) => {
+    setSelectedHours(hour);
+    setShowHoursOptions(false);
 
     // Set minutes to "0" (zero) if hours is selected
     setSelectedMins(0);
@@ -281,12 +286,16 @@ function ParkingDuration() {
 
   // Set hours and mins on change to drop down fields
   // If user chooses minutes, set to default "0" hours
-  const handleMinsChange = (event) => {
-    setSelectedMins(Number(event.target.value)); // convert to number to keep type consistent for calculations
-
+  const handleMinsChange = (mins) => {
+    setSelectedMins(mins);
+    setShowMinsOptions(false);
     // Set hours to "0" (zero) if minimum time 30 mins is selected
-    if (Number(event.target.value) === 30) {
+    if (mins === 30) {
       setSelectedHours(0);
+    }
+    // Set hours to 1 if minutes is set to "0" (zero)
+    if (mins === 0) {
+      setSelectedHours(1);
     }
   };
 
@@ -344,39 +353,73 @@ function ParkingDuration() {
                 <div className="three-column">
                   <div className="duration__hrs-wrapper">
                     <p className="duration__heading">Hours:</p>
-                    <select
-                      name="hours"
-                      id="hours"
-                      value={selectedHours}
-                      onChange={handleHourChange}
-                      className="duration__select"
-                    >
-                      <option value="">Select hours</option>
-                      {availableHours.map((hour) => (
-                        <option key={hour} value={hour}
-                        className="duration__option"
-                        style={{backgroundColor: "#f4f4f4"}}>
-                          {hour === maxStay ? maxStay + " (maximum)" : hour}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="duration__select-cont">
+                      <input
+                        type="text"
+                        name="hours"
+                        id="hours"
+                        className="duration__select"
+                        placeholder="Select hours"
+                        value={selectedHours}
+                        onClick={() => setShowHoursOptions(!showHoursOptions)}
+                        readOnly
+                      />
+                      {showHoursOptions && (
+                        <div className="duration__dropdown-options">
+                          {availableHours.map((hour, index) => (
+                            <div
+                              key={index}
+                              value={hour}
+                              className="duration__option"
+                              onClick={() => handleHourChange(hour)}
+                            >
+                              {hour === maxStay ? maxStay + " (max)" : hour}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <img
+                        className="duration__arrow-1"
+                        src={arrowDownIcon}
+                        alt="arrow-icon"
+                        onClick={() => setShowHoursOptions(!showHoursOptions)}
+                      />
+                    </div>
                   </div>
                   <div className="duration__mins-wrapper">
                     <p className="duration__heading">Minutes:</p>
-                    <select
+                    <div className="duration__select-cont">
+                    <input
+                      type="text"
                       name="minutes"
                       id="minutes"
-                      value={selectedMins}
-                      onChange={handleMinsChange}
                       className="duration__select"
-                    >
-                      <option value="">Select Minutes</option>
-                      {availableMins.map((mins) => (
-                        <option key={mins} value={mins}>
-                          {mins === 30 ? "30 (minimum)" : mins}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="Select Mins"
+                      value={selectedMins}
+                      onClick={() => setShowMinsOptions(!showMinsOptions)}
+                      readOnly
+                    />
+                    {showMinsOptions && (
+                      <div className="duration__dropdown-options">
+                        {availableMins.map((mins, index) => (
+                          <div
+                            key={index}
+                            value={mins}
+                            className="duration__option"
+                            onClick={() => handleMinsChange(mins)}
+                          >
+                            {mins === 30 ? "30 (min)" : mins}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <img
+                        className="duration__arrow-1"
+                        src={arrowDownIcon}
+                        alt="arrow-icon"
+                        onClick={() => setShowMinsOptions(!showMinsOptions)}
+                      />
+                    </div>
                   </div>
                   <div className="duration__cost-wrapper">
                     <p className="duration__heading">Total Cost:</p>

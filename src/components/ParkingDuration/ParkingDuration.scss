@@ -138,7 +138,7 @@
     border-radius: $border-radius;
     font-family: $font-family;
     cursor: pointer;
-
+    width: 6rem;
  
 
     &:hover,
@@ -148,16 +148,41 @@
     }
   }
 
+  &__dropdown-options {
+    position: absolute;
+    z-index: 1;
+    background-color: $color-background-light;
+    border: 0.063rem solid $color-borders;
+    border-radius: $border-radius;
+    box-shadow: 0 0.063rem 0.2rem rgba(0, 0, 0, 0.1);
+  }
+
   &__option {
-    background-color: $color-background-light !important;
-    padding: 0.5rem;
+    background-color: $color-background-light;
+    padding: 0.2rem;
     font-family: $font-family;
     cursor: pointer;
+    width: 6rem;
 
-    &:hover {
+    &:hover, 
+    &:focus {
       background-color: $color-cta-hover;
       font-weight: $font-weight-medium;
     }
+  }
+
+  &__select-cont {
+    position: relative;
+    width: 6rem; 
+  }
+
+  &__arrow-1 {
+    position: absolute;
+    top: 50%;
+    right: 8px; 
+    transform: translateY(-50%);
+    cursor: pointer;
+
   }
 }
 
