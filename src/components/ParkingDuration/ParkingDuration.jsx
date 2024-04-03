@@ -349,10 +349,13 @@ function ParkingDuration() {
                       id="hours"
                       value={selectedHours}
                       onChange={handleHourChange}
+                      className="duration__select"
                     >
                       <option value="">Select hours</option>
                       {availableHours.map((hour) => (
-                        <option key={hour} value={hour}>
+                        <option key={hour} value={hour}
+                        className="duration__option"
+                        style={{backgroundColor: "#f4f4f4"}}>
                           {hour === maxStay ? maxStay + " (maximum)" : hour}
                         </option>
                       ))}
@@ -365,6 +368,7 @@ function ParkingDuration() {
                       id="minutes"
                       value={selectedMins}
                       onChange={handleMinsChange}
+                      className="duration__select"
                     >
                       <option value="">Select Minutes</option>
                       {availableMins.map((mins) => (

@@ -16,6 +16,7 @@
 
   &__create-account {
     font-weight: $font-weight-semi-bold;
+    color: $color-link;
   }
 
   &__form {
@@ -58,6 +59,7 @@
     align-self: flex-end;
     padding-top: 0.5rem;
     padding-bottom: $mobile-padding-bottom;
+    color: $color-link;
   }
 
   &__cta {
@@ -73,6 +75,7 @@
     margin: $mobile-margin 0;
     font-weight: $font-weight-semi-bold;
     align-self: center;
+    color: $color-link;
   }
 
   &__error-message {

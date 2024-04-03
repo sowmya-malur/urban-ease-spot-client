@@ -8,43 +8,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: $color-background-light;
+  background-color: $color-background-hf;
 
   &__logo-link {
     text-decoration: none;
+    color: $color-primary-text;
+    // display: flex;
+    // align-items: flex-end;
+    // gap: 0.2rem;
   }
 
   &__logo {
-    font-size: $mobile-font-size-section-header;
+    font-size: 1.1rem;
   }
 
   &__sign-in {
     font-size: $mobile-font-size-sub-header;
     padding: 0.5rem 0;
-    text-decoration: none;
+    color: $color-link;
 
-    &:hover {
+    &:hover,
+    &:focus,
+    &:active {
       color: $color-cta-hover;
-      font-weight: 600;
-      text-decoration: underline;
+      // font-weight: 600;
     }
 
     &--active {
       color: $color-cta-hover;
-      text-decoration: underline;
-      font-weight: 600;
+      // font-weight: 600;
     }
   }
 
   &__sign-out {
     font-size: $mobile-font-size-sub-header;
     padding: 0.5rem 0;
-    text-decoration: none;
 
-    &:hover {
+    &:hover, 
+    &:active {
       color: $color-cta-hover;
       font-weight: 600;
-      text-decoration: underline;
+    }
+
+    &:visited {
+      color: $color-link;
     }
   }
 

@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 // Import icons
 import menu from "../../assets/icons/round_menu_black_24dp.png";
 import alertIcon from "../../assets/icons/round_notifications_none_black_24dp.png";
+import logo from "../../assets/logos/logo_ues.png";
 
 // Import styling
 import "../Header/Header.scss";
@@ -27,6 +28,7 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
   return (
     <header className="header">
       <Link to="/" className="header__logo-link">
+      {/* <img src={logo} alt="urbaneasespot-logo" className="header__icon"/> */}
         <h2 className="header__logo">UrbanEaseSpot</h2>
       </Link>
       <div className="header__right-container">
