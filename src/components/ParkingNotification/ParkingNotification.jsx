@@ -88,7 +88,7 @@ function ParkingNotification() {
   };
 
   return (
-    <main>
+    <main className="main">
       <section className="notification">
         <div className="notification__page-header">
           <img
