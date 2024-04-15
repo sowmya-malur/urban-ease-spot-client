@@ -178,9 +178,7 @@ function LoginPage({ setIsLoggedIn }) {
             id="email"
             name="email"
             placeholder="johnsmith@example.com"
-            className={`login__input ${
-              (errors.email || activeFields.email) && "login__input--error"
-            }`}
+            className={`login__input ${(errors.email || activeFields.email) && "login__input--error"}`}
             value={email}
             ref={emailRef}
             onChange={handleChange}

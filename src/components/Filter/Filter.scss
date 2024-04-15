@@ -3,6 +3,8 @@
 @use "../../styles/partials/mixins" as *;
 
 .filter {
+  height: 90vh;
+  
   &__page-header {
     padding: $mobile-margin;
     display: flex;

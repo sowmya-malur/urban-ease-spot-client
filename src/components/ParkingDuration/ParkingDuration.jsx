@@ -47,10 +47,9 @@ function ParkingDuration() {
   const availableMins = [0, 30];
   const currentTimeStamp = Date.now();
   const currentDate = new Date(currentTimeStamp);
-  // const currentHours = currentDate.getHours();
+  const currentHours = currentDate.getHours();
   const currentDay = currentDate.getDay();
 
-const currentHours = 18;
   // Func to get max stay from the selectedParkingMeter object based on current day and hours
   const getMaxStay = () => {
     let maximumStay;
@@ -389,31 +388,31 @@ const currentHours = 18;
                   <div className="duration__mins-wrapper">
                     <p className="duration__heading">Minutes:</p>
                     <div className="duration__select-cont">
-                    <input
-                      type="text"
-                      name="minutes"
-                      id="minutes"
-                      className="duration__select"
-                      placeholder="Select Mins"
-                      value={selectedMins}
-                      onClick={() => setShowMinsOptions(!showMinsOptions)}
-                      readOnly
-                    />
-                    {showMinsOptions && (
-                      <div className="duration__dropdown-options">
-                        {availableMins.map((mins, index) => (
-                          <div
-                            key={index}
-                            value={mins}
-                            className="duration__option"
-                            onClick={() => handleMinsChange(mins)}
-                          >
-                            {mins === 30 ? "30 (min)" : mins}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    <img
+                      <input
+                        type="text"
+                        name="minutes"
+                        id="minutes"
+                        className="duration__select"
+                        placeholder="Select Mins"
+                        value={selectedMins}
+                        onClick={() => setShowMinsOptions(!showMinsOptions)}
+                        readOnly
+                      />
+                      {showMinsOptions && (
+                        <div className="duration__dropdown-options">
+                          {availableMins.map((mins, index) => (
+                            <div
+                              key={index}
+                              value={mins}
+                              className="duration__option"
+                              onClick={() => handleMinsChange(mins)}
+                            >
+                              {mins === 30 ? "30 (min)" : mins}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <img
                         className="duration__arrow-1"
                         src={arrowDownIcon}
                         alt="arrow-icon"
